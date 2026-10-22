@@ -1,74 +1,39 @@
 import Link from "next/link";
-import {
-  ArrowRight,
-  ArrowUpRight,
-  Braces,
-  FileCode2,
-  Globe2,
-  ImageIcon,
-  Map,
-  Search,
-} from "lucide-react";
-import SeoStudio from "@/components/SeoStudio";
-import AuthorProjects from "@/components/AuthorProjects";
-import JsonLd from "@/components/JsonLd";
-import {
-  baseURL,
-  deployURL,
-  repository,
-  siteName,
-  templateURL,
-  title,
-} from "@/config";
+import { baseURL, siteName } from "@/config";
+import { TOOLS } from "@/config/tools";
 import { pageMetadata } from "@/lib/seo";
-export const metadata = pageMetadata(title, "/");
-const features = [
+import JsonLd from "@/components/JsonLd";
+
+export const metadata = pageMetadata(
+  "ImgSync — Free Browser-Based Image Tools for E-commerce",
+  "/",
+);
+
+const FAQS = [
   {
-    icon: Search,
-    title: "Every page, its own identity.",
-    text: "Page titles, descriptions, and canonical URLs that belong to the page you're on.",
-    label: "PAGE METADATA",
-    href: "/docs#metadata",
+    q: "Do my images get uploaded anywhere?",
+    a: "No. Every tool runs entirely in your browser using canvas and web workers. Nothing is sent to a server — your unpublished product shots stay on your machine.",
   },
   {
-    icon: Map,
-    title: "Make your pages discoverable.",
-    text: "A sitemap built from your routes, plus production-aware robots settings.",
-    label: "SITEMAP & ROBOTS",
-    href: "/sitemap.xml",
+    q: "What is a platform preflight?",
+    a: "Before you upload to Amazon or Instagram, a preflight checks subject-to-canvas ratio (e.g. Amazon's 85% rule), dimensions and file size — tells you what would get rejected, and hands you the fix in the same page.",
   },
   {
-    icon: ImageIcon,
-    title: "Look good when you get shared.",
-    text: "Dynamic Open Graph images with a real preview you can open and inspect.",
-    label: "SOCIAL IMAGES",
-    href: "/api/og",
-  },
-  {
-    icon: Braces,
-    title: "Give your content context.",
-    text: "Structured data examples for your website, articles, and breadcrumbs.",
-    label: "STRUCTURED DATA",
-    href: "/examples/articles/canonical-urls",
-  },
-  {
-    icon: FileCode2,
-    title: "Start with something useful.",
-    text: "A journal and product page. Read the source, change the content, make it yours.",
-    label: "REAL EXAMPLES",
-    href: "/examples",
-  },
-  {
-    icon: Globe2,
-    title: "Your site. Your configuration.",
-    text: "Set your production URL once. Preview deployments stay out of the index.",
-    label: "DEPLOYMENT DEFAULTS",
-    href: "/docs#deployment",
+    q: "Is it free?",
+    a: "Yes. Every tool is free, unlimited, with no account and no watermark.",
   },
 ];
+
+const TRUST_POINTS = [
+  "🔒 100% local processing",
+  "🚫 No uploads, ever",
+  "⚡ No account needed",
+  "🖼 No watermark",
+];
+
 export default function Home() {
   return (
-    <main id="main">
+    <main id="main" className="pb-24">
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -82,232 +47,105 @@ export default function Home() {
           "@context": "https://schema.org",
           "@type": "SoftwareSourceCode",
           name: siteName,
-          codeRepository: repository,
-          programmingLanguage: ["TypeScript", "JavaScript"],
-          license: `${repository}/blob/main/LICENSE`,
-          version: "1.0.0",
+          url: baseURL,
           description:
-            "An open-source Next.js starter with inspectable SEO examples.",
+            "Free browser-based image tools for e-commerce sellers: background removal, exact-size compression, platform presets, defringing and preflight checks.",
         }}
       />
-      <section className="shell hero">
-        <div className="hero-copy">
-          <Link className="release-label" href="/docs#whats-new">
-            <span className="release-dot" /> v1.0 is here{" "}
-            <span className="release-separator">/</span> Built on Next.js 16{" "}
-            <ArrowUpRight size={13} />
+
+      <section className="shell pb-20 pt-16 text-center">
+        <span className="eyebrow">Free image tools</span>
+        <h1
+          className="mx-auto max-w-[16em] text-[clamp(34px,4.6vw,54px)]"
+          style={{ letterSpacing: "-0.05em" }}
+        >
+          Product images,{" "}
+          <span className="text-[var(--blue)]">compliant in one click.</span>
+        </h1>
+        <p className="mx-auto mt-5 max-w-[36em] text-[15px] leading-7">
+          Single-task tools for e-commerce sellers and developers. Every image
+          is processed locally in your browser — no uploads, no account, no
+          watermark.
+        </p>
+        <div className="mt-7 flex justify-center gap-2.5">
+          <Link
+            href="/tools/remove-white-background"
+            className="button button-blue"
+          >
+            Start with background removal
           </Link>
-          <h1>
-            A head start
-            <br />
-            for your next
-            <br />
-            <span>search result.</span>
-          </h1>
-          <p>
-            Ship your Next.js site with SEO foundations in place. Metadata,
-            sitemaps, social images, and examples you can make your own.
-          </p>
-          <div className="hero-buttons">
-            <a className="button button-blue" href={deployURL}>
-              <span aria-hidden="true">▲</span> Deploy to Vercel{" "}
-              <ArrowUpRight size={16} />
-            </a>
-            <a className="button button-outline" href={templateURL}>
-              Use template <ArrowRight size={16} />
-            </a>
-          </div>
-          <div className="hero-note">
-            <span>MIT licensed</span>
-            <i /> No account required to explore
-          </div>
+          <a href="#tools" className="button button-outline">
+            Browse all tools
+          </a>
         </div>
-        <div className="hero-preview">
-          <SeoStudio />
-          <div className="preview-footnote">
-            <span className="mini-mark">↗</span> What you build deserves to be
-            found.
+        <p className="mt-4 text-[10px] text-[var(--muted)]">
+          Free forever · No signup · Your files never leave your device
+        </p>
+      </section>
+
+      <section
+        id="tools"
+        className="border-y border-[var(--border)] bg-[var(--soft)] py-16"
+      >
+        <div className="shell">
+          <div className="mb-10 flex flex-wrap items-end justify-between gap-5">
+            <div>
+              <span className="eyebrow">The toolkit</span>
+              <h2 className="text-[clamp(28px,3.2vw,40px)]">
+                Five single-task tools. Live now.
+              </h2>
+            </div>
+            <p className="max-w-[26em] text-xs leading-6">
+              Each tool does one job and gets it right. Validated against real
+              search demand from e-commerce sellers.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {TOOLS.filter((tool) => tool.implemented).map((tool) => (
+              <Link
+                key={tool.slug}
+                href={`/tools/${tool.slug}`}
+                className="h-full rounded-lg border border-[var(--border)] bg-[var(--surface)] p-5 transition-colors hover:border-[var(--blue)]"
+              >
+                <div className="text-[15px] font-semibold tracking-tight">
+                  {tool.name}
+                </div>
+                <p className="mt-1.5 text-[11px] leading-6">
+                  {tool.description}
+                </p>
+                <span className="mt-3 block text-xs text-[var(--blue)]">
+                  Open tool →
+                </span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
-      <div className="stack-strip">
-        <div className="shell stack-inner">
-          <span>SMALL STACK. SOLID FOUNDATIONS.</span>
-          <div>
-            <strong>◒ Next.js 16</strong>
-            <strong>⚛ React 19</strong>
-            <strong>
-              <b className="ts-mark">TS</b> TypeScript
-            </strong>
-            <strong>≈ Tailwind CSS</strong>
-          </div>
-        </div>
-      </div>
-      <section className="shell section" id="features">
-        <div className="section-heading">
-          <div>
-            <span className="eyebrow">THE ESSENTIALS, INCLUDED</span>
-            <h2>
-              Less setup.
-              <br />
-              More of your idea.
-            </h2>
-          </div>
-          <p>
-            The pieces you would otherwise wire up yourself.
-            <br />
-            Ready to read, run, and change.
-          </p>
-        </div>
-        <div className="feature-grid">
-          {features.map(({ icon: Icon, ...feature }, i) => (
-            <Link
-              href={feature.href}
-              className="feature-card"
-              key={feature.title}
-            >
-              <div className="feature-top">
-                <span className="feature-icon">
-                  <Icon size={22} strokeWidth={1.65} />
-                </span>
-                <span>0{i + 1}</span>
-              </div>
-              <span className="eyebrow small">{feature.label}</span>
-              <h3>{feature.title}</h3>
-              <p>{feature.text}</p>
-              <ArrowUpRight className="card-arrow" size={18} />
-            </Link>
+
+      <section className="border-b border-[var(--border)]">
+        <div className="shell flex flex-wrap items-center justify-center gap-x-10 gap-y-3 py-7 text-[11px] font-semibold tracking-tight">
+          {TRUST_POINTS.map((point) => (
+            <span key={point}>{point}</span>
           ))}
         </div>
       </section>
-      <section className="examples-section">
-        <div className="shell section">
-          <div className="section-heading">
-            <div>
-              <span className="eyebrow">MORE THAN A LANDING PAGE</span>
-              <h2>
-                Working examples.
-                <br />
-                Useful starting points.
-              </h2>
-            </div>
-            <Link className="text-link" href="/examples">
-              Explore all examples <ArrowRight size={17} />
-            </Link>
-          </div>
-          <div className="example-grid">
-            <Link className="example-card" href="/examples/articles">
-              <div className="journal-cover">
-                <div>
-                  FIELDNOTES <span>01 / JOURNAL</span>
-                </div>
-                <strong>
-                  Ideas worth
-                  <br />
-                  <em>finding.</em>
-                </strong>
-                <span className="cover-orbit" aria-hidden="true">
-                  ✳
-                </span>
-              </div>
-              <div className="example-caption">
-                <div>
-                  <h3>The journal</h3>
-                  <p>Static articles · dynamic metadata · Article schema</p>
-                </div>
-                <ArrowUpRight size={22} />
-              </div>
-            </Link>
-            <Link className="example-card" href="/examples/product">
-              <div className="product-cover">
-                <span className="product-cover-label">
-                  LAUNCHKIT / OPEN SOURCE
-                </span>
-                <div className="mock-checklist">
-                  <span>
-                    ✓ <b>Give every page a title</b>
-                  </span>
-                  <span>
-                    ✓ <b>Set a canonical URL</b>
-                  </span>
-                  <span>
-                    ○ <b>Share your next idea</b>
-                  </span>
-                </div>
-                <strong>
-                  Ready, set,
-                  <br />
-                  launch.
-                </strong>
-              </div>
-              <div className="example-caption">
-                <div>
-                  <h3>The product page</h3>
-                  <p>Product storytelling · breadcrumbs · social cards</p>
-                </div>
-                <ArrowUpRight size={22} />
-              </div>
-            </Link>
-          </div>
-        </div>
-      </section>
-      <section className="shell section quickstart">
-        <div>
-          <span className="eyebrow">FROM REPO TO YOUR SITE</span>
-          <h2>
-            Your next project,
-            <br />
-            three steps away.
-          </h2>
-          <Link className="text-link" href="/docs">
-            Read the quickstart <ArrowRight size={17} />
-          </Link>
-        </div>
-        <ol className="steps">
-          <li>
-            <span>01</span>
-            <div>
-              <h3>Make it yours</h3>
-              <p>
-                Create a repository from the template. Install the dependencies
-                with pnpm.
-              </p>
-            </div>
-          </li>
-          <li>
-            <span>02</span>
-            <div>
-              <h3>Set your site identity</h3>
-              <p>
-                Add your domain, title, and description in the environment
-                configuration.
-              </p>
-            </div>
-          </li>
-          <li>
-            <span>03</span>
-            <div>
-              <h3>Deploy. Inspect. Share.</h3>
-              <p>
-                Deploy to Vercel, inspect the SEO output, and start building
-                your own content.
-              </p>
-            </div>
-          </li>
-        </ol>
-      </section>
-      <AuthorProjects />
-      <section className="shell final-cta">
-        <span className="eyebrow">YOUR IDEA IS NEXT</span>
-        <h2>
-          Build something
-          <br />
-          worth finding.
+
+      <section className="shell py-20">
+        <span className="eyebrow">Common questions</span>
+        <h2 className="text-[clamp(28px,3.2vw,40px)]">
+          Questions, answered up front.
         </h2>
-        <a className="button button-blue" href={deployURL}>
-          Start with this template <ArrowUpRight size={17} />
-        </a>
-        <p>Free and open source. Yours to build on.</p>
+        <div className="mt-8 grid grid-cols-1 gap-3 md:grid-cols-3">
+          {FAQS.map((faq) => (
+            <div
+              key={faq.q}
+              className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-6"
+            >
+              <h3 className="text-[15px]">{faq.q}</h3>
+              <p className="mt-2 text-[12px] leading-6">{faq.a}</p>
+            </div>
+          ))}
+        </div>
       </section>
     </main>
   );
