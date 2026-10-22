@@ -52,7 +52,7 @@ test("MVP tools drive the homepage grid from the frozen registry", LIVE, async (
 
 test("hero carries the positioning and the privacy line", LIVE, async () => {
   const html = await (await fetch(`${BASE_URL}/`)).text();
-  assert.ok(html.includes("compliant in one click"), "positioning headline");
+  assert.ok(html.includes("pass inspection"), "positioning headline");
   assert.ok(/never leave/i.test(html), "local-processing promise line");
 });
 
