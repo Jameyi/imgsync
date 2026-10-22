@@ -52,7 +52,7 @@ export const TOOLS: readonly ToolSpec[] = [
     title: "Image Preflight Check — Amazon 85% Ratio and Platform Limits",
     description:
       "Check product images against marketplace rules before upload: subject-to-canvas ratio, dimensions and file size. Free and processed locally in your browser.",
-    implemented: false,
+    implemented: true,
   },
 ];
 

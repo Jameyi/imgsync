@@ -44,9 +44,26 @@
 //     "Why is the output always JPEG?"
 //     "What if the image can't reach my target?"
 //
-// Scenario GC3: only truly draft slugs carry no guide
-//   When the guide is looked up for "platform-preflight" or "no-such-tool"
+// Scenario GC3: unknown slugs carry no guide
+//   When the guide is looked up for "no-such-tool"
 //   Then the result is undefined
+//   (all five MVP slugs are implemented as of T5 — no draft slugs remain)
+//
+// Scenario GF1: platform-preflight carries exactly its guide (T5)
+//   Given the F09 tool "platform-preflight" is implemented
+//   When the guide is looked up by slug
+//   Then it has exactly 3 how-to steps and 2 FAQs
+//   And every step and FAQ field is non-empty
+//
+// Scenario GF2: platform-preflight guide copy matches the approved T5 wording
+//   When the F09 guide is loaded
+//   Then step titles are, in order:
+//     "Drop your main-image candidate"
+//     "Read the checks"
+//     "Fix what failed"
+//   And FAQ questions are, in order:
+//     "How is the subject measured?"
+//     "Why does my image fail the ratio check?"
 //
 // Scenario GE1: resize-to-preset carries exactly its guide (T4)
 //   Given the F02 tool "resize-to-preset" is implemented
@@ -121,8 +138,44 @@ test("guide copy matches the approved demo wording", () => {
 });
 
 test("tools without a guide do not claim one", () => {
-  assert.equal(getGuide("platform-preflight"), undefined, "draft slug has no guide");
   assert.equal(getGuide("no-such-tool"), undefined, "unknown slug has no guide");
+});
+
+test("platform-preflight carries exactly its guide (GF1)", () => {
+  const guide = getGuide("platform-preflight");
+  assert.ok(guide, "F09 has a guide");
+  assert.equal(guide.steps.length, 3, "exactly 3 how-to steps");
+  assert.equal(guide.faqs.length, 2, "exactly 2 FAQs");
+  for (const step of guide.steps) {
+    assert.ok(step.title.trim(), "step title non-empty");
+    assert.ok(step.body.trim(), "step body non-empty");
+  }
+  for (const faq of guide.faqs) {
+    assert.ok(faq.question.trim(), "faq question non-empty");
+    assert.ok(faq.answer.trim(), "faq answer non-empty");
+  }
+});
+
+test("platform-preflight guide copy matches the approved wording (GF2)", () => {
+  const guide = getGuide("platform-preflight");
+  assert.ok(guide, "F09 has a guide");
+  assert.deepEqual(
+    guide.steps.map((step) => step.title),
+    [
+      "Drop your main-image candidate",
+      "Read the checks",
+      "Fix what failed",
+    ],
+    "step titles in order",
+  );
+  assert.deepEqual(
+    guide.faqs.map((faq) => faq.question),
+    [
+      "How is the subject measured?",
+      "Why does my image fail the ratio check?",
+    ],
+    "faq questions in order",
+  );
 });
 
 test("resize-to-preset carries exactly its guide (GE1)", () => {

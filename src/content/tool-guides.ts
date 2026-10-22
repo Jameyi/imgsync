@@ -31,6 +31,34 @@ const guides: { [slug: string]: ToolGuide } = {
       },
     ],
   },
+  "platform-preflight": {
+    steps: [
+      {
+        title: "Drop your main-image candidate",
+        body: "The photo is analysed locally — nothing is uploaded. The subject is detected against its background automatically.",
+      },
+      {
+        title: "Read the checks",
+        body: "Subject-to-canvas ratio and minimum dimensions are checked against marketplace rules. Each check says pass or fail in plain words.",
+      },
+      {
+        title: "Fix what failed",
+        body: "Follow the fix-it links: the resize tool centres your subject on the right canvas, the background remover handles white-backdrop rejection.",
+      },
+    ],
+    faqs: [
+      {
+        question: "How is the subject measured?",
+        answer:
+          "The tool segments the product from its background and takes the bounding box of the largest region. The ratio is that box's area over the full canvas — the same measurement marketplaces apply to main images.",
+      },
+      {
+        question: "Why does my image fail the ratio check?",
+        answer:
+          "The product occupies too little of the canvas. Marketplaces like Amazon expect the subject to fill about 85% of the frame — crop tighter or use the resize tool to scale the subject up on the canvas.",
+      },
+    ],
+  },
   "resize-to-preset": {
     steps: [
       {

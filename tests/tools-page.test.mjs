@@ -16,9 +16,12 @@
 //   And the workbench mount (data-workbench="remove-white-background") exists
 //   (Tests skip automatically when no server is reachable — pnpm check stays server-free.)
 //
-// Scenario: drafts do not claim URLs they cannot serve
-//   When GET /tools/platform-preflight (implemented: false)
-//   Then response status is 404
+// Scenario: every implemented slug serves 200 and every draft slug 404s
+//   Given the server is running at BASE_URL
+//   When GET each /tools/[slug] from config/tools.ts
+//   Then implemented slugs return 200, non-implemented slugs 404
+//   (all five MVP slugs are implemented as of T5 — the 404 path is
+//   exercised via the unknown-slug scenario below)
 //
 // Scenario: unknown slugs 404
 //   When GET /tools/no-such-tool
@@ -78,9 +81,16 @@ test("implemented tool page serves SSR content and page-scoped metadata", LIVE, 
   );
 });
 
-test("drafts do not claim URLs they cannot serve", { skip: !serverUp }, async () => {
-  const response = await get("/tools/platform-preflight");
-  assert.equal(response.status, 404);
+test("every implemented slug serves 200 (T5 consistency)", { skip: !serverUp }, async () => {
+  const { TOOLS } = await import("../src/config/tools.ts");
+  for (const tool of TOOLS) {
+    const response = await get(`/tools/${tool.slug}`);
+    assert.equal(
+      response.status,
+      tool.implemented ? 200 : 404,
+      `slug ${tool.slug} (implemented: ${tool.implemented})`,
+    );
+  }
 });
 
 // Scenario PG6: resize-to-preset page serves SSR content and workbench mount (T4)
@@ -345,6 +355,76 @@ test("compress-to-size page renders its guide (GC4)", LIVE, async () => {
   const html = await response.text();
   const guide = getGuide("compress-to-size");
   assert.ok(guide, "F10 guide data exists");
+  for (const step of guide.steps) {
+    assert.ok(html.includes(step.title), `step title visible: ${step.title}`);
+  }
+  assert.ok(
+    html.includes("Frequently asked questions"),
+    "visible FAQ h2 (FAQPage schema requires visible Q&A)",
+  );
+  for (const faq of guide.faqs) {
+    assert.ok(html.includes(faq.question), `faq question visible: ${faq.question}`);
+  }
+  const jsonLd = html.match(
+    /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g,
+  );
+  const faqSchema = (jsonLd ?? [])
+    .map((tag) => tag.replace(/<[^>]*>/g, ""))
+    .map((raw) => {
+      try {
+        return JSON.parse(raw);
+      } catch {
+        return null;
+      }
+    })
+    .find((parsed) => parsed?.["@type"] === "FAQPage");
+  assert.ok(faqSchema, "FAQPage JSON-LD script present");
+  assert.deepEqual(
+    faqSchema.mainEntity.map((question) => question.name),
+    guide.faqs.map((faq) => faq.question),
+    "mainEntity matches the visible questions in order",
+  );
+});
+
+// Scenario PG7: platform-preflight page serves SSR content and workbench mount (T5)
+//   Given the server is running at BASE_URL
+//   When GET /tools/platform-preflight
+//   Then response is 200 with h1 "Platform preflight"
+//   And canonical points to BASE + /tools/platform-preflight
+//   And og:title is page-scoped
+//   And the workbench mount data-workbench="platform-preflight" exists
+//   And SoftwareSourceCode + BreadcrumbList JSON-LD are present
+test("platform-preflight page serves SSR content and workbench mount (PG7)", LIVE, async () => {
+  const response = await get("/tools/platform-preflight");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.ok(html.includes("Platform preflight"), "h1 with tool name");
+  const canonical = html.match(/<link rel="canonical" href="([^"]+)"/);
+  assert.ok(canonical, "canonical link present");
+  assert.ok(
+    canonical[1].endsWith("/tools/platform-preflight"),
+    `canonical path, got ${canonical[1]}`,
+  );
+  assert.ok(html.includes('property="og:title"'), "og:title present");
+  assert.ok(
+    html.includes('data-workbench="platform-preflight"'),
+    "workbench mount",
+  );
+  assert.ok(html.includes("SoftwareSourceCode"), "SoftwareSourceCode JSON-LD");
+  assert.ok(html.includes("BreadcrumbList"), "BreadcrumbList JSON-LD");
+});
+
+// Scenario GC7: platform-preflight page renders its guide (T5, mirrors GC6)
+//   Given the server is running at BASE_URL
+//   When GET /tools/platform-preflight
+//   Then the how-to steps and FAQ from content/tool-guides.ts render visibly
+//   And a FAQPage JSON-LD script mirrors the visible questions in order
+test("platform-preflight page renders its guide (GC7)", LIVE, async () => {
+  const response = await get("/tools/platform-preflight");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  const guide = getGuide("platform-preflight");
+  assert.ok(guide, "F09 guide data exists");
   for (const step of guide.steps) {
     assert.ok(html.includes(step.title), `step title visible: ${step.title}`);
   }
