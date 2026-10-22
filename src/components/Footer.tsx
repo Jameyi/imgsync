@@ -1,30 +1,60 @@
 import Link from "next/link";
-import Brand from "./Brand";
-import { repository, siteName } from "@/config";
+import { siteName } from "@/config";
+import { TOOLS } from "@/config/tools";
+
 export default function Footer() {
   return (
     <footer className="site-footer">
-      <div className="shell footer-top">
-        <div>
-          <Brand />
-          <p>Good foundations. Your next idea.</p>
+      <div className="wrap">
+        <div className="foot-grid">
+          <div className="foot-brand">
+            <Link className="brand" href="/">
+              <svg viewBox="0 0 28 28" aria-hidden="true" className="brand-mark-svg">
+                <rect width="28" height="28" rx="7" fill="var(--blue)" />
+                <path d="M7 7h7v7H7zM14 14h7v7h-7z" fill="var(--background)" opacity=".9" />
+                <path d="M14 7h7v7h-7zM7 14h7v7H7z" fill="var(--surface)" opacity=".92" />
+              </svg>
+              <span className="brand-name">{siteName}</span>
+            </Link>
+            <p>
+              Single-task image tools for e-commerce. Built in the browser,
+              sized for the upload form.
+            </p>
+          </div>
+          <div className="foot-col">
+            <h4>Tools</h4>
+            {TOOLS.map((tool) => (
+              <Link key={tool.slug} href={`/tools/${tool.slug}`}>
+                {tool.name}
+              </Link>
+            ))}
+          </div>
+          <div className="foot-col">
+            <h4>Resources</h4>
+            <Link href="/docs">Docs</Link>
+            <Link href="/examples">Examples</Link>
+            <Link href="/about">About</Link>
+            <a href="/sitemap.xml">Sitemap</a>
+          </div>
+          <div className="foot-col">
+            <h4>Legal</h4>
+            <Link href="/about">Contact</Link>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+              Source code ↗
+            </a>
+            <a
+              href="https://github.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Feedback ↗
+            </a>
+          </div>
         </div>
-        <div className="footer-links">
-          <Link href="/docs">Documentation</Link>
-          <Link href="/examples">Examples</Link>
-          <a href={repository}>Source code ↗</a>
-          <a href={`${repository}/issues`}>Feedback ↗</a>
+        <div className="foot-bottom">
+          <span>© {new Date().getFullYear()} {siteName} — images never leave your device</span>
+          <span>Free · No signup · No watermark</span>
         </div>
-      </div>
-      <div className="shell footer-bottom">
-        <span>
-          © {new Date().getFullYear()} {siteName}
-        </span>
-        <span>
-          Open source ·{" "}
-          <a href={`${repository}/blob/main/LICENSE`}>MIT License</a>
-        </span>
-        <a href="https://alin.run">Made by Leo Wang ↗</a>
       </div>
     </footer>
   );

@@ -1845,3 +1845,250 @@ p {
     grid-template-columns: 1fr;
   }
 }
+
+/* ---------- Warm Precision header / footer (demo v2) ---------- */
+.site-head {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--background) 86%, transparent);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+.head-inner {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  font-size: 16.5px;
+}
+.brand-mark-svg {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  display: block;
+}
+.brand-sub {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  text-transform: uppercase;
+  padding-top: 3px;
+}
+.nav {
+  display: flex;
+  gap: 26px;
+  margin-left: 14px;
+  font-size: 13px;
+}
+.nav a {
+  color: var(--muted);
+  padding: 6px 0;
+}
+.nav a:hover,
+.nav a[aria-current="page"] {
+  color: var(--foreground);
+}
+.head-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.icon-btn {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+  transition: color 0.15s, border-color 0.15s;
+}
+.icon-btn:hover {
+  color: var(--foreground);
+  border-color: var(--muted);
+}
+.icon-sun {
+  display: none;
+}
+html[data-theme="dark"] .icon-sun {
+  display: block;
+}
+html[data-theme="dark"] .icon-moon {
+  display: none;
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .icon-sun {
+    display: block;
+  }
+  html:not([data-theme="light"]) .icon-moon {
+    display: none;
+  }
+}
+.header-start {
+  min-height: 38px;
+  padding: 0 14px;
+  font-size: 12.5px;
+  border-radius: 9px;
+}
+.btn .arr {
+  font-size: 14px;
+  line-height: 1;
+}
+.menu-button {
+  display: none;
+}
+@media (max-width: 860px) {
+  .nav {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0;
+    padding: 12px 24px 18px;
+    background: var(--background);
+    border-bottom: 1px solid var(--border);
+    display: none;
+  }
+  .nav.is-open {
+    display: flex;
+  }
+  .menu-button {
+    display: grid;
+  }
+}
+.site-footer {
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  padding-top: 44px;
+  padding-bottom: 24px;
+}
+.foot-grid {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(3, minmax(0, 0.55fr));
+  gap: 34px;
+}
+.foot-brand p {
+  margin-top: 12px;
+  max-width: 30ch;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.foot-col h4 {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+  margin: 0 0 6px;
+}
+.foot-col a {
+  display: block;
+  padding: 5px 0;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.foot-col a:hover {
+  color: var(--foreground);
+}
+.foot-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 20px;
+  margin-top: 34px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+}
+@media (max-width: 960px) {
+  .foot-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .foot-brand {
+    grid-column: span 2;
+  }
+}
+
+/* ---------- Warm Precision tool workbench (demo v2) ---------- */
+.bench-section {
+  padding-bottom: 72px;
+}
+.bench {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.bench-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border);
+  background: var(--soft);
+}
+.bench-id {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.bench-id b {
+  color: var(--foreground);
+  font-weight: 700;
+}
+.bench-local {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--pass);
+  white-space: nowrap;
+}
+.bench-body-area {
+  padding: 8px;
+}
+.bench-body-area > div > div:first-child {
+  margin-top: 0;
+}
+.bench .button-dark {
+  background: var(--foreground);
+  color: var(--background);
+}
+.bench .button-dark:hover {
+  box-shadow: var(--shadow-sm);
+}
+.bench .button-dark:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.bench input[type="range"] {
+  accent-color: var(--blue);
+}
+.bench select {
+  font-family: var(--font-sans);
+}

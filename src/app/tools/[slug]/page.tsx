@@ -43,7 +43,7 @@ export default async function ToolPage({ params }: PageProps) {
     url: new URL(`/tools/${tool.slug}`, baseURL).href,
   };
   return (
-    <main id="main" className="pb-24">
+    <main id="main">
       <section className="shell page-hero">
         <JsonLd
           data={breadcrumbs([
@@ -64,20 +64,30 @@ export default async function ToolPage({ params }: PageProps) {
         <h1>{tool.name}</h1>
         <p>{tool.description}</p>
       </section>
-      <section className="shell content-shell">
-        {tool.slug === "remove-white-background" ? (
-          <WhiteToTransparentWorkbench tool={tool} />
-        ) : tool.slug === "compress-to-size" ? (
-          <CompressToSizeWorkbench tool={tool} />
-        ) : tool.slug === "defringe-edges" ? (
-          <DefringeEdgesWorkbench tool={tool} />
-        ) : tool.slug === "resize-to-preset" ? (
-          <ResizeToPresetWorkbench tool={tool} />
-        ) : tool.slug === "platform-preflight" ? (
-          <PlatformPreflightWorkbench tool={tool} />
-        ) : (
-          <p>Engine wiring up.</p>
-        )}
+      <section className="shell bench-section">
+        <div className="bench" data-bench={tool.slug}>
+          <div className="bench-top">
+            <span className="bench-id mono-label">
+              IMGSYNC / <b>{tool.name}</b>
+            </span>
+            <span className="bench-local mono-label">🔒 Local only</span>
+          </div>
+          <div className="bench-body-area">
+            {tool.slug === "remove-white-background" ? (
+              <WhiteToTransparentWorkbench tool={tool} />
+            ) : tool.slug === "compress-to-size" ? (
+              <CompressToSizeWorkbench tool={tool} />
+            ) : tool.slug === "defringe-edges" ? (
+              <DefringeEdgesWorkbench tool={tool} />
+            ) : tool.slug === "resize-to-preset" ? (
+              <ResizeToPresetWorkbench tool={tool} />
+            ) : tool.slug === "platform-preflight" ? (
+              <PlatformPreflightWorkbench tool={tool} />
+            ) : (
+              <p>Engine wiring up.</p>
+            )}
+          </div>
+        </div>
       </section>
       {guide && <ToolGuideSection guide={guide} />}
       {promos.length > 0 && (

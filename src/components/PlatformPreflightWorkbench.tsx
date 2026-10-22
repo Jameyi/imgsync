@@ -92,7 +92,7 @@ export default function PlatformPreflightWorkbench({
         {phase === "idle" && (
           <div className="p-6 sm:p-10">
             <label className="mx-auto flex max-w-xl cursor-pointer flex-col items-center rounded-xl border-2 border-dashed border-[var(--border)] px-8 py-16 text-center transition-colors hover:border-[var(--blue)]">
-              <span className="grid h-14 w-14 place-items-center rounded-full bg-[var(--soft)] text-2xl">
+              <span className="grid h-14 w-14 place-items-center rounded-full bg-[var(--soft)] text-2xl checker">
                 ✅
               </span>
               <span className="mt-4 text-[15px] font-semibold">
@@ -172,7 +172,7 @@ export default function PlatformPreflightWorkbench({
         </p>
       )}
 
-      <p className="mt-4 text-[11px] text-[var(--muted)]">
+      <p className="bench-foot mono-label">
         🔒 Runs locally — your image never leaves the browser. Images above 4
         megapixels are analysed in a background worker.
       </p>

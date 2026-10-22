@@ -3,14 +3,7 @@ import type { Metadata } from "next";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import {
-  baseURL,
-  description,
-  deployURL,
-  indexable,
-  repository,
-  siteName,
-} from "@/config";
+import { baseURL, description, indexable, siteName } from "@/config";
 export const metadata: Metadata = {
   metadataBase: new URL(baseURL),
   title: { default: siteName, template: `%s | ${siteName}` },
@@ -30,7 +23,7 @@ export default function RootLayout({
         <a className="skip-link" href="#main">
           Skip to content
         </a>
-        <Header deployURL={deployURL} repository={repository} />
+        <Header />
         {children}
         <Footer />
         {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID && (
