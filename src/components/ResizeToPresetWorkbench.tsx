@@ -171,8 +171,12 @@ export default function ResizeToPresetWorkbench({
   });
 
   const imagePoint = (event: React.MouseEvent) => {
-    const el = event.currentTarget;
-    if (!(el instanceof HTMLElement) || !image) return null;
+    const target = event.currentTarget;
+    const el =
+      target instanceof HTMLElement
+        ? target.closest<HTMLElement>("[data-crop-area]")
+        : null;
+    if (!el || !image) return null;
     const rect = el.getBoundingClientRect();
     const x = ((event.clientX - rect.left) / rect.width) * image.width;
     const y = ((event.clientY - rect.top) / rect.height) * image.height;
@@ -226,19 +230,32 @@ export default function ResizeToPresetWorkbench({
   };
 
   const onCropMouseDown = (handle: HandleId) => (event: React.MouseEvent) => {
-    if (mode !== "crop" || !image) return;
+    if (mode !== "crop" || !image || !cropRect) return;
     event.preventDefault();
     event.stopPropagation();
     const point = imagePoint(event);
     if (!point) return;
-    if (handle === "move") {
-      if (!cropRect) return;
-      setDrag({ handle, startX: point.x, startY: point.y, origin: cropRect });
+    // handles and move adjust the existing selection (opposite side fixed);
+    // only a drag on the bare image area starts a brand-new box
+    setDrag({ handle, startX: point.x, startY: point.y, origin: cropRect });
+  };
+
+  const onImageMouseDown = (event: React.MouseEvent) => {
+    if (mode !== "crop" || !image) return;
+    const point = imagePoint(event);
+    if (!point) return;
+    // ignore clicks inside the existing selection (move area handles those)
+    if (
+      cropRect &&
+      point.x >= cropRect.x0 &&
+      point.x <= cropRect.x1 &&
+      point.y >= cropRect.y0 &&
+      point.y <= cropRect.y1
+    ) {
       return;
     }
-    // drawing a brand-new selection from empty area
     setDrag({
-      handle,
+      handle: "new",
       startX: point.x,
       startY: point.y,
       origin: { x0: point.x, y0: point.y, x1: point.x, y1: point.y },
@@ -340,6 +357,7 @@ export default function ResizeToPresetWorkbench({
               <figure className="overflow-hidden rounded-lg border border-[var(--border)]">
                 <div className="flex items-center justify-center bg-white p-2">
                   <div
+                    data-crop-area
                     className="relative inline-block leading-none"
                     onMouseMove={onCropMouseMove}
                     onMouseUp={onCropMouseUp}
@@ -351,7 +369,7 @@ export default function ResizeToPresetWorkbench({
                       alt={`Original ${image.fileName}`}
                       draggable={false}
                       className={`max-h-[320px] w-auto max-w-full bg-white object-contain ${mode === "crop" ? "cursor-crosshair" : ""}`}
-                      onMouseDown={onCropMouseDown("new")}
+                      onMouseDown={onImageMouseDown}
                     />
                     {mode === "crop" && cropRect && (
                       <>
