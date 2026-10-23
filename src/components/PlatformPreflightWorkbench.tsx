@@ -91,7 +91,14 @@ export default function PlatformPreflightWorkbench({
       <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow)]">
         {phase === "idle" && (
           <div className="p-6 sm:p-10">
-            <label className="mx-auto flex max-w-xl cursor-pointer flex-col items-center rounded-xl border-2 border-dashed border-[var(--border)] px-8 py-16 text-center transition-colors hover:border-[var(--blue)]">
+            <label
+              className="mx-auto flex max-w-xl cursor-pointer flex-col items-center rounded-xl border-2 border-dashed border-[var(--border)] px-8 py-16 text-center transition-colors hover:border-[var(--blue)]"
+              onDragOver={(event) => event.preventDefault()}
+              onDrop={(event) => {
+                event.preventDefault();
+                void onFiles(event.dataTransfer.files);
+              }}
+            >
               <span className="grid h-14 w-14 place-items-center rounded-full bg-[var(--soft)] text-2xl checker">
                 ✅
               </span>
