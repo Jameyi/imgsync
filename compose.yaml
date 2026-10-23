@@ -1,0 +1,18 @@
+services:
+  imgsync:
+    build:
+      context: .
+      args:
+        # Build-time inlined: sitemap/canonical/OG derive from it.
+        # Set NEXT_PUBLIC_URL in the shell or .env.docker before building.
+        NEXT_PUBLIC_URL: ${NEXT_PUBLIC_URL}
+    image: imgsync:latest
+    container_name: imgsync
+    restart: unless-stopped
+    ports:
+      # host 3001 -> container 3000 (change host port if occupied:
+      # check first with `ss -tlnp | grep 3001`)
+      - "3001:3000"
+    environment:
+      # runtime vars (indexable is derived from NEXT_PUBLIC_URL at build time)
+      NODE_ENV: production
