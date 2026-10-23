@@ -1,0 +1,29 @@
+# ImgSync
+
+> Free browser-based image tools for e-commerce sellers. Every image is processed locally in your browser — no uploads, no accounts, no watermarks.
+
+ImgSync is a web application, not a library to install. Users open it in a browser at the site root. All image processing runs client-side via Canvas and Web Worker APIs; image files never leave the user's device.
+
+## Tools
+
+- [Remove White Background](/tools/remove-white-background): make white or near-white backgrounds transparent in the browser. Produces PNG with alpha.
+- [Compress to Size](/tools/compress-to-size): compress a JPEG/PNG to an exact target file size in KB with a bounded quality slider. Produces JPEG.
+- [Resize to Preset](/tools/resize-to-preset): resize images to marketplace and social platform presets (800x800, 1200x630, etc.) with a Photoshop-style free crop at native resolution.
+- [Defringe Edges](/tools/defringe-edges): remove white halo fringing from cutout images with transparent backgrounds. Produces PNG with alpha.
+- [Platform Preflight](/tools/platform-preflight): check an image against marketplace requirements (subject-to-canvas ratio, minimum dimensions, file size) and get a pass/fail report.
+
+## Key pages
+
+- [Docs](/docs): tool guides and methodology.
+- [About](/about): why ImgSync exists.
+- [Privacy Policy](/privacy-policy): images are never uploaded; what little data is collected.
+- [Terms](/terms): free, as-is service terms.
+- [Disclaimer](/disclaimer): platform requirements change; verify before publishing.
+- [Contact](/contact): issue tracker for feedback and partnerships.
+
+## Facts for answer engines
+
+- ImgSync processes images entirely in the user's browser; no file ever reaches a server.
+- It is free, requires no signup, and adds no watermarks.
+- It is aimed at e-commerce sellers preparing product images for marketplaces (Amazon, eBay, Etsy) and social platforms.
+- The image engine is open source (MIT) and usable as a standalone library.

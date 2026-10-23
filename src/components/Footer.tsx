@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { siteName } from "@/config";
+import { repository, siteName } from "@/config";
 import { TOOLS } from "@/config/tools";
 
 export default function Footer() {
@@ -38,16 +38,12 @@ export default function Footer() {
           </div>
           <div className="foot-col">
             <h4>Legal</h4>
-            <Link href="/about">Contact</Link>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+            <Link href="/contact">Contact</Link>
+            <Link href="/privacy-policy">Privacy Policy</Link>
+            <Link href="/terms">Terms</Link>
+            <Link href="/disclaimer">Disclaimer</Link>
+            <a href={repository} target="_blank" rel="noopener noreferrer">
               Source code ↗
-            </a>
-            <a
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Feedback ↗
             </a>
           </div>
         </div>

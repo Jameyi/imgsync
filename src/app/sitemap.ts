@@ -7,7 +7,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const toolRoutes = TOOLS.filter((tool) => tool.implemented).map(
     (tool) => `/tools/${tool.slug}`,
   );
-  return ["/", ...toolRoutes, "/docs", "/docs/zh", "/about"]
+  return [
+    "/",
+    ...toolRoutes,
+    "/docs",
+    "/docs/zh",
+    "/about",
+    "/privacy-policy",
+    "/terms",
+    "/disclaimer",
+    "/contact",
+  ]
     .map((path) => ({ url: new URL(path, baseURL).href }))
     .concat(
       articles.map((article) => ({
