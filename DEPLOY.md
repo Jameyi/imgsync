@@ -26,7 +26,7 @@ WireGuard（UDP）——独立，不受影响
 ### 1. 上传代码
 
 ```bash
-git clone <仓库地址> /opt/imgsync && cd /opt/imgsync
+git clone <仓库地址> /opt/projects/imgsync && cd /opt/projects/imgsync
 ```
 
 ### 2. 准备环境变量（构建时注入，改了要重新 build）
@@ -59,6 +59,10 @@ curl -I http://127.0.0.1:3001   # 期望 200
 加一条 A 记录：`imgsync.civlensai.com → 服务器公网 IP`
 
 ### 6. Nginx 反代（子域名方式，加新 server 块，不动现有配置）
+
+> **宝塔面板用户**：若 CivVue 的反代是经宝塔配置的，imgsync 的站点也应在宝塔里添加
+> （网站 → 添加站点 → 绑定 `imgsync.civlensai.com` → 反向代理 `http://127.0.0.1:3001`），
+> 不要手写 conf.d 文件，避免面板重载时覆盖手写配置。以下手动配置仅适用于纯手管 Nginx。
 
 `/etc/nginx/conf.d/imgsync.conf`：
 
@@ -112,7 +116,7 @@ certbot --nginx -d imgsync.civlensai.com
 ## 更新版本
 
 ```bash
-cd /opt/imgsync && git pull && docker compose up -d --build
+cd /opt/projects/imgsync && git pull && docker compose up -d --build
 ```
 
 ## 回滚
