@@ -50,9 +50,12 @@ ss -tlnp | grep 3001   # 无输出 = 可用；被占则改 compose.yaml 里的�
 ### 4. 构建并启动
 
 ```bash
-docker compose up -d --build
+docker compose --env-file .env.docker up -d --build
 curl -I http://127.0.0.1:3001   # 期望 200
 ```
+
+> 注意：compose 默认只读 `.env`，必须显式 `--env-file .env.docker`，
+> 否则 `NEXT_PUBLIC_URL` 为空串，构建出的站点 sitemap/canonical 全部失效。
 
 ### 5. DNS（域名服务商控制台）
 
