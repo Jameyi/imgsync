@@ -1,54 +1,51 @@
 import Link from "next/link";
-import AuthorProjects from "@/components/AuthorProjects";
-import { repository, templateURL } from "@/config";
+import { repository } from "@/config";
 import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata(
-  "About the starter",
+  "About ImgSync",
   "/about",
-  "Why SEO Next.js Starter exists, what it includes, and how to make it your own.",
+  "Why ImgSync exists: free browser-based image tools that process everything locally.",
 );
 export default function About() {
   return (
     <main id="main">
       <section className="shell page-hero">
-        <span className="eyebrow">OPEN SOURCE, BY DESIGN</span>
+        <span className="eyebrow">LOCAL-FIRST, BY DESIGN</span>
         <h1>
-          A better starting point
+          Image tools that
           <br />
-          for the next idea.
+          respect your files.
         </h1>
         <p>
-          SEO Next.js Starter brings the everyday SEO pieces together in a
-          small, readable Next.js project.
+          ImgSync brings everyday image tasks together in one place — and every
+          file is processed in your own browser.
         </p>
       </section>
       <article className="shell content-shell prose">
-        <h2>Built to be understood.</h2>
+        <h2>No uploads. Ever.</h2>
         <p>
-          A starter should save you setup time and make the important decisions
-          easy to inspect. Here, every example connects a working page to its
-          metadata, sitemap entry, and social image.
+          Traditional online image tools upload your files to a server. ImgSync
+          uses your browser&apos;s own Canvas and Web Worker APIs, so your
+          images never leave your device. That makes it private by default and
+          free to run.
         </p>
-        <h2>Created by Leo Wang.</h2>
+        <h2>Practical tools, not toys.</h2>
         <p>
-          I build web products and tools. This project is a collection of
-          practical foundations for developers who want to spend more time on
-          their own content and ideas.
+          Each tool solves a real task — cleaning up white backgrounds,
+          compressing to a size limit, preparing images for marketplaces and
+          social platforms — with the options you actually need.
         </p>
-        <h2>Yours to change.</h2>
+        <h2>Open source.</h2>
         <p>
-          The project is MIT licensed. Keep what helps, replace the demo content
-          and branding, and remove author project links if they do not belong on
-          your site. Attribution is governed by the MIT license, not a mandatory
-          website backlink.
+          The project is MIT licensed and the image engine is available as a
+          standalone library. Inspect it, adapt it, and build on it.
         </p>
         <div className="inline-links">
-          <a href={templateURL}>Use the template ↗</a>
+          <a href={repository}>Source code ↗</a>
           <a href={`${repository}/issues`}>Share feedback ↗</a>
           <Link href="/docs">Read the docs →</Link>
         </div>
       </article>
-      <AuthorProjects />
     </main>
   );
 }

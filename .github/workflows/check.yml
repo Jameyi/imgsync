@@ -1,4 +1,4 @@
-name: Check starter
+name: Check ImgSync
 on:
   push:
     branches: [main, "codex/**"]

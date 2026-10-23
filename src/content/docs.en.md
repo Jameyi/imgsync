@@ -3,14 +3,14 @@
 Use Node.js 22 and pnpm 11.24.0. Create your own repository with **Use template**, or clone the source:
 
 ```bash
-git clone https://github.com/wangrunlin/seo-nextjs-starter.git
-cd seo-nextjs-starter
+git clone https://github.com/your-name/imgsync.git
+cd imgsync
 pnpm install
 cp .env.example .env.local
 pnpm dev
 ```
 
-Open `http://localhost:3000`. You can explore locally without configuring external services. For your own deployment, replace the example content, branding, project links, and repository buttons.
+Open `http://localhost:6553`. You can explore locally without configuring external services.
 
 ## Configuration
 
@@ -91,4 +91,4 @@ Version 1.0 updates Next.js and React, replaces `next lint` with ESLint CLI, add
 
 When upgrading from 0.2, preserve your production environment variables and custom content. Review `src/config.ts`, metadata exports, the sitemap, and markdown links. The MIT license is unchanged.
 
-[Source on GitHub](https://github.com/wangrunlin/seo-nextjs-starter) · [中文文档](/docs/zh)
+[Source on GitHub](https://github.com/your-name/imgsync) · [中文文档](/docs/zh)

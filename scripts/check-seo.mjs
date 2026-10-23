@@ -77,18 +77,6 @@ for (const [path, html] of results) {
     count++;
   }
 }
-for (const path of ["/", "/docs", "/docs/zh", "/about"]) {
-  const html = results.find(([p]) => p === path)[1];
-  for (const domain of ["h3run.com", "h3maxlive.com", "image-2-5.com"]) {
-    const tag = tags(html, "a").find(
-      (t) => attr(t, "href") === `https://${domain}`,
-    );
-    check(
-      Boolean(tag) && !attr(tag, "rel")?.includes("nofollow"),
-      `${path}: author link ${domain}`,
-    );
-  }
-}
 for (const path of ["/docs", "/docs/zh"]) {
   const html = results.find(([p]) => p === path)[1];
   check(
@@ -155,8 +143,6 @@ for (const path of [
     `${path}: PNG bytes`,
   );
 }
-for (const path of ["/brands/h3run.png", "/brands/image25.svg"])
-  check((await fetch(base + path)).status === 200, `${path}: brand asset`);
 const legacy = await fetch(base + "/README-zh.md", { redirect: "manual" });
 check(
   [307, 308].includes(legacy.status) &&

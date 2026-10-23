@@ -3,14 +3,14 @@
 使用 Node.js 22 与 pnpm 11.24.0。通过 **Use template** 创建自己的仓库，或者克隆源码：
 
 ```bash
-git clone https://github.com/wangrunlin/seo-nextjs-starter.git
-cd seo-nextjs-starter
+git clone https://github.com/your-name/imgsync.git
+cd imgsync
 pnpm install
 cp .env.example .env.local
 pnpm dev
 ```
 
-打开 `http://localhost:3000`。本地浏览不需要配置外部服务。发布自己的站点前，请替换示例内容、品牌、作者项目链接及仓库按钮。
+打开 `http://localhost:6553`。本地浏览不需要配置外部服务。
 
 ## 站点配置
 
@@ -91,4 +91,4 @@ pnpm test:seo
 
 升级时保留自己的生产环境变量和内容，重点检查 `src/config.ts`、metadata 导出、sitemap 与 Markdown 链接。MIT 授权不变。
 
-[GitHub 源码](https://github.com/wangrunlin/seo-nextjs-starter) · [English documentation](/docs)
+[GitHub 源码](https://github.com/your-name/imgsync) · [English documentation](/docs)

@@ -6,7 +6,7 @@ import LaunchChecklist from "@/components/LaunchChecklist";
 export const metadata = pageMetadata(
   "LaunchKit — a practical site launch checklist",
   "/examples/product",
-  "A simple, free checklist for your next website launch. A working product-page example from SEO Next.js Starter.",
+  "A simple, free checklist for your next website launch. A working product-page example from ImgSync.",
 );
 export default function Product() {
   return (

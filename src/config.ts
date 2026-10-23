@@ -1,15 +1,16 @@
-import { canIndex, resolveSiteUrl } from "@/lib/site-url.mjs";
+import { canIndex, resolveSiteUrl } from "./lib/site-url.mjs";
 
 export const siteName =
-  process.env.NEXT_PUBLIC_SITE_NAME || "SEO Next.js Starter";
+  process.env.NEXT_PUBLIC_SITE_NAME || "ImgSync";
 export const title =
-  process.env.NEXT_PUBLIC_TITLE || "SEO foundations for your next launch";
+  process.env.NEXT_PUBLIC_TITLE || "ImgSync — browser-based image tools";
 export const description =
   process.env.NEXT_PUBLIC_DESCRIPTION ||
-  "An open-source Next.js starter with page metadata, sitemaps, social images, and practical SEO examples you can inspect and adapt.";
+  "Free browser-based image tools. Everything processes locally in your browser — no uploads, no accounts, no tracking.";
 export const baseURL = resolveSiteUrl(process.env);
 export const indexable = canIndex(process.env);
-export const repository = "https://github.com/wangrunlin/seo-nextjs-starter";
+// TODO: replace with the real ImgSync repository URL when created.
+export const repository = "https://github.com/your-name/imgsync";
 export const templateURL =
-  "https://github.com/new?template_name=seo-nextjs-starter&template_owner=wangrunlin";
-export const deployURL = `https://vercel.com/new/clone?repository-url=${encodeURIComponent(repository)}&project-name=seo-nextjs-starter&repository-name=seo-nextjs-starter&env=NEXT_PUBLIC_URL&envDescription=${encodeURIComponent("Your production website origin, e.g. https://example.com")}`;
+  "https://github.com/new?template_name=imgsync&template_owner=your-name";
+export const deployURL = `https://vercel.com/new/clone?repository-url=${encodeURIComponent(repository)}&project-name=imgsync&repository-name=imgsync&env=NEXT_PUBLIC_URL&envDescription=${encodeURIComponent("Your production website origin, e.g. https://example.com")}`;

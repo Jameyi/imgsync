@@ -1,51 +1,41 @@
-import Image from "next/image";
-import { ArrowUpRight, Clapperboard } from "lucide-react";
+import { ArrowUpRight, Code, FileText, Wrench } from "lucide-react";
 export default function AuthorProjects() {
+  // TODO: replace with tool cross-links / promo cards once /tools/[slug] routes land (PRD §7).
   return (
     <section className="author-section shell">
       <div>
-        <span className="eyebrow">FROM THE MAKER</span>
-        <h2>Also building.</h2>
-        <p>A few other tools and creative experiments by Leo Wang.</p>
+        <span className="eyebrow">EXPLORE IMGSYNC</span>
+        <h2>More to explore.</h2>
+        <p>Project resources and what&apos;s coming next.</p>
       </div>
       <div className="author-grid">
-        <a href="https://h3run.com" target="_blank" rel="noopener noreferrer">
+        <a href="https://github.com/your-name/imgsync" target="_blank" rel="noopener noreferrer">
           <span className="product-mark">
-            <Image src="/brands/h3run.png" alt="" width={32} height={32} />
+            <Code size={25} />
           </span>
           <span>
-            <strong>H3Run</strong>
-            <small>AI video creation</small>
+            <strong>GitHub</strong>
+            <small>Source code & issues</small>
           </span>
           <ArrowUpRight size={17} />
         </a>
-        <a
-          href="https://h3maxlive.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="/docs">
           <span className="product-mark amber">
-            <Clapperboard size={25} />
+            <FileText size={25} />
           </span>
           <span>
-            <strong>H3MaxLive</strong>
-            <small>Interactive AI video</small>
+            <strong>Docs</strong>
+            <small>Quickstart & configuration</small>
           </span>
-          <ArrowUpRight size={17} />
         </a>
-        <a
-          href="https://image-2-5.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="/examples">
           <span className="product-mark">
-            <Image src="/brands/image25.svg" alt="" width={32} height={32} />
+            <Wrench size={25} />
           </span>
           <span>
-            <strong>Image 2.5</strong>
-            <small>AI image creation & editing</small>
+            <strong>Tools</strong>
+            <small>Browser-based image tools (in development)</small>
           </span>
-          <ArrowUpRight size={17} />
         </a>
       </div>
     </section>
