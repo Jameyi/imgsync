@@ -4,7 +4,7 @@ import {
   description as defaultDescription,
   indexable,
   siteName,
-} from "@/config";
+} from "../config.ts";
 
 export function pageMetadata(
   title: string,
@@ -33,6 +33,21 @@ export function pageMetadata(
       description,
       images: [image],
     },
+  };
+}
+
+export function faqPage(faqs: { question: string; answer: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
   };
 }
 

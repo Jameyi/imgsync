@@ -3,7 +3,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { pathToFileURL } from "node:url";
 
 // Feature: sitemap covers every publishable route and honours noindex
 //
