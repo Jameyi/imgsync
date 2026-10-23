@@ -3,6 +3,16 @@
 与服务器上既有服务（WireGuard、CivVue/civlensai.com）共存，互不影响。
 ImgSync 是纯前端应用，只需一个 HTTP 内部端口，由宿主机 Nginx 反代对外。
 
+## 最终部署决策（2026-10-23 定稿）
+
+- **域名**：`imgsync.civlensai.com`（过渡身份，零成本；未来有产出后购独立域名迁移）
+- **部署方式**：阿里云服务器 Docker（本项目 Dockerfile/compose.yaml，见下文）
+- **DNS 托管**：Cloudflare——A 记录 `imgsync` 指向服务器公网 IP，橙云代理可选
+- **SSL**：Cloudflare 橙云代理可提供边缘证书；源站建议仍用 certbot 或 Cloudflare Origin Certificate（避免回源明文）
+- **未来迁移路径**：新域名到位后 → Cloudflare 加新域 DNS → Nginx 加 server 块 → `.env.docker` 改 `NEXT_PUBLIC_URL` → `docker compose up -d --build` → 旧子域 301 到新域（canonical 随构建参数自动切换，代码零改动）
+- **内容计划**：目标 20-30 篇原创文章（电商图片规格指南、工具教程），既是 SEO/AdSense 过审基础，也是 affiliate 流量入口
+
+
 ## 架构
 
 ```
