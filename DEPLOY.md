@@ -112,6 +112,19 @@ nginx -t && systemctl reload nginx
 certbot --nginx -d imgsync.civlensai.com
 ```
 
+## 域名收敛（www → apex）
+
+`www.imgsync.civlensai.com` 目前是 NXDOMAIN。收敛在 Cloudflare 边缘做，**不改 origin**：
+源站证书是 `*.civlensai.com` 泛域名证书，覆盖不到 `www.imgsync.civlensai.com`（两级子域），
+让请求回源会证书报错；边缘 301 直接终结，不触达源站。
+
+1. DNS（civlensai.com zone）：添加记录 `CNAME www → imgsync.civlensai.com`，代理开启（橙云）
+2. 重定向（Rules → Redirect Rules → Single Redirect / Dynamic redirect）：
+   - 条件：`http.host eq "www.imgsync.civlensai.com"`
+   - 目标：`concat("https://imgsync.civlensai.com", http.request.uri.path)`
+   - 状态：301，保留 query string
+3. 验证：`curl -sI https://www.imgsync.civlensai.com/tools` → 301 且 Location 指向 apex 同路径
+
 ## 验证清单
 
 - [ ] `curl -I https://imgsync.civlensai.com` → 200
