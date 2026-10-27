@@ -16,10 +16,14 @@ ImgSync 是纯前端应用，只需一个 HTTP 内部端口，由宿主机 Nginx
 ## 架构
 
 ```
-互联网 ── Nginx(80/443) ── civlensai.com        → CivVue 容器（现有，不动）
-                        └─ imgsync.civlensai.com → imgsync 容器 (host 3001)
+互联网 ── civvue-nginx 容器(80/443) ── civlensai.com        → CivVue 容器（现有，不动）
+                                  └─ imgsync.civlensai.com → imgsync 容器 (3000, 已接入 civvue 网络)
 WireGuard（UDP）——独立，不受影响
 ```
+
+> 2026-10-27 现状：80/443 由 `civvue-nginx` 容器独占，imgsync 的 server 块写在该容器
+> 的 `nginx.conf` 内，`proxy_pass` 走容器网络 `imgsync:3000`；宿主机宝塔 nginx 未参与。
+> compose 的 `3001:3000` 端口映射保留，便于宿主机直连自检。
 
 ## 部署步骤（服务器上执行）
 
@@ -119,8 +123,12 @@ certbot --nginx -d imgsync.civlensai.com
 ## 更新版本
 
 ```bash
-cd /opt/projects/imgsync && git pull && docker compose up -d --build
+cd /opt/projects/imgsync && git pull && docker compose --env-file .env.docker up -d --build
+curl -I http://127.0.0.1:3001   # 期望 200
 ```
+
+> `--env-file .env.docker` 不能省：缺了会读到空 `NEXT_PUBLIC_URL`，构建出的站点
+> canonical/OG/sitemap 全部失效。
 
 ## 回滚
 
