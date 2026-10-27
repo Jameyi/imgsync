@@ -5,13 +5,13 @@ import MarkdownContent from "./MarkdownContent";
 import AuthorProjects from "./AuthorProjects";
 const sections = [
   ["Quickstart", "快速开始", "quickstart"],
-  ["Configuration", "站点配置", "configuration"],
-  ["Metadata", "页面元数据", "metadata"],
-  ["Indexing", "站点地图与索引", "indexing"],
-  ["Social images", "分享图与结构化数据", "social-images"],
-  ["Examples", "示例页面", "examples"],
-  ["Deployment", "部署与验证", "deployment"],
-  ["What's new", "从 0.2 升级", "whats-new"],
+  ["The five tools", "五个工具", "the-five-tools"],
+  ["How processing works", "处理原理", "how-processing-works"],
+  ["Privacy", "隐私", "privacy"],
+  ["SEO and indexing", "SEO 与索引", "seo-and-indexing"],
+  ["Self-hosting", "自托管", "self-hosting"],
+  ["Limits to know", "使用限制", "limits-to-know"],
+  ["Support", "获取支持", "support"],
 ];
 export default function DocsPage({ language }: { language: "en" | "zh" }) {
   const zh = language === "zh";
@@ -23,11 +23,11 @@ export default function DocsPage({ language }: { language: "en" | "zh" }) {
     <main id="main">
       <section className="shell page-hero">
         <span className="eyebrow">DOCUMENTATION / V1.0</span>
-        <h1>{zh ? "从配置到上线。" : "From setup to your next launch."}</h1>
+        <h1>{zh ? "工具怎么用，讲清楚。" : "How the tools actually work."}</h1>
         <p>
           {zh
-            ? "理解模板的每一个 SEO 决策，检查实际输出，然后改成自己的站点。"
-            : "Understand the SEO decisions, inspect the output, and make this starter your own."}
+            ? "每个工具的行为、处理边界、隐私口径与站点索引策略，都在这一页。"
+            : "What each tool does, where it stops, what stays on your machine, and how the site handles indexing."}
         </p>
         <div className="inline-links">
           <Link

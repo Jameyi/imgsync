@@ -1,6 +1,52 @@
 ## Quickstart
 
-Use Node.js 22 and pnpm 11.24.0. Clone the source:
+ImgSync is five single-task image tools for e-commerce listings. Every tool runs in your browser: the file is decoded, processed and encoded locally, and nothing is uploaded.
+
+To finish a task:
+
+1. Open the tool you need from [the tool list](/tools).
+2. Drop an image on the upload area — PNG, JPEG or WebP. The defringe tool takes PNG or WebP, because it works on transparency.
+3. Adjust the one value that matters, then download the result.
+
+There is no account, no queue and no watermark. Closing the tab discards everything, because nothing is stored anywhere.
+
+## The five tools
+
+| Tool | What it does | Output | Notes |
+| --- | --- | --- | --- |
+| [Remove white background](/tools/remove-white-background) | Makes a white or near-white backdrop transparent | PNG with alpha | Flood fill starts at the border, so white inside the product survives |
+| [Defringe edges](/tools/defringe-edges) | Strips the white tint baked into cutout edges | PNG with alpha | Run it right after any background removal |
+| [Compress to size](/tools/compress-to-size) | Hits a target file size in KB | JPEG | Searches for the best quality that fits; floor is 5 KB |
+| [Resize to preset](/tools/resize-to-preset) | Fits an image to a platform canvas | PNG | Amazon 2000×2000, Shopify 2048×2048, Instagram 1080×1080, OG 1200×630, plus a free crop |
+| [Platform preflight](/tools/platform-preflight) | Checks an image against marketplace rules | Pass/fail report | Subject-to-canvas ratio, minimum dimensions, file size |
+
+Every tool page carries its own how-to steps and FAQ, and those answers are published as FAQPage structured data.
+
+## How processing works
+
+- **Decode** happens in the browser. The image is turned into pixels once, then handed to the algorithm as an RGBA buffer.
+- **Algorithms are pure functions** in `src/lib/image-core/`. They take pixels in and return pixels out — no DOM, no network, no hidden state. That is why they can be unit-tested pixel by pixel.
+- **Heavy frames move to a Web Worker.** Images at or above 4 megapixels (4,000,000 pixels) are processed off the main thread, so the page stays responsive while the work runs.
+- **Encoding uses Canvas / OffscreenCanvas.** The result is turned into a Blob, previewed, and handed to you as a download. The file never leaves the page.
+
+## Privacy
+
+- Your images are never uploaded. There is no server-side image processing, no storage and no account tied to a file.
+- The browser's local storage only remembers whether you chose the light or dark theme.
+- No advertising cookies and no cross-site identifiers are used. If aggregate page metrics are enabled, they carry no file contents.
+- Outbound links to partner or affiliate sites are governed by those sites' own privacy policies. Nothing about your file is forwarded.
+
+## SEO and indexing
+
+- Every page ships its own title, description, canonical URL and a page-specific share image (1200×630, rendered by `/api/og`).
+- Structured data matches what you see: WebSite and SoftwareSourceCode site-wide, BreadcrumbList on nested pages, FAQPage next to the visible FAQ, Article on journal pages.
+- `sitemap.xml` lists the public routes. `robots.txt` allows crawling so crawlers can read page-level directives, and preview builds emit `noindex` with an empty sitemap.
+- Crawler policy: search and citation crawlers are allowed (OAI-SearchBot, ChatGPT-User, ClaudeBot, PerplexityBot, Google-Extended), while training and scraper crawlers are blocked (GPTBot, anthropic-ai, Bytespider, CCBot, meta-externalagent).
+- `llms.txt` summarises the site for answer engines, and the tool pages are written so an engine can quote them with attribution.
+
+## Self-hosting
+
+The engine is open source under the MIT license. Clone the repository, then run it locally:
 
 ```bash
 git clone https://github.com/Jameyi/imgsync.git
@@ -10,89 +56,28 @@ cp .env.example .env.local
 pnpm dev
 ```
 
-Open `http://localhost:6553`. You can explore locally without configuring external services.
+The dev server runs on `http://localhost:6553`. `NEXT_PUBLIC_URL` must be a full origin such as `https://imgsync.civlensai.com` — it is inlined at build time and drives canonical URLs, the sitemap and the share images.
 
-## Configuration
-
-Use `.env.local` locally and project environment variables on Vercel. Rebuild after changing public configuration.
-
-```dotenv
-NEXT_PUBLIC_SITE_NAME="My website"
-NEXT_PUBLIC_TITLE="A specific homepage title"
-NEXT_PUBLIC_DESCRIPTION="A useful description of your website."
-NEXT_PUBLIC_URL="https://example.com"
-```
-
-`NEXT_PUBLIC_URL` is a complete origin without a path or query. An invalid URL fails with a clear error. When omitted, production Vercel builds use `VERCEL_PROJECT_PRODUCTION_URL`, preview builds use `VERCEL_URL`, and local builds use localhost. There is no fallback to the author's domain.
-
-Google Analytics is optional. Set `NEXT_PUBLIC_GOOGLE_ANALYTICS_ID` to **your own** ID if needed. No analytics ID is shipped in the template. Author links are ordinary editable content, not required backlinks.
-
-## Metadata
-
-Give each page a title, description, canonical, Open Graph URL, and share image using the included helper:
-
-```tsx
-import { pageMetadata } from "@/lib/seo";
-
-export const metadata = pageMetadata(
-  "About our team",
-  "/about",
-  "Meet the people building our product.",
-);
-```
-
-The canonical includes the current page path. Article pages use `generateMetadata` and statically generated slugs; see [the journal](/examples/articles). Tracking parameters should not change the preferred URL when they do not change the content.
-
-The homepage preview is an illustrative design tool. It does not predict rankings or exactly reproduce how a search engine will display your page.
-
-## Indexing
-
-`src/app/sitemap.ts` lists public pages and articles. Add new routes there. Article dates come from their content; general pages do not invent modification dates on every build.
-
-`robots.txt` allows crawling so crawlers can read page-level directives. Preview and local builds emit `noindex` metadata and an empty sitemap; robots.txt does not advertise a sitemap in those environments. Production builds are indexable by default. Set `NEXT_PUBLIC_INDEXABLE=false` to opt out. Index directives are not access control for private data.
-
-Only the two actual documentation translations use reciprocal `hreflang`: `/docs` and `/docs/zh`. Other example pages are English-only.
-
-## Social images
-
-Open [the image endpoint](/api/og?title=Your%20next%20idea) to see a real 1200×630 image. Titles are bounded to 100 characters. Page metadata points to the image with a page-specific title.
-
-JSON-LD describes visible content: WebSite and SoftwareSourceCode on the homepage, Article on journal entries, and BreadcrumbList on article/product pages. Do not add invented ratings, prices, or review counts. JSON-LD output escapes `<` before insertion into HTML.
-
-## Examples
-
-- [Fieldnotes journal](/examples/articles): a collection and static article detail pages, with page metadata and Article schema.
-- [LaunchKit](/examples/product): a product-page example with an interactive, temporary checklist. No backend or checkout is required.
-- [About](/about): a simple page with its own canonical and title.
-
-Article data lives in `src/content/articles.ts`. The checklist is intentionally temporary; it resets on reload. Adapt these examples to your own project.
-
-## Deployment
-
-Build and run the site with Docker — the way this site is deployed. Put the production origin in `.env.docker`, then build and start the container. Keep Node.js 22 and the package-manager version in sync with `package.json`.
+Checks before you ship:
 
 ```bash
-docker compose --env-file .env.docker up -d --build
+pnpm check      # lint + typecheck + unit tests + production build
+pnpm test:seo   # HTTP checks against a running production server
 ```
 
-```bash
-pnpm lint
-pnpm typecheck
-pnpm test
-pnpm build
-pnpm start
-# Run in a second terminal against the server:
-pnpm test:seo
-```
+`pnpm test:seo` accepts `SEO_CHECK_URL` so you can point it at a deployed site.
 
-`test:seo` checks actual HTML responses, per-page canonical/OG URLs, metadata, indexing, sitemap entries, JSON-LD, links, 404s, and PNG generation. Set `SEO_CHECK_URL` to test an accessible deployment.
+## Limits to know
 
-For a custom domain, choose one primary domain and redirect other aliases to it while preserving paths. This project does not hardcode a redirect to the author's website. Inspect the production deployment and HTML after release; a successful build alone is not a public-site check.
+- Marketplace rules change without notice. The presets and preflight thresholds reflect published requirements at the time of writing — always re-check before publishing.
+- Compression is lossy. If a target size cannot be reached, you get the closest result and an honest note rather than a silently trashed image.
+- Background removal is colour-tolerance based and starts from the border. Complex backdrops still need manual work.
+- Defringing only recolours semi-transparent pixels that touch full transparency. Opaque areas, alpha values and dimensions stay untouched.
+- There is no AI segmentation, no layered editor and no PSD export. Each tool does one job and stops.
+- Batch processing is not live yet — one file per run for now.
 
-## What’s new
+## Support
 
-Version 1.0 updates Next.js and React, replaces `next lint` with ESLint CLI, adds CI and focused SEO checks, repairs page canonical URLs and deployment URL resolution, and introduces documentation translations, article/product examples, social images, and a visual SEO preview.
+Bug reports and feature requests go to the issue tracker: [Jameyi/imgsync](https://github.com/Jameyi/imgsync/issues). Include the tool you used, your browser, and what you expected versus what you got.
 
-When upgrading from 0.2, preserve your production environment variables and custom content. Review `src/config.ts`, metadata exports, the sitemap, and markdown links. The MIT license is unchanged.
-
-[Source on GitHub](https://github.com/Jameyi/imgsync) · [中文文档](/docs/zh)
+The next planned steps are batch processing, more platform presets, and PNG/WebP compression targets.

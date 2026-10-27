@@ -1,6 +1,52 @@
 ## 快速开始
 
-使用 Node.js 22 与 pnpm 11.24.0。克隆源码：
+ImgSync 是五个面向电商商品图的单任务工具。每个工具都在你的浏览器里运行：解码、处理、编码全在本地完成，图片不会被上传。
+
+完成一次任务只需三步：
+
+1. 从[工具列表](/tools)打开你要用的工具。
+2. 把图片拖到上传区 —— PNG、JPEG 或 WebP 都可以。defringe 只接 PNG 与 WebP，因为它处理的是透明通道。
+3. 调那一个真正重要的参数，然后下载结果。
+
+没有账号、没有排队、没有水印。关掉标签页就什么都不剩，因为根本没有任何地方存过东西。
+
+## 五个工具
+
+| 工具 | 做什么 | 产物 | 说明 |
+| --- | --- | --- | --- |
+| [白底转透明](/tools/remove-white-background) | 让白色或近白背景变透明 | 带 alpha 的 PNG | 从边缘做 flood fill，商品内部的白色不会被挖掉 |
+| [去白边](/tools/defringe-edges) | 抠图边缘残留的白边去掉 | 带 alpha 的 PNG | 任何抠图之后都建议再跑一遍 |
+| [压缩到指定体积](/tools/compress-to-size) | 命中指定的 KB 体积 | JPEG | 搜出能装下的最高画质；下限 5 KB |
+| [缩放到平台预设](/tools/resize-to-preset) | 缩放到平台画布尺寸 | PNG | Amazon 2000×2000、Shopify 2048×2048、Instagram 1080×1080、OG 1200×630，另带自由裁切 |
+| [平台预检](/tools/platform-preflight) | 按平台规则检查图片 | 通过/失败报告 | 主体占比、最小尺寸、文件体积 |
+
+每个工具页都自带操作步骤和 FAQ，这些问答同时以 FAQPage 结构化数据发布。
+
+## 处理原理
+
+- **解码**在浏览器里完成。图片先转成像素，再以 RGBA 缓冲区交给算法。
+- **算法是纯函数**，放在 `src/lib/image-core/`：进像素出像素，不碰 DOM、不发网络请求、没有隐藏状态，所以可以逐像素做单元测试。
+- **大图交给 Web Worker**。达到 400 万像素（4,000,000 像素）的图片放到主线程之外处理，页面不会卡。
+- **编码用 Canvas / OffscreenCanvas**。结果转成 Blob、就地预览，再交给你下载。文件从未离开这个页面。
+
+## 隐私
+
+- 图片从不上传。没有服务端图片处理、没有存储、没有和文件绑定的账号。
+- 浏览器本地存储只记一件事：你选了浅色还是深色主题。
+- 不使用广告 cookie，也不使用跨站标识。若开启聚合页面指标，其中不含任何文件内容。
+- 指向合作方或联盟站点的出站链接遵循对方自己的隐私政策，你的文件信息不会被转发。
+
+## SEO 与索引
+
+- 每个页面都有自己的标题、描述、canonical 地址，以及页面专属的分享图（1200×630，由 `/api/og` 渲染）。
+- 结构化数据与可见内容一致：全站有 WebSite 与 SoftwareSourceCode，嵌套页面有 BreadcrumbList，可见 FAQ 旁边有 FAQPage，文章页有 Article。
+- `sitemap.xml` 列出公开路由；`robots.txt` 允许抓取以便爬虫读取页面级指令，预览构建输出 `noindex` 且 sitemap 为空。
+- 爬虫口径：搜索与引用类爬虫放行（OAI-SearchBot、ChatGPT-User、ClaudeBot、PerplexityBot、Google-Extended），训练与采集类爬虫封禁（GPTBot、anthropic-ai、Bytespider、CCBot、meta-externalagent）。
+- `llms.txt` 为答案引擎概括站点，工具页的写法也按“可以被引用并署名”来写。
+
+## 自托管
+
+引擎以 MIT 协议开源。克隆仓库后本地运行：
 
 ```bash
 git clone https://github.com/Jameyi/imgsync.git
@@ -10,89 +56,28 @@ cp .env.example .env.local
 pnpm dev
 ```
 
-打开 `http://localhost:6553`。本地浏览不需要配置外部服务。
+开发服务器跑在 `http://localhost:6553`。`NEXT_PUBLIC_URL` 必须是完整源站地址，例如 `https://imgsync.civlensai.com` —— 它在构建时内联，决定 canonical、sitemap 与分享图。
 
-## 站点配置
-
-本地使用 `.env.local`，Vercel 使用项目环境变量。公开配置发生变化后需重新构建。
-
-```dotenv
-NEXT_PUBLIC_SITE_NAME="我的网站"
-NEXT_PUBLIC_TITLE="清晰具体的首页标题"
-NEXT_PUBLIC_DESCRIPTION="一句对访客有用的网站介绍。"
-NEXT_PUBLIC_URL="https://example.com"
-```
-
-`NEXT_PUBLIC_URL` 必须是完整的 HTTP(S) 源站地址，不包含路径或查询参数。地址无效时会清楚报错。留空时，Vercel 生产构建使用 `VERCEL_PROJECT_PRODUCTION_URL`，预览构建使用 `VERCEL_URL`，本地构建使用 localhost，不回退到作者域名。
-
-Google Analytics 可选。需要时将 `NEXT_PUBLIC_GOOGLE_ANALYTICS_ID` 设置为自己的 ID；模板不预置作者统计 ID。作者链接是可编辑内容，不是强制外链。
-
-## 页面元数据
-
-使用内置辅助函数，为每个页面设置标题、描述、canonical、Open Graph URL 和分享图：
-
-```tsx
-import { pageMetadata } from "@/lib/seo";
-
-export const metadata = pageMetadata(
-  "关于团队",
-  "/about",
-  "认识正在打造产品的团队。",
-);
-```
-
-canonical 包含当前页面路径。文章使用 `generateMetadata` 与静态生成的 slug；可查看[文章示例](/examples/articles)。不改变内容的追踪参数不应改变首选 URL。
-
-首页预览只是设计示例，不预测排名，也不保证与搜索引擎实际展示完全一致。
-
-## 站点地图与索引
-
-`src/app/sitemap.ts` 列出公开页面和文章，新建页面时应同步维护。文章日期来自实际内容，一般页面不在每次构建时虚构修改日期。
-
-`robots.txt` 允许抓取，使爬虫能读取页面级指令。预览与本地构建输出 `noindex` 和空 sitemap，robots.txt 不声明 sitemap。生产构建默认允许索引，可用 `NEXT_PUBLIC_INDEXABLE=false` 关闭。索引指令不能保护私密数据。
-
-仅实际存在的两份文档 `/docs`、`/docs/zh` 设置双向 `hreflang`，其他示例页面只有英文。
-
-## 分享图与结构化数据
-
-打开[分享图接口](/api/og?title=Your%20next%20idea)，查看真实的 1200×630 图片。标题最多 100 字符；每个页面的 metadata 使用对应标题生成分享图地址。
-
-JSON-LD 与可见内容对应：首页包含 WebSite 和 SoftwareSourceCode，文章包含 Article，文章及产品页包含 BreadcrumbList。不添加虚构评分、价格或评论数；插入 HTML 前会转义 `<`。
-
-## 示例页面
-
-- [Fieldnotes 文章集](/examples/articles)：文章列表与静态详情页，包含逐页 metadata 与 Article schema。
-- [LaunchKit](/examples/product)：带临时交互清单的产品页示例，不需要后端或结账流程。
-- [关于](/about)：有独立 canonical 和标题的简单页面。
-
-文章数据位于 `src/content/articles.ts`。清单仅作临时交互演示，刷新后重置；可根据自己的项目改造。
-
-## 部署与验证
-
-用 Docker 构建并运行站点 —— 本站即如此部署。把正式域名写进 `.env.docker`，再构建并启动容器。保持 Node.js 22、包管理器与 `package.json` 一致。
+上线前跑一遍检查：
 
 ```bash
-docker compose --env-file .env.docker up -d --build
+pnpm check      # lint + typecheck + 单元测试 + 生产构建
+pnpm test:seo   # 针对运行中的生产服务器做 HTTP 检查
 ```
 
-```bash
-pnpm lint
-pnpm typecheck
-pnpm test
-pnpm build
-pnpm start
-# 在第二个终端验证正在运行的网站：
-pnpm test:seo
-```
+`pnpm test:seo` 支持 `SEO_CHECK_URL`，可以直接指向已部署的站点。
 
-`test:seo` 检查真实 HTML 响应、逐页 canonical/OG、metadata、索引、sitemap、JSON-LD、链接、404 和 PNG 图片。设置 `SEO_CHECK_URL` 可验证可访问的部署地址。
+## 使用限制
 
-使用自定义域名时，选定主域名，并让其他别名保留路径跳转到主域名。本项目没有硬编码跳转到作者网站。发布后检查生产部署和实际 HTML；构建成功不等于公开网站已验证。
+- 平台规则随时可能变。预设与预检阈值反映的是写作时已公布的规则，发布前请再核对一次。
+- 压缩是有损的。目标体积达不到时，给出的是最接近的结果和一句说明，而不是悄悄把画质砸掉。
+- 抠图基于颜色容差、且从边缘起算。复杂背景仍然需要手工处理。
+- defringe 只重算“半透明且紧邻全透明”的边缘像素。实心区域、alpha 值与尺寸都不动。
+- 没有 AI 分割、没有图层编辑器、没有 PSD 导出。每个工具只做一件事。
+- 批量处理尚未上线 —— 目前一次处理一张。
 
-## 从 0.2 升级
+## 获取支持
 
-1.0 升级 Next.js 与 React，以 ESLint CLI 替代 `next lint`，加入 CI 和针对性 SEO 检查，修复逐页 canonical 与部署域名解析，并增加双语文档、文章/产品示例、分享图和可视化 SEO 预览。
+缺陷反馈与功能需求都发到 issue tracker：[Jameyi/imgsync](https://github.com/Jameyi/imgsync/issues)。请附上所用工具、浏览器版本，以及期望结果与实际结果的差异。
 
-升级时保留自己的生产环境变量和内容，重点检查 `src/config.ts`、metadata 导出、sitemap 与 Markdown 链接。MIT 授权不变。
-
-[GitHub 源码](https://github.com/Jameyi/imgsync) · [English documentation](/docs)
+接下来的计划是批量处理、更多平台预设，以及 PNG/WebP 压缩目标。
