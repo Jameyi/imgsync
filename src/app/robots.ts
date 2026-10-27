@@ -1,16 +1,34 @@
 import type { MetadataRoute } from "next";
 import { baseURL, indexable } from "@/config";
+
+const CITATION_CRAWLERS = [
+  "OAI-SearchBot",
+  "ChatGPT-User",
+  "ClaudeBot",
+  "PerplexityBot",
+  "Google-Extended",
+];
+
+const TRAINING_CRAWLERS = [
+  "GPTBot",
+  "anthropic-ai",
+  "Bytespider",
+  "CCBot",
+  "meta-externalagent",
+  "Amazonbot",
+  "Applebot-Extended",
+  "Diffbot",
+  "omgili",
+  "PetalBot",
+  "SemrushBot-SWA",
+];
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       { userAgent: "*", allow: "/" },
-      // GEO: answer engines are welcome — content is public and static
-      { userAgent: "GPTBot", allow: "/" },
-      { userAgent: "OAI-SearchBot", allow: "/" },
-      { userAgent: "ChatGPT-User", allow: "/" },
-      { userAgent: "ClaudeBot", allow: "/" },
-      { userAgent: "PerplexityBot", allow: "/" },
-      { userAgent: "Google-Extended", allow: "/" },
+      ...CITATION_CRAWLERS.map((userAgent) => ({ userAgent, allow: "/" })),
+      ...TRAINING_CRAWLERS.map((userAgent) => ({ userAgent, disallow: "/" })),
     ],
     ...(indexable ? { sitemap: `${baseURL}/sitemap.xml` } : {}),
   };

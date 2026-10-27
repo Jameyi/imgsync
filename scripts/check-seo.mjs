@@ -116,6 +116,29 @@ check(
   "robots allows reading noindex directives",
 );
 check(robotsText.includes("Sitemap:") === indexable, "robots sitemap policy");
+const robotsGroups = robotsText.split(/\n\s*\n/).map((group) => group.toLowerCase());
+const robotsGroupFor = (agent) =>
+  robotsGroups.find((group) =>
+    group.includes(`user-agent: ${agent.toLowerCase()}`),
+  ) ?? "";
+for (const agent of [
+  "OAI-SearchBot",
+  "ChatGPT-User",
+  "ClaudeBot",
+  "PerplexityBot",
+  "Google-Extended",
+]) {
+  check(
+    robotsGroupFor(agent).includes("allow: /"),
+    `robots allows citation crawler ${agent}`,
+  );
+}
+for (const agent of ["GPTBot", "anthropic-ai", "Bytespider", "CCBot"]) {
+  check(
+    robotsGroupFor(agent).includes("disallow: /"),
+    `robots blocks training crawler ${agent}`,
+  );
+}
 for (const path of [
   "/missing-seo-check-page",
   "/examples/articles/missing-article",
