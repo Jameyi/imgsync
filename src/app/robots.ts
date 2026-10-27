@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { baseURL, indexable } from "@/config";
+import { baseURL, indexable } from "../config.ts";
 
 const CITATION_CRAWLERS = [
   "OAI-SearchBot",
