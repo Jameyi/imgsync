@@ -3,13 +3,13 @@ import remarkGfm from "remark-gfm";
 import { repository } from "@/config";
 const chineseIds: Record<string, string> = {
   快速开始: "quickstart",
-  站点配置: "configuration",
-  页面元数据: "metadata",
-  站点地图与索引: "indexing",
-  分享图与结构化数据: "social-images",
-  示例页面: "examples",
-  部署与验证: "deployment",
-  "从 0.2 升级": "whats-new",
+  五个工具: "the-five-tools",
+  处理原理: "how-processing-works",
+  隐私: "privacy",
+  "SEO 与索引": "seo-and-indexing",
+  自托管: "self-hosting",
+  使用限制: "limits-to-know",
+  获取支持: "support",
 };
 export default function MarkdownContent({ content }: { content: string }) {
   return (

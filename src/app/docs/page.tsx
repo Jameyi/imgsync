@@ -5,7 +5,7 @@ export const metadata = {
   ...pageMetadata(
     "Documentation",
     "/docs",
-    "Set up your Next.js site, configure metadata and indexing, and inspect working SEO examples.",
+    "How the five ImgSync tools behave, what stays on your machine, the privacy model, and how the site handles crawling and indexing.",
   ),
   alternates: {
     canonical: `${baseURL}/docs`,

@@ -7,7 +7,7 @@ export default function AuthorProjects() {
       <div>
         <span className="eyebrow">EXPLORE IMGSYNC</span>
         <h2>More to explore.</h2>
-        <p>Project resources and what&apos;s coming next.</p>
+        <p>Tools, documentation and the source behind them.</p>
       </div>
       <div className="author-grid">
         <a href={repository} target="_blank" rel="noopener noreferrer">
@@ -20,15 +20,15 @@ export default function AuthorProjects() {
           </span>
           <ArrowUpRight size={17} />
         </a>
-        <a href="/docs">
+        <Link href="/docs">
           <span className="product-mark amber">
             <FileText size={25} />
           </span>
           <span>
             <strong>Docs</strong>
-            <small>Quickstart & configuration</small>
+            <small>How the tools work</small>
           </span>
-        </a>
+        </Link>
         <Link href="/tools">
           <span className="product-mark">
             <Wrench size={25} />
