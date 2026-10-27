@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
 import { baseURL, indexable } from "../config.ts";
-import { articles } from "../content/articles.ts";
 import { TOOLS } from "../config/tools.ts";
 export default function sitemap(): MetadataRoute.Sitemap {
   if (!indexable) return [];
@@ -9,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   );
   return [
     "/",
+    "/tools",
     ...toolRoutes,
     "/docs",
     "/docs/zh",
@@ -17,12 +17,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/terms",
     "/disclaimer",
     "/contact",
-  ]
-    .map((path) => ({ url: new URL(path, baseURL).href }))
-    .concat(
-      articles.map((article) => ({
-        url: new URL(`/examples/articles/${article.slug}`, baseURL).href,
-        lastModified: article.date,
-      })),
-    );
+  ].map((path) => ({ url: new URL(path, baseURL).href }));
 }

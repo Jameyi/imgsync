@@ -1,9 +1,9 @@
 ## 快速开始
 
-使用 Node.js 22 与 pnpm 11.24.0。通过 **Use template** 创建自己的仓库，或者克隆源码：
+使用 Node.js 22 与 pnpm 11.24.0。克隆源码：
 
 ```bash
-git clone https://github.com/your-name/imgsync.git
+git clone https://github.com/Jameyi/imgsync.git
 cd imgsync
 pnpm install
 cp .env.example .env.local
@@ -69,7 +69,11 @@ JSON-LD 与可见内容对应：首页包含 WebSite 和 SoftwareSourceCode，�
 
 ## 部署与验证
 
-通过 Vercel 按钮部署，或把仓库连接到现有项目。保持 Node.js 22、包管理器与 `package.json` 一致。在 Production 环境设置正式域名；Vercel 自动提供预览域名变量。
+用 Docker 构建并运行站点 —— 本站即如此部署。把正式域名写进 `.env.docker`，再构建并启动容器。保持 Node.js 22、包管理器与 `package.json` 一致。
+
+```bash
+docker compose --env-file .env.docker up -d --build
+```
 
 ```bash
 pnpm lint
@@ -83,7 +87,7 @@ pnpm test:seo
 
 `test:seo` 检查真实 HTML 响应、逐页 canonical/OG、metadata、索引、sitemap、JSON-LD、链接、404 和 PNG 图片。设置 `SEO_CHECK_URL` 可验证可访问的部署地址。
 
-使用自定义域名时，在 Vercel 选择主域名，并让其他别名保留路径跳转到主域名。模板没有硬编码跳转到作者网站。发布后检查生产部署和实际 HTML；构建成功不等于公开网站已验证。
+使用自定义域名时，选定主域名，并让其他别名保留路径跳转到主域名。本项目没有硬编码跳转到作者网站。发布后检查生产部署和实际 HTML；构建成功不等于公开网站已验证。
 
 ## 从 0.2 升级
 
@@ -91,4 +95,4 @@ pnpm test:seo
 
 升级时保留自己的生产环境变量和内容，重点检查 `src/config.ts`、metadata 导出、sitemap 与 Markdown 链接。MIT 授权不变。
 
-[GitHub 源码](https://github.com/your-name/imgsync) · [English documentation](/docs)
+[GitHub 源码](https://github.com/Jameyi/imgsync) · [English documentation](/docs)

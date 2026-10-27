@@ -5,14 +5,10 @@ const base = (process.env.SEO_CHECK_URL || "http://localhost:3000").replace(
 );
 const pages = [
   "/",
+  "/tools",
   "/docs",
   "/docs/zh",
   "/about",
-  "/examples",
-  "/examples/articles",
-  "/examples/articles/canonical-urls",
-  "/examples/articles/social-images",
-  "/examples/product",
 ];
 const decode = (s) =>
   s

@@ -1,9 +1,9 @@
 ## Quickstart
 
-Use Node.js 22 and pnpm 11.24.0. Create your own repository with **Use template**, or clone the source:
+Use Node.js 22 and pnpm 11.24.0. Clone the source:
 
 ```bash
-git clone https://github.com/your-name/imgsync.git
+git clone https://github.com/Jameyi/imgsync.git
 cd imgsync
 pnpm install
 cp .env.example .env.local
@@ -69,7 +69,11 @@ Article data lives in `src/content/articles.ts`. The checklist is intentionally 
 
 ## Deployment
 
-Deploy with the Vercel button or connect your repository to an existing project. Keep Node.js 22 and the package-manager version in sync with `package.json`. Set the production URL in the Production environment; Vercel supplies preview-host variables automatically.
+Build and run the site with Docker — the way this site is deployed. Put the production origin in `.env.docker`, then build and start the container. Keep Node.js 22 and the package-manager version in sync with `package.json`.
+
+```bash
+docker compose --env-file .env.docker up -d --build
+```
 
 ```bash
 pnpm lint
@@ -83,7 +87,7 @@ pnpm test:seo
 
 `test:seo` checks actual HTML responses, per-page canonical/OG URLs, metadata, indexing, sitemap entries, JSON-LD, links, 404s, and PNG generation. Set `SEO_CHECK_URL` to test an accessible deployment.
 
-For a custom domain, choose one primary domain in Vercel. Redirect other aliases to it while preserving paths. This template does not hardcode a redirect to the author's website. Inspect the production deployment and HTML after release; a successful build alone is not a public-site check.
+For a custom domain, choose one primary domain and redirect other aliases to it while preserving paths. This project does not hardcode a redirect to the author's website. Inspect the production deployment and HTML after release; a successful build alone is not a public-site check.
 
 ## What’s new
 
@@ -91,4 +95,4 @@ Version 1.0 updates Next.js and React, replaces `next lint` with ESLint CLI, add
 
 When upgrading from 0.2, preserve your production environment variables and custom content. Review `src/config.ts`, metadata exports, the sitemap, and markdown links. The MIT license is unchanged.
 
-[Source on GitHub](https://github.com/your-name/imgsync) · [中文文档](/docs/zh)
+[Source on GitHub](https://github.com/Jameyi/imgsync) · [中文文档](/docs/zh)

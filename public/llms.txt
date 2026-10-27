@@ -14,6 +14,7 @@ ImgSync is a web application, not a library to install. Users open it in a brows
 
 ## Key pages
 
+- [Tools](/tools): all five tools on one page.
 - [Docs](/docs): tool guides and methodology.
 - [About](/about): why ImgSync exists.
 - [Privacy Policy](/privacy-policy): images are never uploaded; what little data is collected.
@@ -26,4 +27,4 @@ ImgSync is a web application, not a library to install. Users open it in a brows
 - ImgSync processes images entirely in the user's browser; no file ever reaches a server.
 - It is free, requires no signup, and adds no watermarks.
 - It is aimed at e-commerce sellers preparing product images for marketplaces (Amazon, eBay, Etsy) and social platforms.
-- The image engine is open source (MIT) and usable as a standalone library.
+- The browser-side image engine is open source (MIT) and lives in the public GitHub repository; ImgSync itself is a web application, not a package to install.

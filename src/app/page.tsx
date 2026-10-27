@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { baseURL, siteName } from "@/config";
 import { TOOLS } from "@/config/tools";
-import { pageMetadata } from "@/lib/seo";
+import { faqPage, pageMetadata } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
 import HomeCompare from "@/components/HomeCompare";
 
@@ -82,6 +82,12 @@ export default function Home() {
           description:
             "Free browser-based image tools for e-commerce sellers: background removal, exact-size compression, platform presets, defringing and preflight checks.",
         }}
+      />
+
+      <JsonLd
+        data={faqPage(
+          FAQS.map((faq) => ({ question: faq.q, answer: faq.a })),
+        )}
       />
 
       {/* hero */}

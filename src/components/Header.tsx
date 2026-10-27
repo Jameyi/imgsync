@@ -3,6 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { ArrowUpRight, Menu, Moon, Sun, X } from "lucide-react";
+import { repository } from "@/config";
 
 function BrandMark() {
   return (
@@ -60,7 +61,7 @@ export default function Header() {
             </Link>
           ))}
           <a
-            href="https://github.com"
+            href={repository}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setOpen(false)}

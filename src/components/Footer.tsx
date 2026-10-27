@@ -32,7 +32,6 @@ export default function Footer() {
           <div className="foot-col">
             <h4>Resources</h4>
             <Link href="/docs">Docs</Link>
-            <Link href="/examples">Examples</Link>
             <Link href="/about">About</Link>
             <a href="/sitemap.xml">Sitemap</a>
           </div>

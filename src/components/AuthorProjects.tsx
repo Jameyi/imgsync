@@ -1,6 +1,7 @@
+import Link from "next/link";
 import { ArrowUpRight, Code, FileText, Wrench } from "lucide-react";
+import { repository } from "@/config";
 export default function AuthorProjects() {
-  // TODO: replace with tool cross-links / promo cards once /tools/[slug] routes land (PRD §7).
   return (
     <section className="author-section shell">
       <div>
@@ -9,7 +10,7 @@ export default function AuthorProjects() {
         <p>Project resources and what&apos;s coming next.</p>
       </div>
       <div className="author-grid">
-        <a href="https://github.com/your-name/imgsync" target="_blank" rel="noopener noreferrer">
+        <a href={repository} target="_blank" rel="noopener noreferrer">
           <span className="product-mark">
             <Code size={25} />
           </span>
@@ -28,15 +29,15 @@ export default function AuthorProjects() {
             <small>Quickstart & configuration</small>
           </span>
         </a>
-        <a href="/examples">
+        <Link href="/tools">
           <span className="product-mark">
             <Wrench size={25} />
           </span>
           <span>
             <strong>Tools</strong>
-            <small>Browser-based image tools (in development)</small>
+            <small>Browser-based image tools</small>
           </span>
-        </a>
+        </Link>
       </div>
     </section>
   );
