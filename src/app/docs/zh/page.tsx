@@ -5,7 +5,7 @@ export const metadata = {
   ...pageMetadata(
     "中文文档",
     "/docs/zh",
-    "配置 Next.js 网站的 metadata、索引、分享图与示例，验证实际 SEO 输出。",
+    "五个工具各自的行为与边界、处理原理、隐私口径，以及站点的爬虫与索引策略。",
   ),
   alternates: {
     canonical: `${baseURL}/docs/zh`,

@@ -24,6 +24,7 @@
 - [x] **服务器部署跑通（2026-10-23）**：阿里云 `/opt/projects/imgsync` 与 civvue 并列；`docker compose --env-file .env.docker up -d --build` 成功，容器监听 3001，`curl 127.0.0.1:3001` 返回 200。关键修复：Dockerfile deps 阶段补 COPY `pnpm-workspace.yaml`（pnpm 11 的 allowBuilds 只认该文件，`22cf89e`）；compose 必须带 `--env-file .env.docker`（否则 NEXT_PUBLIC_URL 空串）
 - [x] **正式上线（2026-10-27）**：https://imgsync.civlensai.com 可公开访问（HTTP/2 200）。反代与 HTTPS 落在 civvue-nginx 容器：80/443 被其独占，宿主机宝塔 nginx 处于 dead 状态不参与；在 civvue 的 nginx.conf 的 http 块内追加 imgsync 的 80/443 server 块（proxy_pass 走容器网络 imgsync:3000，imgsync 容器已接入 civvue 网络）；证书为 Cloudflare Origin 泛域名证书（仅被 CF 信任），imgsync 必须**橙云代理**浏览器才可信，灰云会报证书错误。原配置有 .bak 备份；本机留存 `deploy/imgsync-server-blocks.conf`
 - [x] **上线后实测与 SEO 修复（2026-10-27，待部署）**：生产站浏览器实测 6 页（首页+5 工具）主路径全通（下载产物魔数校验）、法务页/robots/sitemap/llms/OG 图/404/hreflang 核对通过；实测查出并修复 5 个问题——①`/tools` 无索引页导致导航与面包屑 404 → 新增 `/tools` 索引页（canonical/OG/BreadcrumbList/sitemap）②GitHub 占位地址 `your-name/imgsync` → `Jameyi/imgsync`（config/Header/footer/about/contact/docs）③starter demo 页仍可索引 → `/examples*` 自动 noindex + 出 sitemap + 门禁页面表收口 ④robots 口径过宽（放行 GPTBot 训练爬虫）→ 改为“引用爬虫放行 / 训练爬虫封禁”⑤llms.txt 声称引擎已作独立库发布（未发布）→ 改为事实表述；另补首页 FAQPage schema、DEPLOY.md 更新命令漏 `--env-file` 的 bug。Cloudflare 侧：托管 robots.txt 的 AI 爬虫封禁已关闭（zone 级放开），应用 robots.txt 恢复为唯一权威；CivVue 主站 robots.ts 同步收紧（提交 `dd92b12`）。新增测试：`tests/tools-index-page.test.mjs`、`tests/robots-policy.test.mjs`（BDD 行为注释经用户确认）
+- [x] **/docs 正文重写为产品文档（2026-10-27）**：删除 starter 模板叙述（Vercel 部署、Use template、示例文章、0.2 升级），改为 ImgSync 产品文档——快速开始、五个工具对照表、处理原理（纯函数算法 / 4MP Worker 阈值 / Canvas 编码）、隐私口径、SEO 与索引（爬虫放行/封禁口径、sitemap、robots、llms.txt）、自托管（Docker + `pnpm check`/`test:seo`）、使用限制、获取支持；中英双语同步（`docs.en.md` / `docs.zh.md`），侧栏目录与 `MarkdownContent` 的中文锚点映射同步更新，`/docs` 与 `/docs/zh` 的 metadata description 改写；导航 `Tools → /tools`、`Docs → /docs` 保持不变
 
 ## 当前开发实现进度
 
@@ -43,7 +44,7 @@
 6. **内容计划（上线后主线）**：20-30 篇原创文章（Amazon/eBay/Etsy 图片规格指南、工具教程），复用 `src/content/articles.ts` 结构；首批 5 篇
 7. **收入路径**：上线即挂 Amazon/SaaS affiliate（`config/promos.ts` 开启 + 真实链接）→ 内容养 2-3 月 → 申 AdSense（备选 Ezoic）
 8. **广告前置**：privacy-policy 补 AdSense/第三方 cookie 披露段；埋点真实端点
-9. **遗留清理（并入内容计划那轮）**：`/docs`、`/docs/zh` 正文仍是 starter 模板叙述；`/examples*` 演示页虽已 noindex，但仍在仓库与线路上
+9. **遗留清理（并入内容计划那轮）**：`/examples*` 演示页虽已 noindex，但仍在线且在仓库里；计划彻底删除或改造成真实文章目录
 
 ## Blockers
 
