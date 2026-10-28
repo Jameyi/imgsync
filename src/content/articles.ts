@@ -12,6 +12,7 @@ export type Article = {
   category: string;
   body: ArticleSection[];
   relatedTools: string[];
+  faqs: { question: string; answer: string }[];
 };
 
 export const articles: Article[] = [
@@ -56,6 +57,23 @@ export const articles: Article[] = [
       },
     ],
     relatedTools: ["platform-preflight", "remove-white-background", "resize-to-preset"],
+    faqs: [
+      {
+        question: "What size does an Amazon main image need to be?",
+        answer:
+          "At least 1600px on the longest side. Amazon enables the zoom feature at 1000px, but 1600px is the safe target so the zoom works on every device.",
+      },
+      {
+        question: "What is the 85% rule on Amazon?",
+        answer:
+          "The main product image must fill at least 85% of the canvas. Measure your product's bounding box against the frame and scale up until the longer dimension reaches 85%, leaving a small margin.",
+      },
+      {
+        question: "Does Amazon allow PNG for main images?",
+        answer:
+          "Yes, JPEG is preferred but PNG is accepted, up to 10MB. The background must still be pure white — a transparent PNG exported over a white canvas passes.",
+      },
+    ],
   },
   {
     slug: "compress-product-images-to-marketplace-limits",
@@ -93,6 +111,23 @@ export const articles: Article[] = [
       },
     ],
     relatedTools: ["compress-to-size"],
+    faqs: [
+      {
+        question: "How do I compress an image to exactly 100KB?",
+        answer:
+          "Use binary search over the JPEG quality parameter: encode, check the size, and halve the quality range toward your target until the file lands just under 100KB. The Compress to Size tool automates this — you set the target and it converges in a few steps.",
+      },
+      {
+        question: "What is the maximum image size for eBay listings?",
+        answer:
+          "eBay caps picture uploads at 7MB per image and allows up to 24 pictures per listing. For fast-loading galleries, aim for well under that — a few hundred KB per image is comfortable.",
+      },
+      {
+        question: "Does compressing a JPEG reduce its quality?",
+        answer:
+          "Some information is always discarded, but at quality 70-80 product photos are visually indistinguishable from the original at listing size. Visible blocking usually appears below quality 50.",
+      },
+    ],
   },
   {
     slug: "pure-white-background-rgb-255-255-255",
@@ -124,6 +159,23 @@ export const articles: Article[] = [
       },
     ],
     relatedTools: ["remove-white-background", "defringe-edges", "platform-preflight"],
+    faqs: [
+      {
+        question: "What RGB value is pure white?",
+        answer:
+          "Pure white is RGB 255,255,255 — every channel at maximum. A background measuring 254 or below is technically gray, and automated marketplace checks can flag it.",
+      },
+      {
+        question: "Why is my photo background not 255 white?",
+        answer:
+          "Camera white balance introduces a color cast, studio lighting falls off toward the corners, and JPEG compression shifts values around edges. Backgrounds measuring 250-253 straight out of camera are typical.",
+      },
+      {
+        question: "How do I make a background pure white without losing product edges?",
+        answer:
+          "Convert near-white pixels to transparency with a controlled tolerance, then composite the cutout onto a true white canvas. This preserves soft product edges better than a blanket levels adjustment.",
+      },
+    ],
   },
   {
     slug: "remove-white-halo-after-cutout",
@@ -161,6 +213,23 @@ export const articles: Article[] = [
       },
     ],
     relatedTools: ["defringe-edges", "remove-white-background"],
+    faqs: [
+      {
+        question: "Why does my cutout image have white edges?",
+        answer:
+          "Edge pixels from background removal are semi-transparent blends of the product and the old background. On any non-white surface the blend resolves into a visible white fringe, also called a halo.",
+      },
+      {
+        question: "How do I remove the white halo from a cutout?",
+        answer:
+          "Run a defringe: each semi-transparent edge pixel is re-colored from the surrounding product colors so only its alpha carries the softness. The Defringe Edges tool does this in the browser in seconds.",
+      },
+      {
+        question: "How can I check if the fringe is gone?",
+        answer:
+          "Place the cutout on a black background. Any remaining fringe pops out instantly against black — if the edges are clean there, they are clean everywhere.",
+      },
+    ],
   },
   {
     slug: "ebay-etsy-shopify-image-size-requirements",
@@ -197,5 +266,22 @@ export const articles: Article[] = [
       },
     ],
     relatedTools: ["resize-to-preset", "platform-preflight", "compress-to-size"],
+    faqs: [
+      {
+        question: "What is the minimum image size for eBay?",
+        answer:
+          "500px on the longest side, but eBay recommends 1600px or more so the zoom feature works. Listings can carry up to 24 pictures with a 7MB per-file cap.",
+      },
+      {
+        question: "What image size does Etsy recommend?",
+        answer:
+          "At least 2000px wide, with a 5:4 aspect ratio for listing photos. Keep the product centered — the first photo becomes your shop thumbnail — and stay near 1MB for fast galleries.",
+      },
+      {
+        question: "What size should Shopify product images be?",
+        answer:
+          "Square 2048×2048 is the recommended target for product cards. Keep files to a few hundred KB so storefront page-speed scores stay high.",
+      },
+    ],
   },
 ];

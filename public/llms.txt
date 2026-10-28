@@ -12,9 +12,18 @@ ImgSync is a web application, not a library to install. Users open it in a brows
 - [Defringe Edges](/tools/defringe-edges): remove white halo fringing from cutout images with transparent backgrounds. Produces PNG with alpha.
 - [Platform Preflight](/tools/platform-preflight): check an image against marketplace requirements (subject-to-canvas ratio, minimum dimensions, file size) and get a pass/fail report.
 
+## Guides
+
+- [Amazon Main Image Requirements](/articles/amazon-main-image-requirements): pure white background, 85% subject ratio, 1600px minimum, 10MB cap — the complete checklist.
+- [Compress Product Images to Marketplace Limits](/articles/compress-product-images-to-marketplace-limits): how binary-search compression hits exact KB targets (Amazon 10MB, eBay 7MB, galleries under 1MB).
+- [Pure White Background RGB 255,255,255](/articles/pure-white-background-rgb-255-255-255): why camera backgrounds measure 250-253, and how to reach true white without losing edges.
+- [Remove the White Halo After Cutout](/articles/remove-white-halo-after-cutout): what causes edge fringing on cutouts and how defringing re-colors edge pixels from product colors.
+- [eBay, Etsy, and Shopify Image Size Requirements](/articles/ebay-etsy-shopify-image-size-requirements): per-platform pixel dimensions, ratio rules, and file limits for 2026.
+
 ## Key pages
 
 - [Tools](/tools): all five tools on one page.
+- [Guides](/articles): marketplace image compliance guides.
 - [Docs](/docs): tool guides and methodology.
 - [About](/about): why ImgSync exists.
 - [Privacy Policy](/privacy-policy): images are never uploaded; what little data is collected.

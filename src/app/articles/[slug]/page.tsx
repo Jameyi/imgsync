@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { articles } from "@/content/articles";
 import { baseURL, siteName } from "@/config";
 import { TOOLS } from "@/config/tools";
-import { breadcrumbs, pageMetadata } from "@/lib/seo";
+import { breadcrumbs, faqPage, pageMetadata } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
 export const dynamicParams = false;
 export function generateStaticParams() {
@@ -70,6 +70,7 @@ export default async function Article({
           { name: article.title, path },
         ])}
       />
+      {article.faqs.length > 0 && <JsonLd data={faqPage(article.faqs)} />}
       <section className="shell page-hero">
         <nav className="breadcrumb" aria-label="Breadcrumb">
           <Link href="/">Home</Link>
@@ -98,6 +99,17 @@ export default async function Article({
             )}
           </section>
         ))}
+        {article.faqs.length > 0 && (
+          <section id="faq">
+            <h2>Frequently asked questions</h2>
+            {article.faqs.map((faq) => (
+              <div key={faq.question}>
+                <h3>{faq.question}</h3>
+                <p>{faq.answer}</p>
+              </div>
+            ))}
+          </section>
+        )}
         <h2>Try the tools</h2>
         <p>
           Every guide maps to a free browser tool — your images never leave
