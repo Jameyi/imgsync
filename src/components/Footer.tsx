@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { repository, siteName } from "@/config";
+import { siteName } from "@/config";
 import { TOOLS } from "@/config/tools";
 
 export default function Footer() {
@@ -42,9 +42,6 @@ export default function Footer() {
             <Link href="/privacy-policy">Privacy Policy</Link>
             <Link href="/terms">Terms</Link>
             <Link href="/disclaimer">Disclaimer</Link>
-            <a href={repository} target="_blank" rel="noopener noreferrer">
-              Source code ↗
-            </a>
           </div>
         </div>
         <div className="foot-bottom">

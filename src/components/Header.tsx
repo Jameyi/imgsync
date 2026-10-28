@@ -2,8 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { ArrowUpRight, Menu, Moon, Sun, X } from "lucide-react";
-import { repository } from "@/config";
+import { Menu, Moon, Sun, X } from "lucide-react";
 
 function BrandMark() {
   return (
@@ -33,6 +32,7 @@ export default function Header() {
 
   const navigation = [
     ["Tools", "/tools"],
+    ["Guides", "/articles"],
     ["Docs", "/docs"],
     ["About", "/about"],
   ];
@@ -60,14 +60,6 @@ export default function Header() {
               {label}
             </Link>
           ))}
-          <a
-            href={repository}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setOpen(false)}
-          >
-            GitHub <ArrowUpRight size={13} />
-          </a>
         </nav>
         <div className="head-actions">
           <button
