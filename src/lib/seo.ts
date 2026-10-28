@@ -6,8 +6,6 @@ import {
   siteName,
 } from "../config.ts";
 
-const DEMO_ROUTE_PREFIX = "/examples";
-
 export function pageMetadata(
   title: string,
   path: string,
@@ -16,12 +14,11 @@ export function pageMetadata(
   const url = new URL(path, baseURL).href;
   const image = new URL(`/api/og?title=${encodeURIComponent(title)}`, baseURL)
     .href;
-  const isDemoRoute = path.startsWith(DEMO_ROUTE_PREFIX);
   return {
     title: { absolute: `${title} | ${siteName}` },
     description,
     alternates: { canonical: url },
-    robots: { index: isDemoRoute ? false : indexable, follow: true },
+    robots: { index: indexable, follow: true },
     openGraph: {
       title,
       description,

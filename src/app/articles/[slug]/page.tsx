@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { articles } from "@/content/articles";
-import { baseURL, repository, siteName } from "@/config";
+import { baseURL, siteName } from "@/config";
+import { TOOLS } from "@/config/tools";
 import { breadcrumbs, pageMetadata } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
 export const dynamicParams = false;
@@ -18,7 +19,7 @@ export async function generateMetadata({
   if (!article) notFound();
   const metadata = pageMetadata(
     article.title,
-    `/examples/articles/${slug}`,
+    `/articles/${slug}`,
     article.summary,
   );
   return {
@@ -40,7 +41,10 @@ export default async function Article({
   const { slug } = await params;
   const article = articles.find((a) => a.slug === slug);
   if (!article) notFound();
-  const path = `/examples/articles/${slug}`;
+  const path = `/articles/${slug}`;
+  const related = article.relatedTools
+    .map((toolSlug) => TOOLS.find((t) => t.slug === toolSlug))
+    .filter((t) => t !== undefined);
   return (
     <main id="main">
       <JsonLd
@@ -62,7 +66,7 @@ export default async function Article({
       <JsonLd
         data={breadcrumbs([
           { name: "Home", path: "/" },
-          { name: "Journal", path: "/examples/articles" },
+          { name: "Guides", path: "/articles" },
           { name: article.title, path },
         ])}
       />
@@ -70,7 +74,7 @@ export default async function Article({
         <nav className="breadcrumb" aria-label="Breadcrumb">
           <Link href="/">Home</Link>
           <span>/</span>
-          <Link href="/examples/articles">Journal</Link>
+          <Link href="/articles">Guides</Link>
           <span>/ {article.category.toLowerCase()}</span>
         </nav>
         <span className="eyebrow">
@@ -80,46 +84,33 @@ export default async function Article({
         <p>{article.summary}</p>
       </section>
       <article className="shell content-shell prose">
-        <p className="article-meta">By {siteName} · Working article example</p>
+        <p className="article-meta">By {siteName}</p>
         {article.body.map((section) => (
           <section key={section.heading}>
             <h2>{section.heading}</h2>
             <p>{section.text}</p>
+            {section.items && (
+              <ul>
+                {section.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            )}
           </section>
         ))}
-        <h2>In this starter</h2>
-        <pre>
-          <code>{article.code}</code>
-        </pre>
+        <h2>Try the tools</h2>
         <p>
-          This page is statically generated from{" "}
-          <code>src/content/articles.ts</code>. Inspect its source response to
-          see the generated metadata and JSON-LD.
+          Every guide maps to a free browser tool — your images never leave
+          your device.
         </p>
         <div className="inline-links">
-          <a href={`/api/og?title=${encodeURIComponent(article.title)}`}>
-            Open this social image ↗
-          </a>
-          <a
-            href={`${repository}/blob/main/src/app/examples/articles/%5Bslug%5D/page.tsx`}
-          >
-            Read the page source ↗
-          </a>
-          <Link href="/examples/articles">All articles →</Link>
+          {related.map((tool) => (
+            <Link key={tool.slug} href={`/tools/${tool.slug}`}>
+              {tool.name} →
+            </Link>
+          ))}
+          <Link href="/articles">All guides →</Link>
         </div>
-        <p>
-          Official reference:{" "}
-          <a
-            href={
-              slug === "canonical-urls"
-                ? "https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls"
-                : "https://nextjs.org/docs/app/getting-started/metadata-and-og-images"
-            }
-          >
-            Read the documentation
-          </a>
-          .
-        </p>
       </article>
     </main>
   );

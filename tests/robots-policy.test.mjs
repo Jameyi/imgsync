@@ -16,16 +16,11 @@
 //   When the rule groups are generated
 //   Then GPTBot, anthropic-ai, Bytespider, CCBot and meta-externalagent are disallowed
 //
-// Feature: starter demo routes stay out of the index
+// Feature: starter demo routes are removed
 //   As a site owner
-//   I want the leftover starter example pages excluded from indexing
-//   So that thin demo content does not compete with the real tool pages
-//
-// Scenario: a demo route carries noindex
-//   Given the shared page metadata helper
-//   When metadata is generated for a path under /examples
-//   Then robots.index is false
-//
+//   I want the starter example pages deleted once real content routes exist
+//   So that no demo URLs remain indexable or linked
+
 // Scenario: a public route stays indexable
 //   Given the shared page metadata helper
 //   When metadata is generated for /tools or /privacy-policy
@@ -96,11 +91,6 @@ process.stdout.write(JSON.stringify(mod.pageMetadata("T", ${JSON.stringify(path)
   assert.equal(result.status, 0, `metadata eval failed: ${result.stderr}`);
   return JSON.parse(result.stdout);
 };
-
-test("a demo route carries noindex", () => {
-  assert.equal(runRobotsMetadata("/examples").index, false);
-  assert.equal(runRobotsMetadata("/examples/articles/canonical-urls").index, false);
-});
 
 test("a public route stays indexable", () => {
   assert.equal(runRobotsMetadata("/tools").index, true);

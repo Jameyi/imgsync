@@ -2,9 +2,9 @@ import Link from "next/link";
 import { articles } from "@/content/articles";
 import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata(
-  "Fieldnotes — the SEO journal",
-  "/examples/articles",
-  "Short, practical notes on canonical URLs and social images. A working article collection built with Next.js.",
+  "Guides — marketplace image requirements",
+  "/articles",
+  "Practical guides for e-commerce image compliance: marketplace rules, compression targets, white backgrounds, and cutout edge fixes.",
 );
 export default function Articles() {
   return (
@@ -13,30 +13,28 @@ export default function Articles() {
         <nav className="breadcrumb" aria-label="Breadcrumb">
           <Link href="/">Home</Link>
           <span>/</span>
-          <Link href="/examples">Examples</Link>
-          <span>/ Journal</span>
+          <span>Guides</span>
         </nav>
-        <span className="eyebrow">FIELDNOTES / JOURNAL</span>
-        <h1>Ideas worth finding.</h1>
+        <span className="eyebrow">GUIDES</span>
+        <h1>Marketplace image rules, decoded.</h1>
         <p>
-          A small collection of practical SEO notes. Each article has its own
-          metadata, social image, and structured data.
+          Practical guides for sellers: what each marketplace requires from
+          your product images, and how to get there with browser tools — no
+          uploads, no accounts.
         </p>
       </section>
       <section className="shell section article-grid">
         {articles.map((article) => (
           <Link
             className="article-card"
-            href={`/examples/articles/${article.slug}`}
+            href={`/articles/${article.slug}`}
             key={article.slug}
           >
             <span className="eyebrow">{article.category}</span>
-            <span className="article-meta">
-              {article.date} · Example article
-            </span>
+            <span className="article-meta">{article.date}</span>
             <h2>{article.title}</h2>
             <p>{article.summary}</p>
-            <span className="text-link">Read the article ↗</span>
+            <span className="text-link">Read the guide →</span>
           </Link>
         ))}
       </section>
