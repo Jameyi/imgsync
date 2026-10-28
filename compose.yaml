@@ -16,3 +16,14 @@ services:
     environment:
       # runtime vars (indexable is derived from NEXT_PUBLIC_URL at build time)
       NODE_ENV: production
+    networks:
+      - default
+      - civvue
+
+# civvue-nginx (the 80/443 edge) reaches this container by name `imgsync:3000`
+# over the civvue network; declared external so `up -d --build` re-attaches
+# automatically instead of losing the runtime `docker network connect`.
+networks:
+  civvue:
+    external: true
+    name: civvue_civvue-network
