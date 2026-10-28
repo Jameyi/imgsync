@@ -29,15 +29,21 @@ export default function PrivacyPolicy() {
         <h2>What we collect</h2>
         <p>
           We do not require accounts and we do not ask for personal
-          information. If analytics are enabled, they are limited to aggregate,
-          privacy-respecting page metrics (page views, referrers) — never file
-          contents, never cross-site identifiers.
+          information. If analytics are enabled, they are limited to
+          aggregate, privacy-respecting page metrics (page views, referrers,
+          tool funnel events) — never file contents, which stay on your
+          device.
         </p>
-        <h2>Cookies and local storage</h2>
+        <h2>Cookies and analytics</h2>
         <p>
           ImgSync stores only your interface preferences (such as light/dark
-          theme) in your browser&apos;s local storage. No advertising or
-          cross-site tracking cookies are used.
+          theme) in your browser&apos;s local storage. We measure site usage
+          with Google Analytics 4, which uses cookies to distinguish visits
+          and aggregate them into anonymous statistics — page views, referrer
+          channels, and tool funnel events. These cookies are never used for
+          advertising profiles, and your image files are never part of any
+          measurement. You can block analytics cookies with your browser or
+          any consent manager without losing tool functionality.
         </p>
         <h2>Third-party services and affiliate links</h2>
         <p>
