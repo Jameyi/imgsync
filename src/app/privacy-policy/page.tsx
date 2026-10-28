@@ -39,11 +39,16 @@ export default function PrivacyPolicy() {
           theme) in your browser&apos;s local storage. No advertising or
           cross-site tracking cookies are used.
         </p>
-        <h2>Third-party services</h2>
+        <h2>Third-party services and affiliate links</h2>
         <p>
-          Outbound links to partner or affiliate sites are governed by those
-          sites&apos; own privacy policies. ImgSync does not forward your data
-          to them.
+          Some pages contain links to partner or affiliate sites (for example,
+          photo-editing services recommended after a tool completes). When a
+          link is an affiliate link, it is marked as sponsored content and
+          opens the partner site in a new tab. ImgSync receives a commission
+          only if you choose to make a purchase there — your images and tool
+          results are never shared with partners, and clicking a link does not
+          send us or the partner any of your file data. Outbound sites are
+          governed by their own privacy policies.
         </p>
         <h2>Contact</h2>
         <p>
