@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import TrackBridge from "@/components/TrackBridge";
 import { baseURL, description, indexable, siteName } from "@/config";
 export const metadata: Metadata = {
   metadataBase: new URL(baseURL),
@@ -24,6 +25,7 @@ export default function RootLayout({
           Skip to content
         </a>
         <Header />
+        <TrackBridge />
         {children}
         <Footer />
         {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID && (

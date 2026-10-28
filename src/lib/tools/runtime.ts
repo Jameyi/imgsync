@@ -19,7 +19,7 @@ const noop: Transport = () => {};
 
 let transport: Transport = noop;
 
-export const setTrackTransport = (next: Transport): void => {
+export const setTrackTransport = (next?: Transport): void => {
   transport = next ?? noop;
 };
 
