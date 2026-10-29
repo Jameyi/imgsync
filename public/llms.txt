@@ -11,6 +11,8 @@ ImgSync is a web application, not a library to install. Users open it in a brows
 - [Resize to Preset](/tools/resize-to-preset): resize images to marketplace and social platform presets (800x800, 1200x630, etc.) with a Photoshop-style free crop at native resolution.
 - [Defringe Edges](/tools/defringe-edges): remove white halo fringing from cutout images with transparent backgrounds. Produces PNG with alpha.
 - [Platform Preflight](/tools/platform-preflight): check an image against marketplace requirements (subject-to-canvas ratio, minimum dimensions, file size) and get a pass/fail report.
+- [Layered PSD Export](/tools/psd-export): upload several images and export one layered PSD file, each image as a named layer with order and visibility. Produces .psd.
+- [Compress with Quality Slider](/tools/compress): drag a quality slider with live file-size preview; re-encodes PNG/WebP sources to JPEG.
 
 ## Guides
 

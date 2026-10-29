@@ -4,7 +4,8 @@ export type ToolSlug =
   | "resize-to-preset"
   | "defringe-edges"
   | "platform-preflight"
-  | "psd-export";
+  | "psd-export"
+  | "compress";
 
 export type ToolSpec = {
   slug: ToolSlug;
@@ -61,6 +62,14 @@ export const TOOLS: readonly ToolSpec[] = [
     title: "Export Images as Layered PSD Online — Free Photoshop File Maker",
     description:
       "Upload several images and export one layered PSD file, each image on its own layer with names, order and visibility. Free and processed locally in your browser.",
+    implemented: true,
+  },
+  {
+    slug: "compress",
+    name: "Compress with quality slider",
+    title: "Compress Image with Quality Slider — Live Size Preview Tool",
+    description:
+      "Drag the quality slider and see the file size update live. Re-encodes PNG and WebP sources to JPEG. Free and processed locally in your browser.",
     implemented: true,
   },
 ];

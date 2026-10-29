@@ -14,6 +14,7 @@ import DefringeEdgesWorkbench from "@/components/DefringeEdgesWorkbench";
 import ResizeToPresetWorkbench from "@/components/ResizeToPresetWorkbench";
 import PlatformPreflightWorkbench from "@/components/PlatformPreflightWorkbench";
 import PsdExportWorkbench from "@/components/PsdExportWorkbench";
+import CompressQualityWorkbench from "@/components/CompressQualityWorkbench";
 
 export function generateStaticParams() {
   return TOOLS.filter((tool) => tool.implemented).map((tool) => ({
@@ -86,6 +87,8 @@ export default async function ToolPage({ params }: PageProps) {
               <PlatformPreflightWorkbench tool={tool} />
             ) : tool.slug === "psd-export" ? (
               <PsdExportWorkbench tool={tool} />
+            ) : tool.slug === "compress" ? (
+              <CompressQualityWorkbench tool={tool} />
             ) : (
               <p>Engine wiring up.</p>
             )}

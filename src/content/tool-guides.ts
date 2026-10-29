@@ -171,6 +171,34 @@ const guides: { [slug: string]: ToolGuide } = {
       },
     ],
   },
+  compress: {
+    steps: [
+      {
+        title: "Drop your image",
+        body: "PNG, JPEG or WebP — the slider re-encodes any of them to a clean JPEG.",
+      },
+      {
+        title: "Drag the quality slider",
+        body: "The file size updates live as you drag. Stop at the smallest quality that still looks right to you.",
+      },
+      {
+        title: "Download the JPEG",
+        body: "The download name carries the quality level, so you can compare exports side by side.",
+      },
+    ],
+    faqs: [
+      {
+        question: "How is this different from Compress to Size?",
+        answer:
+          "Compress to Size hunts for the quality that hits an exact KB target. This tool gives you the slider — you pick the trade-off visually instead.",
+      },
+      {
+        question: "Why does a PNG input become a JPEG?",
+        answer:
+          "The size control needs a lossy codec and JPEG is accepted everywhere. If you need to keep transparency, use the background remover first and export PNG there.",
+      },
+    ],
+  },
 };
 
 export const getGuide = (slug: string): ToolGuide | undefined => guides[slug];
