@@ -7,11 +7,12 @@
 //   So that the page is ready for monetisation without exposing
 //     dead links to visitors
 //
-// Scenario: disabled promos are invisible to the page
-//   Given the F01 tool "remove-white-background" has a remove.bg promo
-//     with enabled: false
+// Scenario: the approved Photoroom promo is visible on its tool
+//   Given the F01 tool "remove-white-background" has a Photoroom promo
+//     with enabled: true
 //   When getPromos("remove-white-background") is called
-//   Then the result is an empty array
+//   Then the result contains exactly one promo
+//   And its brand is "Photoroom" and its href is the partner referral link
 //
 // Scenario: promo data is structurally complete
 //   Given the raw PROMOS array
@@ -30,12 +31,11 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { getPromos, PROMOS } from "../src/config/promos.ts";
 
-test("disabled promos are invisible to the page", () => {
-  assert.deepEqual(
-    getPromos("remove-white-background"),
-    [],
-    "F01 promos exist in PROMOS but are disabled → page sees none",
-  );
+test("the approved Photoroom promo is visible on its tool", () => {
+  const promos = getPromos("remove-white-background");
+  assert.equal(promos.length, 1, "exactly one enabled promo for F01");
+  assert.equal(promos[0].brand, "Photoroom");
+  assert.equal(promos[0].href, "https://refer.photoroom.com/jameyi");
 });
 
 test("promo data is structurally complete", () => {

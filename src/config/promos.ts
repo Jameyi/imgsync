@@ -7,10 +7,10 @@ export type Promo = {
 
 export const PROMOS: readonly Promo[] = [
   {
-    brand: "remove.bg",
-    body: "Need photos with people, hair or complex objects removed? remove.bg handles the hard cutouts automatically.",
-    href: "https://www.remove.bg/",
-    enabled: false,
+    brand: "Photoroom",
+    body: "Need AI-grade cutouts beyond local processing — people, hair, complex edges — or instant product staging and AI backgrounds? Photoroom handles the hard scenes automatically.",
+    href: "https://refer.photoroom.com/jameyi",
+    enabled: true,
   },
 ];
 
@@ -21,5 +21,5 @@ const promoEnabledFor = (promo: Promo, slug: string): boolean =>
   promoEnabledSlugs[promo.brand] ? promoEnabledSlugs[promo.brand].includes(slug) : true;
 
 const promoEnabledSlugs: { [brand: string]: string[] } = {
-  "remove.bg": ["remove-white-background"],
+  Photoroom: ["remove-white-background"],
 };
