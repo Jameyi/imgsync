@@ -218,3 +218,65 @@ test("F09 platform-preflight report cards", E2E, async () => {
     );
   });
 });
+
+test("F18 psd-export main path", E2E, async () => {
+  await withPage("/tools/psd-export", async (page) => {
+    // Upload two canvas-generated PNGs via the file input (multiple).
+    const uploadTwo = async () => {
+      await page.evaluate(() => {
+        return new Promise((resolve) => {
+          const makeFile = (r, g, b, name) =>
+            new Promise((done) => {
+              const canvas = document.createElement("canvas");
+              canvas.width = 160;
+              canvas.height = 120;
+              const ctx = canvas.getContext("2d");
+              ctx.fillStyle = `rgb(${r},${g},${b})`;
+              ctx.fillRect(0, 0, 160, 120);
+              canvas.toBlob((blob) => {
+                done(new File([blob], name, { type: "image/png" }));
+              }, "image/png");
+            });
+          Promise.all([
+            makeFile(220, 60, 40, "red-layer.png"),
+            makeFile(40, 90, 220, "blue-layer.png"),
+          ]).then((files) => {
+            const dt = new DataTransfer();
+            files.forEach((f) => dt.items.add(f));
+            const input = document.querySelector('input[type="file"]');
+            input.files = dt.files;
+            input.dispatchEvent(new Event("change", { bubbles: true }));
+            resolve();
+          });
+        });
+      });
+    };
+    await uploadTwo();
+    await page.waitForTimeout(2500);
+
+    const rows = page.locator("li:has(input[type='checkbox'])");
+    assert.equal(await rows.count(), 2, "two layer rows listed");
+
+    const exportButton = page.locator(
+      'button:has-text("Export 2 layers as PSD")',
+    );
+    assert.ok(await exportButton.isVisible(), "export button enabled state");
+
+    const [download] = await Promise.all([
+      page.waitForEvent("download", { timeout: 8000 }),
+      exportButton.click(),
+    ]);
+    const stream = await download.createReadStream();
+    const chunks = [];
+    for await (const chunk of stream) chunks.push(chunk);
+    const bytes = Buffer.concat(chunks);
+
+    // PSD magic "8BPS"
+    assert.ok(bytes.length > 8, "download non-trivial");
+    assert.equal(bytes[0], 0x38, 'magic byte "8"');
+    assert.equal(bytes[1], 0x42, 'magic byte "B"');
+    assert.equal(bytes[2], 0x50, 'magic byte "P"');
+    assert.equal(bytes[3], 0x53, 'magic byte "S"');
+    assert.match(download.suggestedFilename(), /\.psd$/);
+  });
+});

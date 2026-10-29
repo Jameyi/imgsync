@@ -143,6 +143,34 @@ const guides: { [slug: string]: ToolGuide } = {
       },
     ],
   },
+  "psd-export": {
+    steps: [
+      {
+        title: "Drop two or more images",
+        body: "Each image becomes one layer, top of the list first. Rename layers inline to keep the file tidy.",
+      },
+      {
+        title: "Arrange the stack",
+        body: "Reorder with the arrows, toggle visibility per layer. The PSD canvas matches the largest image unless you picture a specific size.",
+      },
+      {
+        title: "Export the .psd",
+        body: "The file downloads straight from your browser — open it in Photoshop, Photopea or GIMP with every layer intact.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Which apps can open the exported PSD?",
+        answer:
+          "Photoshop, Photopea and GIMP all read it. The file keeps layer names, order, offsets and visibility flags.",
+      },
+      {
+        question: "Are my images uploaded anywhere?",
+        answer:
+          "No. The PSD is assembled in your browser and downloads locally — nothing touches a server, even for very large canvases (heavy builds run in a Web Worker).",
+      },
+    ],
+  },
 };
 
 export const getGuide = (slug: string): ToolGuide | undefined => guides[slug];

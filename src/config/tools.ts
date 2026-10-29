@@ -3,7 +3,8 @@ export type ToolSlug =
   | "compress-to-size"
   | "resize-to-preset"
   | "defringe-edges"
-  | "platform-preflight";
+  | "platform-preflight"
+  | "psd-export";
 
 export type ToolSpec = {
   slug: ToolSlug;
@@ -52,6 +53,14 @@ export const TOOLS: readonly ToolSpec[] = [
     title: "Image Preflight Check — Amazon 85% Ratio and Platform Limits",
     description:
       "Check product images against marketplace rules before upload: subject-to-canvas ratio, dimensions and file size. Free and processed locally in your browser.",
+    implemented: true,
+  },
+  {
+    slug: "psd-export",
+    name: "Layered PSD export",
+    title: "Export Images as Layered PSD Online — Free Photoshop File Maker",
+    description:
+      "Upload several images and export one layered PSD file, each image on its own layer with names, order and visibility. Free and processed locally in your browser.",
     implemented: true,
   },
 ];
