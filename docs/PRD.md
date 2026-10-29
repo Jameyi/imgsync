@@ -46,6 +46,9 @@
 | F10 | 压缩到指定 KB（精确命中） | "compress image to under 100kb" 搜索量大且精确；竞品只给滑块 | 二分搜索质量参数 + 降采样兜底，迭代到目标体积 |
 | F11 | 多图对齐合成（前景/背景叠加） | "把商品放到背景模板上"电商换背景场景，纯前端可做 | 双图导入 + 蒙版 + 定位预设 |
 | F12 | ICO/Favicon 多尺寸生成 | 开发者精准刚需，竞品界面老旧 | 单页生成 16/32/48/180/512 全套 + manifest 预览 |
+| F17 | 擦除物体并填充（erase & fill） | "remove object from photo" 正当清洁需求（灰尘/路人/杂物），区别于高风险"去水印"；竞品多绑定 AI 或收费 | 用户画笔涂抹遮罩 → 纯算法 inpainting：小区域 Telea FMM（毫秒级预览）/ 大区域例证纹理合成（Worker 秒级），避开 PatchMatch 专利 |
+| F18 | 多图合成 PSD 分层导出 | 打 Photopea"界面过重"软肋；"export layers to psd online" 长尾竞争少；与 F11 共享合成基础设施 | 多图导入（每图一层）→ ag-psd（浏览器端纯 JS 写 PSD，支持 Worker/OffscreenCanvas） |
+| F19 | 单图拆层（split layers） | "split image into layers" 独立搜索意图；商品图多为纯色背景，主体/背景两层拆分纯算法可行 | 复用 F01 flood-fill 分割：背景色区域一层 + 主体一层 → ag-psd 两层 PSD；部件级细拆（连通域/语义分割）仍留三期 |
 
 ### 第三梯队：页面矩阵功能（4 项，长尾覆盖）
 
@@ -60,6 +63,7 @@
 
 - **MVP（验证期）**：F01、F10、F02、F08、F09（预检形态）——数据裁决版，依据见附录 A.3；
 - **一期补全**：F03–F07、F11、F12（ICO/favicon 自 MVP 顺延至此，见附录 A.3）；
+- **二期（2026-10-29 裁决新增）**：F17（擦除物体并填充）、F18（多图合成 PSD 分层导出）、F19（单图拆层，2026-10-29 B 方案裁定）——正式规格见附录 B；
 - **矩阵期**：F13–F16。
 - 每个工具上线前置条件：对应关键词有真实搜索量（挖词验证通过），且有教程内容与 JSON-LD。
 
@@ -128,9 +132,10 @@
 
 ## 七、范围外（Out of Scope）
 
-- **任何云端 AI 能力**：智能抠图、AI 生成/扩图、云端转码一概不做（无 API key、无按次计费、无隐私上传）；多主体点选式分割与分层编辑器（讨论中的三期方向）不在本期，将来单独立 PRD；
+- **任何云端 AI 能力**：智能抠图、AI 生成/扩图、云端转码一概不做（无 API key、无按次计费、无隐私上传）；多主体点选式分割、**单图自动分割分层**与分层编辑器（讨论中的三期方向）不在本期，将来单独立 PRD；
+- **去水印（watermark removal）**：不做（2026-10-29 裁决）——主流用途涉及移除他人版权标识，与图库方/Adobe 政策冲突，广告与联盟审核风险高；正当的相近需求由 F17（用户涂抹擦除自己图中的杂物/路人）承接；
 - **用户系统**：无注册、无登录、无云端历史/收藏；
-- **PSD 导出**（讨论中的三期差异化项）：本期不做；
+- ~~PSD 导出~~（2026-10-29 裁决移出：F18 以"多图合成 PSD 分层导出"形态入二期，ag-psd 纯浏览器端实现；单图自动分割分层仍留三期）；
 - **付费墙/订阅**：所有工具免费，变现仅靠联盟位；
 - **AdSense**：不申请、不嵌入（吸取 CivVue 被拒教训，避免内容政策纠缠）；
 - **移动 App / PWA 离线包**：本期仅响应式 Web；
@@ -195,3 +200,43 @@
 - [ ] hypestat 流量核对（免登录）：重点 `pixel-forge-stack.github.io`、`photoresizing.vercel.app`；
 - [ ] 关键词搜索量交叉验证（Ahrefs Free / Keyword Planner）：MVP 五工具对应词表；
 - [ ] vercel.app 背景移除类目补扫（本轮搜索限额未覆盖）。
+
+---
+
+## 附录 B：二期功能正式规格（2026-10-29 裁决，待开发）
+
+### B.1 F17 — Erase Object（擦除物体并填充）
+
+- **路由 slug**：`/tools/erase-object`（冻结，落地后改 slug = 断 SEO 外链）
+- **用户流程**：上传单图 → 画笔涂抹要擦除的区域（可调笔刷大小，可撤销）→ 填充 → 预览 → 导出 PNG/JPEG
+- **算法接缝**（`lib/image-core/`，纯函数、ImageData 进出、零 DOM）：
+  - `inpaintFill(input: ImageData, mask: MaskData, options: InpaintOptions): Promise<ImageData>`
+  - 双档自动分流（编排层按遮罩像素数选择，阈值常量 `MAX_TELEA_MASK_PIXELS`）：
+    - 小区域 → Telea FMM（`teleaInpaint`，毫秒级，支持实时预览）
+    - 大区域 → 例证纹理合成（Criminisi/Efros-Leung 族，Worker 内跑，避开 PatchMatch 专利 US 8,861,869）
+  - 遮罩类型 `MaskData { width, height, data: Uint8Array }`（0=保留，255=擦除），由编排层画笔 UI 生成
+- **依赖**：无新 npm 依赖（Telea FMM 与例证合成均为自有纯函数实现，参照 inpaint.js 与 efros-and-leung-js 先例；不引入 jsfeat，接口自足）
+- **测试策略**：
+  - 单测（`tests/`，ImageData 进出）：① 平滑渐变背景上擦除矩形 → 断言填充区与周围色差在容差内；② 重复纹理（构造条纹图案）擦除 → 断言纹理周期性保留；③ 空遮罩 → 输出与输入逐像素相等（恒等）；④ 全遮罩 → 不崩溃且返回有效 ImageData
+  - E2E（Playwright）：画笔涂抹固定坐标 → 填充 → 导出 → 下载魔数断言 + 像素采样断言
+  - Telea 与例证合成双路径对同一小遮罩跑一致性断言（ Worker/同步路径一致，沿用 OH5 先例）
+- **合规边界（写入 guide 与 FAQ）**：面向用户清理自己照片中的杂物；guide 明确不鼓励用于移除他人版权标识；不做任何"检测水印"辅助
+
+### B.2 F18 — Layered PSD Export（多图合成 PSD 分层导出）【已上线 2026-10-29，`13235c1`】
+
+- **路由 slug**：`/tools/psd-export`（已冻结上线）
+- **实际实现**：多图上传（每图一层）→ 图层命名/排序/可见性 → ag-psd `writePsd`（浏览器端，大画布走 Worker）→ `.psd` 下载
+- **算法接缝**：`buildPsd(layers: PsdLayerInput[], options): ArrayBuffer`（`lib/image-core/psdExport.ts`；ag-psd 仅被此文件引用）
+- **测试**：单测 8 场景（writePsd→readPsd 往返/顺序/可见性/单层/空列表拒绝/偏移/TOOLS 注册/sitemap）+ E2E 主路径（`8BPS` 魔数断言）
+- **规格备注（2026-10-29 B 方案裁定）**：用户原意"单图自动拆层"拆出为独立工具 F19（见 B.4），F18 保持多图合成形态
+
+### B.4 F19 — Split Layers（单图拆层：主体/背景两层 PSD）
+
+- **路由 slug**：`/tools/split-layers`（冻结）
+- **用户流程**：上传 1 张图（JPG/PNG，纯色或近纯色背景效果最佳）→ 自动分割（背景层 + 主体层）→ 预览两层 → 导出两层 `.psd`
+- **算法接缝**（`lib/image-core/`）：
+  - `splitLayers(input: ImageData, options: SplitLayersOptions): { subject: PixelBuffer; background: PixelBuffer }`
+  - 分割复用 F01 flood-fill 边界分割：从四边扫描背景色区域 → 背景层保留原像素（含被主体遮住的推断填充可选），主体层为抠出的前景（带 alpha）
+- **依赖**：ag-psd（已装）；无其他新依赖
+- **测试策略**：① 构造纯背景+矩形主体图 → 断言两层的像素归属正确；② 渐变背景（容差内）→ 断言背景识别完整；③ 复杂背景 → guide 明示效果边界；④ 输出经 ag-psd 回读断言两层结构
+- **三期边界**：部件级细拆（连通域/语义分割）不做，留三期
