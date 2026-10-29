@@ -6,6 +6,8 @@ services:
         # Build-time inlined: sitemap/canonical/OG derive from it.
         # Set NEXT_PUBLIC_URL in the shell or .env.docker before building.
         NEXT_PUBLIC_URL: ${NEXT_PUBLIC_URL}
+        # GA4 measurement ID; funnel events flow only when set.
+        NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: ${NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}
     image: imgsync:latest
     container_name: imgsync
     restart: unless-stopped
