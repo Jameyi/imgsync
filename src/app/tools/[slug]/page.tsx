@@ -15,6 +15,7 @@ import ResizeToPresetWorkbench from "@/components/ResizeToPresetWorkbench";
 import PlatformPreflightWorkbench from "@/components/PlatformPreflightWorkbench";
 import PsdExportWorkbench from "@/components/PsdExportWorkbench";
 import CompressQualityWorkbench from "@/components/CompressQualityWorkbench";
+import SplitLayersWorkbench from "@/components/SplitLayersWorkbench";
 
 export function generateStaticParams() {
   return TOOLS.filter((tool) => tool.implemented).map((tool) => ({
@@ -89,6 +90,8 @@ export default async function ToolPage({ params }: PageProps) {
               <PsdExportWorkbench tool={tool} />
             ) : tool.slug === "compress" ? (
               <CompressQualityWorkbench tool={tool} />
+            ) : tool.slug === "split-layers" ? (
+              <SplitLayersWorkbench tool={tool} />
             ) : (
               <p>Engine wiring up.</p>
             )}

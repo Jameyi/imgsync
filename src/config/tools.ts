@@ -5,7 +5,8 @@ export type ToolSlug =
   | "defringe-edges"
   | "platform-preflight"
   | "psd-export"
-  | "compress";
+  | "compress"
+  | "split-layers";
 
 export type ToolSpec = {
   slug: ToolSlug;
@@ -70,6 +71,14 @@ export const TOOLS: readonly ToolSpec[] = [
     title: "Compress Image with Quality Slider — Live Size Preview Tool",
     description:
       "Drag the quality slider and see the file size update live. Re-encodes PNG and WebP sources to JPEG. Free and processed locally in your browser.",
+    implemented: true,
+  },
+  {
+    slug: "split-layers",
+    name: "Split image into layers",
+    title: "Split Image into Layers — Subject and Background Two-Layer PSD",
+    description:
+      "Split one photo into subject and background layers and export a two-layer PSD. Works best on plain-color backdrops. Free and processed locally in your browser.",
     implemented: true,
   },
 ];

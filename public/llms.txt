@@ -13,6 +13,7 @@ ImgSync is a web application, not a library to install. Users open it in a brows
 - [Platform Preflight](/tools/platform-preflight): check an image against marketplace requirements (subject-to-canvas ratio, minimum dimensions, file size) and get a pass/fail report.
 - [Layered PSD Export](/tools/psd-export): upload several images and export one layered PSD file, each image as a named layer with order and visibility. Produces .psd.
 - [Compress with Quality Slider](/tools/compress): drag a quality slider with live file-size preview; re-encodes PNG/WebP sources to JPEG.
+- [Split Image into Layers](/tools/split-layers): split one photo into subject and background layers and export a two-layer PSD — plain backdrops split cleanest.
 
 ## Guides
 

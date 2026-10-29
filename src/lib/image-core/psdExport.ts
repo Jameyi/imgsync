@@ -49,8 +49,9 @@ export const buildPsd = (
       children,
     },
     // No composite canvas is provided (DOM-free): Photoshop tolerates a PSD
-    // without composite image data; trimImageData keeps files lean.
-    { generateThumbnail: false, trimImageData: true, noBackground: true },
+    // without composite image data. No trimming — trimming would route
+    // through ag-psd's canvas-based cropper, which needs DOM.
+    { generateThumbnail: false, noBackground: true },
   );
   return buffer;
 };
