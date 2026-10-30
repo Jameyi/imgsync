@@ -199,34 +199,6 @@ const guides: { [slug: string]: ToolGuide } = {
       },
     ],
   },
-  "split-layers": {
-    steps: [
-      {
-        title: "Drop one photo",
-        body: "Plain-color backdrops (white, gray, studio sweeps) split cleanest. The photo stays in your browser.",
-      },
-      {
-        title: "Split into two layers",
-        body: "One click segments the backdrop from the subject. You see both layers side by side on a checkerboard.",
-      },
-      {
-        title: "Download the two-layer PSD",
-        body: "Subject and Background arrive as named layers — move or restyle them independently in Photoshop, Photopea or GIMP.",
-      },
-    ],
-    faqs: [
-      {
-        question: "Which photos split well?",
-        answer:
-          "Solid or gently shaded backdrops split cleanly. Busy real-world scenes make the backdrop hard to trace — the split may leave fragments on the subject layer.",
-      },
-      {
-        question: "Why only two layers, one per part of my product?",
-        answer:
-          "This tool separates the backdrop from everything in front of it. Splitting a single photo into many product parts needs AI segmentation, which this site deliberately avoids — everything here is plain algorithms on your device.",
-      },
-    ],
-  },
 };
 
 export const getGuide = (slug: string): ToolGuide | undefined => guides[slug];

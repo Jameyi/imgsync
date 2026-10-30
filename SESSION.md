@@ -1,6 +1,6 @@
 # SESSION.md — 项目当前状态
 
-> 更新日期：2026-10-28（晚间收尾）。线上：https://imgsync.civlensai.com（可公开访问）。仅记录状态与下一步。
+> 更新日期：2026-10-30。线上：https://imgsync.civlensai.com（可公开访问）。仅记录状态与下一步。
 
 ## 已完成里程碑
 
@@ -16,41 +16,39 @@
 - [x] **GA4 本地接线完成（2026-10-28）**：measurement ID `G-MGY84D47M8` 已入本机 `.env.local`；隐私政策两处口径对齐 GA4（`be7d31d`，本地未推）；服务器侧待配置（见待办）
 - [x] **GA4 上线生效（2026-10-29）**：修复构建参数缺口（`fa4e8b2`——compose/Dockerfile 补声明 `NEXT_PUBLIC_GOOGLE_ANALYTICS_ID` build arg，此前 `.env.docker` 里的 ID 进不了构建、线上全 CACHED 跑的无 GA 版本）；服务器重建后 `pnpm build` 真实执行，线上首页源码已含 `G-MGY84D47M8`（curl 确认 2 处），漏斗事件开始上报
 - [x] **PhotoRoom 推广位上线（2026-10-29，`87edd0c`）**：联盟申请当日获批（Dub 平台），`config/promos.ts` 启用 Photoroom 槽位（20% 首购佣金、`refer.photoroom.com/jameyi`，挂 remove-white-background 工具页，SPONSORED 标签 + rel=sponsored + promo_click 埋点齐备）；测试同步（promos 3/3）+ `pnpm check` 全绿 + 已部署；线上 curl 确认推广卡渲染（Photoroom ×6、SPONSORED、推荐链接 ×2）
+- [x] **二批功能裁决与 PRD 修订（2026-10-29，`b69e4dc`）**：去水印因合规风险否决 → 改为 F17 擦除物体并填充（纯算法 inpainting：Telea FMM + 例证合成，避开 PatchMatch 专利）；F18 多图合成 PSD 分层导出规格定稿并**当日开发上线**；用户原意"单图拆层"按 B 方案拆出为 F19 split-layers（主体/背景两层，复用 F01 flood-fill），规格入 PRD 附录 B.4
+- [x] **F18 Layered PSD Export 上线（2026-10-29，`13235c1`）**：`/tools/psd-export`——多图上传（每图一层，命名/排序/可见性）→ ag-psd 浏览器端写 PSD（大画布走 Worker）；算法接缝 `lib/image-core/psdExport.ts`；BDD 单测 8 场景（writePsd→readPsd 往返）+ E2E（8BPS 魔数断言）；TOOLS/sitemap/llms.txt 纳入；`pnpm check` 全绿（130 测试 / 27 页）+ 已部署，线上验证通过
+- [x] **F03 质量滑块压缩完成（2026-10-30，`8964a84`）**：`/tools/compress`——拖滑块实时看体积（复用 F10 编码管线，`encodeAtQuality` clamp 0..1，`lib/image-core/compress.ts`）；编排层 + Worker + Workbench + guide/FAQ + TOOLS/sitemap/llms.txt 纳入；`pnpm check` 全绿（136 测试 / 28 页）——**待 push + 部署**
+- [x] **F19 split-layers 完成（2026-10-30，`474633d`）**：`/tools/split-layers`——单图拆主体/背景两层 PSD（border 中值背景估计 + flood-fill，复用 F01 思路，`lib/image-core/split-layers.ts`）；BDD 7 场景全过；guide 诚实标注效果边界（纯色背景最佳，部件级细拆留三期）
+- [x] **部署失败修复（2026-10-30，`8b9625a`）**：服务器构建抓出 F03 Worker 路径 bug（引用 `./compress.worker.ts`，实际文件 `compress-quality.worker.ts`；本地测试不走 worker 分支所以没暴露）——已修复并本地 build 验证（29/29 页）
+- [x] **F03 + F19 部署上线（2026-10-30）**：用户 push（代理恢复）+ 服务器重建（`pnpm build` 49.9s 通过）；线上 curl 确认 `/tools/compress` 与 `/tools/split-layers` 均 200——二批工具 7 个中 3 个已上线（F18/F03/F19），站点现共 7 个工具页（build 29/29）
+- [x] **Fotor 联盟推广位接入（2026-10-30）**：Rewardful 审批当日通过（30% 佣金、45 天 Cookie）；`config/promos.ts` 启用 Fotor 槽位（`https://www.fotor.com/?via=jameyi`，挂 compress/resize-to-preset）；两个过时测试断言同步更新（原「无推广位」断言 → 现「Fotor 存在」；T1g 改为分页断言有/无推广位）；`pnpm check` 全绿——**待 push + 部署**
+- [x] **F19 split-layers 移除（2026-10-30）**：快速档 flood-fill 对复杂场景效果差（deer001 森林鹿图实测）；AI 档（SAM 点击逐层）链路打通但模型加载等待久 + mask 质量/背景白洞效果不达标，用户裁定整个工具下线。删除 9 个文件（Workbench/编排/worker/算法/测试）+ sam-web 依赖 + 44MB 模型资产；`next.config.ts` 加 301 `/tools/split-layers` → `/tools` 保外链权重；`pnpm check` 全绿（137 测试 / 28 页）。PRD 附录 B.4 规格作废，勿再开发
 
 ## 当前开发实现进度
 
-- **线上与本地有 1 个提交差距**：`be7d31d`（隐私政策 GA4 口径）本地已提交未推送；GA4 上线验证未完成（见待办 1）
-- GA4 状态：measurement ID `G-MGY84D47M8` 已入本机 `.env.local`；**服务器 `.env.docker` 尚未写入该 ID**，线上页面 Network 面板无 `g-MGY84D47M8` 请求、GA4 实时报告无用户——即线上还在跑无 GA 版本
-- 服务器拓扑：Cloudflare 橙云 → civvue-nginx 容器（80/443）→ imgsync 容器（3000，compose 声明双网络：imgsync_default + civvue_civvue-network）；`.env.docker` 中 `NEXT_PUBLIC_URL=https://imgsync.civlensai.com`
-- 已知非阻塞：webpack "Circular dependency between chunks with runtime" 警告（构建产物正常）
+- **线上与本地同步**（`8b9625a` 已部署）：提交积压清零
+- 二批工具进度：**F18 / F03 已上线，F19 已移除**（站点共 7 个工具页，build 28/28）；F17 擦除物体待开发（规格在 PRD 附录 B.1）
+- 服务器拓扑：Cloudflare 橙云 → civvue-nginx 容器（80/443）→ imgsync 容器（3000，compose 双网络）；`.env.docker` 含 `NEXT_PUBLIC_URL` 与 GA ID
+- 已知非阻塞：webpack "Circular dependency" 警告；5 个遗留 lint warnings（法务页未用 import）
+- **工程教训（2026-10-30）**：新增 Worker 引用后，push 前必须本地跑 `pnpm build`（单测不走 worker 分支，只有构建期能抓路径错误——F03 部署失败根因）
 
 ## 待完成任务清单
 
-1. ~~Cloudflare www 收敛~~ **已关闭（2026-10-28 用户裁定方案 A）**：`www.imgsync.civlensai.com` 为二级子域，不在 CF Universal SSL（仅 apex + 一级子域）覆盖内，边缘证书需 ACM $10/月——判定不值得，已删除试验 CNAME；规范域名唯一为 `imgsync.civlensai.com`（canonical/sitemap 已一致），勿再为 www 子域建 DNS 记录
-2. ~~CivVue 同步上线~~ **已完成（2026-10-28）**：`dd92b12` robots 口径修复已 push 并在服务器重建 civvue-frontend（`--env-file .env.prod`，frontend 单服务 rebuild，nginx/backend 未动）；线上 civlensai.com/robots.txt 新口径已验证。注意：CivVue 的 env 文件是本次新落的 `/opt/projects/civvue/.env.prod`（从运行容器反向提取），ADMIN_TOKEN 已轮换（2026-10-28，新值仅在服务器 .env.prod，未记录）
-3. ~~Google Search Console 提交 sitemap~~ **已完成（2026-10-28）**：资源已验证，sitemap 已提交，首页+5 工具页已请求编入索引；新文章页随下次抓取自动发现
-4. ~~服务器安全加固~~ **已完成（用户确认，2026-10-28）**：SSH 已关密码登录只留密钥
-5. **收入路径（进行中）**：
-   - [x] 邮件转发 contact@civlensai.com → zohomail（已实测打通）
-   - [x] GA4 本地接线（.env.local 已配 `G-MGY84D47M8`，隐私口径已对齐）
-   - [x] GA4 上线生效（2026-10-29，`fa4e8b2` 修复构建参数缺口后重建，漏斗事件已开始上报）
-   - [x] **PhotoRoom 联盟已获批并上线（2026-10-29 当日完成闭环）**：remove.bg 2026-12-01 关停并入 Canva，弃用；替代者 PhotoRoom（20% 首购佣金、30 天 Cookie、Dub 平台）——申请经 Dub Partners 提交（网站 imgsync.civlensai.com 已 TXT 验证，记录在 `imgsync` 子域），当日获批；Referral link `refer.photoroom.com/jameyi` 已配置进 `config/promos.ts` 并部署上线（见里程碑 `87edd0c`）
-   - [ ] **Fotor 联盟（2026-10-29 用户裁定：今天先不申请，待办提醒）**——25-35% 首购+续费、45 天 Cookie、Rewardful 平台，门槛最低；申请入口 `https://fotor-1.getrewardful.com/signup`（3 分钟），通过后挂 compress/resize 工具页
-   - [ ] Amazon Associates——等内容二批上线后再申请（需 180 天内出 3 单保留资格）
-6. **内容计划二批（主线）**：10-15 篇长尾细化（平台拆分/场景拆分/工具教程深化），2-4 周后按 GSC 曝光词选题；走 BDD 流程
-7. ~~遗留清理~~ **已完成（2026-10-28）**：`/examples*` 已删，`/articles` 真实文章目录已上线
+1. **F17 擦除物体并填充**（二批第 4 个，规格在 PRD 附录 B.1）：Telea FMM 小区域档先行，例证合成第二迭代
+2. **push + 部署**（当前改动：F19 移除 + 301 redirect + promos.ts Fotor + 测试断言 + SESSION.md）；推前确认代理在线
+3. 内容计划二批（2-4 周后按 GSC 曝光选题）：含 remove.bg 关停替代时效文（12 月 1 日前发）
+4. Amazon Associates：内容二批上线后申请
+5. 观察收录：GSC 报告 + GA4 实时/漏斗事件（promo_click 已开始积累）
 
 ## Blockers
 
 - 无硬阻塞
-- 本机代理连 GitHub 时通时断（`127.0.0.1:11119` 离线时 push 失败）——`be7d31d` 推送依赖代理在线
+- 本机代理连 GitHub 时通时断（`127.0.0.1:11119` 离线时 push 失败）——push 前先确认代理
 - 服务器 SSH：admin 密钥登录可用、root 密码不可用 → 走 admin + sudo 或阿里云控制台
-- Cloudflare 托管 robots.txt 的 AI 爬虫封禁已关闭（zone 级放开，应用 robots.txt 为唯一权威）；若日后重开，需同步改 `src/app/robots.ts` 与 `/docs` 的爬虫口径段
 
 ## 下一会话明确下一步
 
-1. **查 PhotoRoom 审批邮件（提醒）**：审批结果 1-3 天内发 contact@civlensai.com（转发至 zohomail）——通过则拿 Dub 后台的 Referral link 交给 AI 配置 `config/promos.ts` 上线推广位；被拒则把拒信理由发给 AI 分析对策
-2. **Fotor 联盟申请（待办，今日未申请）**：入口 `https://fotor-1.getrewardful.com/signup`（约 3 分钟），通过后挂 compress/resize 工具页
-3. 内容计划二批：2-4 周后按 GSC 曝光数据选题（10-15 篇）；可加入 remove.bg 关停替代类时效选题
-4. Amazon Associates：内容二批上线后申请
-5. 观察收录：GSC「效果」与「网页索引」报告，2-6 周内看文章页收录与 AI 引用迹象
+1. F17 擦除物体并填充开发（PRD 附录 B.1）：Telea FMM 小区域档先行 → BDD 空测试确认 → 算法层/编排/UI 纵切
+2. 内容二批选题（2-4 周后按 GSC 数据；含 remove.bg 关停替代时效文）
+3. 本地开发服务：`pnpm dev`（http://localhost:6553）
