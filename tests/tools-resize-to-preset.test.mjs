@@ -83,6 +83,9 @@ test("apply matches job output on both buffer sizes", async () => {
 
 import { getPromos } from "../src/config/promos.ts";
 
-test("resize-to-preset claims no promo until configured", () => {
-  assert.deepEqual(getPromos("resize-to-preset"), []);
+test("resize-to-preset carries the approved Fotor promo", () => {
+  const promos = getPromos("resize-to-preset");
+  assert.equal(promos.length, 1, "exactly one enabled promo for F02");
+  assert.equal(promos[0].brand, "Fotor");
+  assert.equal(promos[0].href, "https://www.fotor.com/?via=jameyi");
 });

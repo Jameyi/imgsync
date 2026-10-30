@@ -280,14 +280,22 @@ test("workbench upload -> process -> download (browser-verified)", () => {
   // SKIPPED — Playwright E2E at T7
 });
 
-// T1g: affiliate slot is wired but disabled — the page must not expose
-// sponsored content while the promo switch is off (config/promos.ts).
-test("disabled promos render nothing on the page (T1g)", LIVE, async () => {
+// T1g: pages with an enabled promo expose the sponsored badge and link,
+// while pages without one expose neither (config/promos.ts).
+test("enabled promo renders on its tool page (T1g)", LIVE, async () => {
   const response = await get("/tools/remove-white-background");
   assert.equal(response.status, 200);
   const html = await response.text();
-  assert.ok(!html.includes("SPONSORED"), "no sponsored badge while disabled");
-  assert.ok(!html.includes('rel="sponsored'), "no sponsored link while disabled");
+  assert.ok(html.includes("SPONSORED"), "sponsored badge on the promo page");
+  assert.ok(html.includes('rel="sponsored'), "sponsored link on the promo page");
+});
+
+test("pages without a promo render no sponsored content (T1g)", LIVE, async () => {
+  const response = await get("/tools/defringe-edges");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.ok(!html.includes("SPONSORED"), "no sponsored badge without a promo");
+  assert.ok(!html.includes('rel="sponsored'), "no sponsored link without a promo");
 });
 
 // T2: /tools/compress-to-size page (F10 vertical slice) — approved 2026-10-21
