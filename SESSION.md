@@ -22,21 +22,23 @@
 - [x] **F19 split-layers 完成（2026-10-30，`474633d`）**：`/tools/split-layers`——单图拆主体/背景两层 PSD（border 中值背景估计 + flood-fill，复用 F01 思路，`lib/image-core/split-layers.ts`）；BDD 7 场景全过；guide 诚实标注效果边界（纯色背景最佳，部件级细拆留三期）
 - [x] **部署失败修复（2026-10-30，`8b9625a`）**：服务器构建抓出 F03 Worker 路径 bug（引用 `./compress.worker.ts`，实际文件 `compress-quality.worker.ts`；本地测试不走 worker 分支所以没暴露）——已修复并本地 build 验证（29/29 页）
 - [x] **F03 + F19 部署上线（2026-10-30）**：用户 push（代理恢复）+ 服务器重建（`pnpm build` 49.9s 通过）；线上 curl 确认 `/tools/compress` 与 `/tools/split-layers` 均 200——二批工具 7 个中 3 个已上线（F18/F03/F19），站点现共 7 个工具页（build 29/29）
-- [x] **Fotor 联盟推广位接入（2026-10-30）**：Rewardful 审批当日通过（30% 佣金、45 天 Cookie）；`config/promos.ts` 启用 Fotor 槽位（`https://www.fotor.com/?via=jameyi`，挂 compress/resize-to-preset）；两个过时测试断言同步更新（原「无推广位」断言 → 现「Fotor 存在」；T1g 改为分页断言有/无推广位）；`pnpm check` 全绿——**待 push + 部署**
-- [x] **F19 split-layers 移除（2026-10-30）**：快速档 flood-fill 对复杂场景效果差（deer001 森林鹿图实测）；AI 档（SAM 点击逐层）链路打通但模型加载等待久 + mask 质量/背景白洞效果不达标，用户裁定整个工具下线。删除 9 个文件（Workbench/编排/worker/算法/测试）+ sam-web 依赖 + 44MB 模型资产；`next.config.ts` 加 301 `/tools/split-layers` → `/tools` 保外链权重；`pnpm check` 全绿（137 测试 / 28 页）。PRD 附录 B.4 规格作废，勿再开发
+- [x] **Fotor 联盟推广位接入（2026-10-30）**：Rewardful 审批当日通过（30% 佣金、45 天 Cookie）；`config/promos.ts` 启用 Fotor 槽位（`https://www.fotor.com/?via=jameyi`，挂 compress/resize-to-preset）；两个过时测试断言同步更新（原「无推广位」断言 → 现「Fotor 存在」；T1g 改为分页断言有/无推广位）；`pnpm check` 全绿——**待 push + 部署**；**收款邮箱待切新 PayPal（见 Blockers）**
+- [x] **F19 split-layers 移除（2026-10-30，`c8ed609`）**：快速档 flood-fill 对复杂场景效果差（deer001 森林鹿图实测）；AI 档（SAM 点击逐层）链路打通但模型加载等待久 + mask 质量/背景白洞效果不达标，用户裁定整个工具下线。删除 9 个文件（Workbench/编排/worker/算法/测试）+ sam-web 依赖 + 44MB 模型资产；`next.config.ts` 加 308 `/tools/split-layers` → `/tools` 保外链权重；`pnpm check` 全绿（137 测试 / 28 页）+ test:seo 93 项过。PRD 附录 B.4 规格作废，勿再开发
+- [x] **F19 移除 + Fotor 推广位 + GA 修复 部署上线（2026-10-30，`1d5e384`/`c8ed609`）**：push + 服务器两轮重建后线上复验全过——`/tools/split-layers` 308 → /tools、sitemap 无残留、Fotor SPONSORED 卡在 compress/resize-to-preset 渲染、首页/compress/psd-export 均 200；第一轮重建漏 `--env-file .env.docker` 致 GA 构建期内联为空（NEXT_PUBLIC_* 三处同步坑的变体），补 env 重建后 `G-MGY84D47M8` 回到线上（curl 确认 2 处 + gtag）
 
 ## 当前开发实现进度
 
-- **线上与本地同步**（`8b9625a` 已部署）：提交积压清零
-- 二批工具进度：**F18 / F03 已上线，F19 已移除**（站点共 7 个工具页，build 28/28）；F17 擦除物体待开发（规格在 PRD 附录 B.1）
+- **线上与本地同步**（`c8ed609` 已部署，2026-10-30 线上复验全过）：提交积压清零
+- 二批工具进度：**F18 / F03 已上线，F19 已移除**（站点 7 个工具页，build 28/28）；F17 擦除物体待开发（规格在 PRD 附录 B.1）
 - 服务器拓扑：Cloudflare 橙云 → civvue-nginx 容器（80/443）→ imgsync 容器（3000，compose 双网络）；`.env.docker` 含 `NEXT_PUBLIC_URL` 与 GA ID
 - 已知非阻塞：webpack "Circular dependency" 警告；5 个遗留 lint warnings（法务页未用 import）
+- 联盟收款链路：PhotoRoom（Dub）+ Fotor（Rewardful）已接线；**Fotor 佣金经 PayPal 发放，收款邮箱当前为默认 contact@civlensai.com，旧 PayPal 已永久关闭 → 需新号后于 Rewardful 后台改绑，否则首笔（min $25 月结）打款失败**
 - **工程教训（2026-10-30）**：新增 Worker 引用后，push 前必须本地跑 `pnpm build`（单测不走 worker 分支，只有构建期能抓路径错误——F03 部署失败根因）
 
 ## 待完成任务清单
 
 1. **F17 擦除物体并填充**（二批第 4 个，规格在 PRD 附录 B.1）：Telea FMM 小区域档先行，例证合成第二迭代
-2. **push + 部署**（当前改动：F19 移除 + 301 redirect + promos.ts Fotor + 测试断言 + SESSION.md）；推前确认代理在线
+2. **PayPal 新号注册 + Rewardful 收款邮箱改绑**：旧 PayPal 已永久关闭；注册中国站（paypal.com/c2）新号 → 绑卡验证（旧卡可能未释放，需联系 PayPal 客服或换卡）→ 生效后回 Rewardful 后台把 payout email 改为新号邮箱（第一笔 min $25 打款前完成）
 3. 内容计划二批（2-4 周后按 GSC 曝光选题）：含 remove.bg 关停替代时效文（12 月 1 日前发）
 4. Amazon Associates：内容二批上线后申请
 5. 观察收录：GSC 报告 + GA4 实时/漏斗事件（promo_click 已开始积累）
@@ -44,11 +46,13 @@
 ## Blockers
 
 - 无硬阻塞
+- **PayPal 收款卡点**：旧 PayPal 账号已永久关闭（客服确认）；新中国账号注册中（中国站 paypal.com/c2，国家需选中国）；未改绑 Rewardful 收款邮箱前，Fotor 首笔佣金（min $25 月结）会打款失败挂起
 - 本机代理连 GitHub 时通时断（`127.0.0.1:11119` 离线时 push 失败）——push 前先确认代理
 - 服务器 SSH：admin 密钥登录可用、root 密码不可用 → 走 admin + sudo 或阿里云控制台
 
 ## 下一会话明确下一步
 
 1. F17 擦除物体并填充开发（PRD 附录 B.1）：Telea FMM 小区域档先行 → BDD 空测试确认 → 算法层/编排/UI 纵切
-2. 内容二批选题（2-4 周后按 GSC 数据；含 remove.bg 关停替代时效文）
-3. 本地开发服务：`pnpm dev`（http://localhost:6553）
+2. PayPal 新号注册收尾（中国站 c2，国家=中国）→ 绑卡验证 → Rewardful 后台改 payout email；旧卡提示已使用则找客服释放或换卡
+3. 内容二批选题（2-4 周后按 GSC 数据；含 remove.bg 关停替代时效文）
+4. 本地开发服务：`pnpm dev`（http://localhost:6553）
