@@ -63,7 +63,7 @@ export const applyCompressQuality = (
   ) {
     return runCompressQualityJob(input, quality);
   }
-  const worker = new Worker(new URL("./compress.worker.ts", import.meta.url));
+  const worker = new Worker(new URL("./compress-quality.worker.ts", import.meta.url));
   return new Promise<EncodedImage>((resolve, reject) => {
     worker.onmessage = (event: MessageEvent<WorkerJobResponse>) => {
       const { result, error } = event.data;
