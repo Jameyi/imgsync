@@ -13,6 +13,8 @@ export type ToolSpec = {
   title: string;
   description: string;
   implemented: boolean;
+  /** Display group on the /tools index page. */
+  category: string;
 };
 
 export const TOOLS: readonly ToolSpec[] = [
@@ -23,6 +25,7 @@ export const TOOLS: readonly ToolSpec[] = [
     description:
       "Turn white-background product photos into transparent PNGs in your browser. Interior whites stay intact. Free, no uploads, no signup.",
     implemented: true,
+    category: "Background & cutouts",
   },
   {
     slug: "compress-to-size",
@@ -31,6 +34,7 @@ export const TOOLS: readonly ToolSpec[] = [
     description:
       "Compress any image to hit an exact KB target. Binary search over quality with downsampling fallback. Free and processed locally in your browser.",
     implemented: true,
+    category: "Compression & size",
   },
   {
     slug: "resize-to-preset",
@@ -39,6 +43,7 @@ export const TOOLS: readonly ToolSpec[] = [
     description:
       "Resize product images to Amazon 2000×2000, Shopify 2048 and more with one click. Free, browser-based, no uploads.",
     implemented: true,
+    category: "Compression & size",
   },
   {
     slug: "defringe-edges",
@@ -47,6 +52,7 @@ export const TOOLS: readonly ToolSpec[] = [
     description:
       "Remove white halos left on cutout edges so transparent PNGs look clean on dark backgrounds. Free and processed locally in your browser.",
     implemented: true,
+    category: "Background & cutouts",
   },
   {
     slug: "platform-preflight",
@@ -55,6 +61,7 @@ export const TOOLS: readonly ToolSpec[] = [
     description:
       "Check product images against marketplace rules before upload: subject-to-canvas ratio, dimensions and file size. Free and processed locally in your browser.",
     implemented: true,
+    category: "Marketplace compliance",
   },
   {
     slug: "psd-export",
@@ -63,6 +70,7 @@ export const TOOLS: readonly ToolSpec[] = [
     description:
       "Upload several images and export one layered PSD file, each image on its own layer with names, order and visibility. Free and processed locally in your browser.",
     implemented: true,
+    category: "PSD & layers",
   },
   {
     slug: "compress",
@@ -71,6 +79,7 @@ export const TOOLS: readonly ToolSpec[] = [
     description:
       "Drag the quality slider and see the file size update live. Re-encodes PNG and WebP sources to JPEG. Free and processed locally in your browser.",
     implemented: true,
+    category: "Compression & size",
   },
 ];
 
