@@ -5,7 +5,8 @@ export type ToolSlug =
   | "defringe-edges"
   | "platform-preflight"
   | "psd-export"
-  | "compress";
+  | "compress"
+  | "erase-object";
 
 export type ToolSpec = {
   slug: ToolSlug;
@@ -80,6 +81,15 @@ export const TOOLS: readonly ToolSpec[] = [
       "Drag the quality slider and see the file size update live. Re-encodes PNG and WebP sources to JPEG. Free and processed locally in your browser.",
     implemented: true,
     category: "Compression & size",
+  },
+  {
+    slug: "erase-object",
+    name: "Erase object and fill",
+    title: "Remove Object from Photo Online — Free Erase and Fill Tool",
+    description:
+      "Brush over unwanted objects and let the surrounding scene fill the hole. Best for small cleanups like wires, litter and blemishes. Free and processed locally in your browser.",
+    implemented: true,
+    category: "Retouching",
   },
 ];
 

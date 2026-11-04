@@ -199,6 +199,43 @@ const guides: { [slug: string]: ToolGuide } = {
       },
     ],
   },
+  "erase-object": {
+    steps: [
+      {
+        title: "Drop one photo",
+        body: "Everything runs in your browser — nothing is uploaded.",
+      },
+      {
+        title: "Brush over what you want gone",
+        body: "Paint over the unwanted object; the red tint shows exactly what will be erased. Switch brush sizes for small details, and use Undo to fix a stroke.",
+      },
+      {
+        title: "Fill the hole",
+        body: "The surrounding scene spreads into the brushed area to fill it. This works best on small cleanups — wires, litter, blemishes — where the surroundings are fairly even.",
+      },
+      {
+        title: "Download the PNG",
+        body: "You get the filled photo as a PNG at the original size.",
+      },
+    ],
+    faqs: [
+      {
+        question: "What kinds of objects does this erase well?",
+        answer:
+          "Small objects against even surroundings: wires on a wall, litter on a path, blemishes on a surface. The bigger and more textured the erased area, the blurrier the fill gets.",
+      },
+      {
+        question: "Why does a large erased area look smudged?",
+        answer:
+          "The fill spreads colours in from the edges of your brush marks, so a big hole becomes a soft blend rather than a sharp reconstruction. Erase in smaller strokes, or keep the brush well inside the object's edges for the cleanest result.",
+      },
+      {
+        question: "Is my photo uploaded anywhere?",
+        answer:
+          "No. The filling runs locally in your browser; your photo never leaves the device.",
+      },
+    ],
+  },
 };
 
 export const getGuide = (slug: string): ToolGuide | undefined => guides[slug];
