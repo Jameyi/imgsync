@@ -24,6 +24,23 @@
 //   Given a 24x8 image with vertical stripes of period 6 and an erased 4x4 band
 //   When inpaintFill is called
 //   Then filled columns continue the stripe colors from both boundaries
+//
+// ——— true-Telea upgrade (2026-11-04 validation round: real-Telea + dilate + feather) ———
+//
+// Scenario: brush-contaminated pixels adjacent to the mask are absorbed (mask dilation)
+//   Given a 24x24 gradient image with a masked 6x6 block whose surrounding 2px ring is garbage
+//   When inpaintFill is called
+//   Then the garbage ring pixels are replaced with gradient-consistent colors
+//   And unmasked pixels beyond the dilation ring are untouched
+//
+// Scenario: a vertical edge keeps its orientation through an erased block (diffusion-tier limit)
+//   Given a 20x16 image whose left half is dark and right half is light (vertical edge at x=10)
+//   And a 4x4 erased block straddling the edge
+//   When inpaintFill is called
+//   Then filled pixels on the dark side stay clearly darker than filled pixels on the light side
+//   Note: sharp edge reconstruction across a straddling hole is exemplar-synthesis tier
+//   (PRD B.1 iteration 2) — pixel diffusion blurs the step into a ramp by design,
+//   same reason the stripe-texture scenario above is skipped.
 
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -115,6 +132,84 @@ test("rectangle erased on a smooth gradient fills to match surroundings", async 
   // Unmasked pixels are untouched.
   assert.equal(out.data[0], 10);
   assert.equal(out.data[(15 * 16 + 15) * 4], 10 + 150);
+});
+
+test("brush-contaminated pixels adjacent to the mask are absorbed", async () => {
+  const image = solidGradient(24, 24);
+  // Garbage colors simulate brush-contaminated edge pixels: a 2px ring
+  // immediately around the masked 6x6 block (x/y 7..8 and 15..16).
+  const isRing = (x, y) =>
+    x >= 7 && x <= 16 && y >= 7 && y <= 16 &&
+    (x <= 8 || x >= 15 || y <= 8 || y >= 15) &&
+    !(x >= 9 && x <= 14 && y >= 9 && y <= 14);
+  for (let y = 0; y < 24; y++) {
+    for (let x = 0; x < 24; x++) {
+      if (!isRing(x, y)) continue;
+      const i = (y * 24 + x) * 4;
+      image.data[i] = 255;
+      image.data[i + 1] = 0;
+      image.data[i + 2] = 255;
+    }
+  }
+  const mask = makeMask(24, 24);
+  setMaskRect(mask, 9, 9, 14, 14); // 6x6 block in the middle
+
+  const out = await inpaintFill(image, mask);
+
+  // The dilated mask (block + 2px) swallows the garbage ring; every former
+  // garbage pixel must now be gradient-consistent.
+  for (let y = 7; y <= 16; y++) {
+    for (let x = 7; x <= 16; x++) {
+      if (!isRing(x, y)) continue;
+      const i = (y * 24 + x) * 4;
+      const expected = 10 + 10 * x;
+      assert.ok(
+        Math.abs(out.data[i] - expected) <= 20,
+        `garbage pixel (${x},${y}) filled ${out.data[i]}, expected ~${expected}`,
+      );
+    }
+  }
+  // Unmasked pixels beyond the dilation ring are untouched.
+  assert.equal(out.data[(12 * 24 + 3) * 4], 10 + 3 * 10);
+  assert.equal(out.data[(12 * 24 + 20) * 4], 10 + 20 * 10);
+});
+
+test("a vertical edge keeps its orientation through an erased block", async () => {
+  // 20x16: left half dark, right half light — a hard vertical edge at x=10.
+  const width = 20;
+  const height = 16;
+  const data = new Uint8ClampedArray(width * height * 4);
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const i = (y * width + x) * 4;
+      const v = x < 10 ? 40 : 220;
+      data[i] = v;
+      data[i + 1] = v;
+      data[i + 2] = v;
+      data[i + 3] = 255;
+    }
+  }
+  const image = { width, height, data };
+  // Erase a 4x4 block straddling the edge.
+  const mask = makeMask(width, height);
+  setMaskRect(mask, 8, 6, 11, 9);
+
+  const out = await inpaintFill(image, mask);
+
+  // Diffusion-tier guarantee: orientation survives (dark side clearly darker
+  // than light side). Sharp reconstruction is exemplar tier — see Gherkin note.
+  let darkSum = 0;
+  let lightSum = 0;
+  for (let y = 6; y <= 9; y++) {
+    for (let x = 8; x <= 9; x++) darkSum += out.data[(y * width + x) * 4];
+    for (let x = 10; x <= 11; x++) lightSum += out.data[(y * width + x) * 4];
+  }
+  const darkMean = darkSum / 8;
+  const lightMean = lightSum / 8;
+  assert.ok(
+    darkMean < lightMean - 25,
+    `edge orientation lost: dark mean ${darkMean.toFixed(1)} vs light mean ${lightMean.toFixed(1)}`,
+  );
 });
 
 test(
