@@ -16,6 +16,8 @@ import PlatformPreflightWorkbench from "@/components/PlatformPreflightWorkbench"
 import PsdExportWorkbench from "@/components/PsdExportWorkbench";
 import CompressQualityWorkbench from "@/components/CompressQualityWorkbench";
 import EraseObjectWorkbench from "@/components/EraseObjectWorkbench";
+import FormatConvertWorkbench from "@/components/FormatConvertWorkbench";
+import FaviconKitWorkbench from "@/components/FaviconKitWorkbench";
 
 export function generateStaticParams() {
   return TOOLS.filter((tool) => tool.implemented).map((tool) => ({
@@ -92,6 +94,10 @@ export default async function ToolPage({ params }: PageProps) {
               <CompressQualityWorkbench tool={tool} />
             ) : tool.slug === "erase-object" ? (
               <EraseObjectWorkbench tool={tool} />
+            ) : tool.slug === "format-convert" ? (
+              <FormatConvertWorkbench tool={tool} />
+            ) : tool.slug === "favicon-kit" ? (
+              <FaviconKitWorkbench tool={tool} />
             ) : (
               <p>Engine wiring up.</p>
             )}

@@ -14,6 +14,8 @@ ImgSync is a web application, not a library to install. Users open it in a brows
 - [Layered PSD Export](/tools/psd-export): upload several images and export one layered PSD file, each image as a named layer with order and visibility. Produces .psd.
 - [Compress with Quality Slider](/tools/compress): drag a quality slider with live file-size preview; re-encodes PNG/WebP sources to JPEG.
 - [Erase Object and Fill](/tools/erase-object): brush over unwanted objects and fill the hole from the surrounding scene; best for small cleanups like wires, litter and blemishes. Produces PNG.
+- [Convert Image Format](/tools/format-convert): convert between JPEG, PNG and WebP with a live size comparison; auto-straightens phone photos via EXIF orientation.
+- [Favicon Kit](/tools/favicon-kit): generate a complete favicon set from one logo — multi-size .ico, 16/32/180/512 PNGs, HTML link tags and a webmanifest snippet.
 
 ## Guides
 
@@ -25,7 +27,7 @@ ImgSync is a web application, not a library to install. Users open it in a brows
 
 ## Key pages
 
-- [Tools](/tools): all five tools on one page.
+- [Tools](/tools): all tools on one page.
 - [Guides](/articles): marketplace image compliance guides.
 - [Docs](/docs): tool guides and methodology.
 - [About](/about): why ImgSync exists.

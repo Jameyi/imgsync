@@ -6,7 +6,9 @@ export type ToolSlug =
   | "platform-preflight"
   | "psd-export"
   | "compress"
-  | "erase-object";
+  | "erase-object"
+  | "format-convert"
+  | "favicon-kit";
 
 export type ToolSpec = {
   slug: ToolSlug;
@@ -90,6 +92,24 @@ export const TOOLS: readonly ToolSpec[] = [
       "Brush over unwanted objects and let the surrounding scene fill the hole. Best for small cleanups like wires, litter and blemishes. Free and processed locally in your browser.",
     implemented: true,
     category: "Retouching",
+  },
+  {
+    slug: "format-convert",
+    name: "Convert image format",
+    title: "Convert PNG, JPEG and WebP Online — Free Format Converter",
+    description:
+      "Convert images between JPEG, PNG and WebP with a live size comparison, and auto-straighten phone photos via EXIF. Free and processed locally in your browser.",
+    implemented: true,
+    category: "Compression & size",
+  },
+  {
+    slug: "favicon-kit",
+    name: "Favicon kit",
+    title: "Generate Favicon ICO and PNG Set Online — Free Favicon Maker",
+    description:
+      "Upload one logo and get a complete favicon kit: multi-size .ico, 16/32/180/512 PNGs, ready-to-paste HTML links and a webmanifest snippet. Free and processed locally in your browser.",
+    implemented: true,
+    category: "Developer tools",
   },
 ];
 

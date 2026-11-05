@@ -236,6 +236,80 @@ const guides: { [slug: string]: ToolGuide } = {
       },
     ],
   },
+  "format-convert": {
+    steps: [
+      {
+        title: "Drop an image",
+        body: "JPEG, PNG or WebP in — nothing is uploaded. Phone photos are auto-straightened using their EXIF orientation.",
+      },
+      {
+        title: "Pick the target format",
+        body: "Choose JPEG, PNG or WebP. JPEG and WebP show a quality slider; PNG stays lossless.",
+      },
+      {
+        title: "Check the size comparison",
+        body: "The converted size updates live next to the original, so you can pick the format that best fits your platform's limits.",
+      },
+      {
+        title: "Download the converted file",
+        body: "You get the image in the new format with the same dimensions and a correctly named file.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Which format should I convert to?",
+        answer:
+          "JPEG for universal acceptance on marketplaces, WebP for the smallest files on modern platforms, and PNG when you need transparency or a lossless copy.",
+      },
+      {
+        question: "Does converting re-encode and lose quality?",
+        answer:
+          "JPEG and WebP are lossy: the quality slider trades file size against fidelity, and the live preview shows the resulting size. PNG conversion is lossless.",
+      },
+      {
+        question: "Will my phone photo come out sideways?",
+        answer:
+          "No. The tool reads the EXIF orientation tag and rotates the pixels before converting, so the download is upright everywhere.",
+      },
+    ],
+  },
+  "favicon-kit": {
+    steps: [
+      {
+        title: "Drop your logo",
+        body: "A square PNG with transparency works best — nothing is uploaded. Non-square logos are centered on a transparent square.",
+      },
+      {
+        title: "Generate the kit",
+        body: "One click renders every size from the same source: 16, 32 and 48 pixels go into a single .ico; 16, 32, 180 and 512 come out as PNGs.",
+      },
+      {
+        title: "Download the files",
+        body: "Grab favicon.ico for the classic browser fallback and the PNGs for modern links and app icons.",
+      },
+      {
+        title: "Paste the wiring",
+        body: "Copy the ready-made HTML link tags into your <head> and the icons array into your site.webmanifest.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Which sizes do browsers actually need?",
+        answer:
+          "The .ico with 16/32/48 covers classic browser tabs and shortcuts; favicon-16x16.png and favicon-32x32.png cover modern favicons; the 180px apple-touch-icon covers iOS home screens; the 512px icon covers Android and PWA manifests.",
+      },
+      {
+        question: "My logo is not square — what happens?",
+        answer:
+          "It is scaled down and centered on a transparent square, so nothing is cropped or stretched. For pixel-perfect results, upload a square export from your design tool.",
+      },
+      {
+        question: "Is anything uploaded?",
+        answer:
+          "No. Resizing and encoding run locally in your browser; your logo never leaves the device.",
+      },
+    ],
+  },
 };
 
 export const getGuide = (slug: string): ToolGuide | undefined => guides[slug];
