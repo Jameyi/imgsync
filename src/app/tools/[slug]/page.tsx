@@ -18,6 +18,10 @@ import CompressQualityWorkbench from "@/components/CompressQualityWorkbench";
 import EraseObjectWorkbench from "@/components/EraseObjectWorkbench";
 import FormatConvertWorkbench from "@/components/FormatConvertWorkbench";
 import FaviconKitWorkbench from "@/components/FaviconKitWorkbench";
+import ImageCompositeWorkbench from "@/components/ImageCompositeWorkbench";
+import FixOrientationWorkbench from "@/components/FixOrientationWorkbench";
+import SmoothEdgesWorkbench from "@/components/SmoothEdgesWorkbench";
+import BatchConvertWorkbench from "@/components/BatchConvertWorkbench";
 
 export function generateStaticParams() {
   return TOOLS.filter((tool) => tool.implemented).map((tool) => ({
@@ -98,6 +102,14 @@ export default async function ToolPage({ params }: PageProps) {
               <FormatConvertWorkbench tool={tool} />
             ) : tool.slug === "favicon-kit" ? (
               <FaviconKitWorkbench tool={tool} />
+            ) : tool.slug === "image-composite" ? (
+              <ImageCompositeWorkbench tool={tool} />
+            ) : tool.slug === "fix-orientation" ? (
+              <FixOrientationWorkbench tool={tool} />
+            ) : tool.slug === "smooth-edges" ? (
+              <SmoothEdgesWorkbench tool={tool} />
+            ) : tool.slug === "batch-convert" ? (
+              <BatchConvertWorkbench tool={tool} />
             ) : (
               <p>Engine wiring up.</p>
             )}

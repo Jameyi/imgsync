@@ -310,6 +310,117 @@ const guides: { [slug: string]: ToolGuide } = {
       },
     ],
   },
+  "image-composite": {
+    steps: [
+      {
+        title: "Drop the backdrop first, then the product photo",
+        body: "The backdrop sets the output size — a supplier template, marketplace hero frame or any scene image. Nothing is uploaded.",
+      },
+      {
+        title: "Choose how the product fits the backdrop",
+        body: "Contain keeps the whole product visible, cover fills the frame and crops the overflow, stretch fills exactly.",
+      },
+      {
+        title: "Place and scale the product",
+        body: "Pick one of the nine alignment presets and drag the scale slider until the product sits naturally on the backdrop.",
+      },
+      {
+        title: "Download the composed PNG",
+        body: "You get one flattened PNG at the backdrop's size, ready for marketplace upload.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Can I use a transparent product PNG as the foreground?",
+        answer:
+          "Yes — transparent areas let the backdrop show through, which is the main use case: cut out your product first (white background remover), then place it on any scene.",
+      },
+      {
+        question: "What decides the output size?",
+        answer:
+          "The backdrop. Whatever size your background template is, the composed PNG comes out at exactly that size, so it keeps the template's marketplace-safe dimensions.",
+      },
+      {
+        question: "Is my composition uploaded anywhere?",
+        answer:
+          "No. Both images are processed locally in your browser; neither file leaves the device.",
+      },
+    ],
+  },
+  "smooth-edges": {
+    steps: [
+      {
+        title: "Drop a transparent PNG",
+        body: "The smoother works on the alpha channel of a cutout — a white-background remover export is the ideal input. Nothing is uploaded.",
+      },
+      {
+        title: "Pick a strength",
+        body: "Light softens the staircase once, Standard twice, Strong three times. Each pass widens the gradient band along the edge.",
+      },
+      {
+        title: "Compare and download",
+        body: "The preview shows the softened result. Colours are untouched — only the boundary alpha becomes a gradient.",
+      },
+      {
+        title: "Download the PNG",
+        body: "You get the same image as a PNG with smoother, antialiased-looking edges.",
+      },
+    ],
+    faqs: [
+      {
+        question: "How is this different from the defringe tool?",
+        answer:
+          "Defringe removes coloured fringe halos on cutout edges; this tool softens hard stair-stepped alpha boundaries. Use the smoother for jagged edges, defringe for white or coloured halos — they compose well in either order.",
+      },
+      {
+        question: "Does smoothing change my colours?",
+        answer:
+          "No. Only the alpha channel along transparency boundaries is averaged; every pixel's red, green and blue bytes stay exactly as they were.",
+      },
+      {
+        question: "Which strength should I choose?",
+        answer:
+          "Start with Light for small icons and thin shapes, Standard for typical product cutouts, Strong only for large images with pronounced staircasing — stronger settings widen the soft band.",
+      },
+    ],
+  },
+  "batch-convert": {
+    steps: [
+      {
+        title: "Drop up to 30 images",
+        body: "Select or drag a whole folder of product photos — every file stays on your device.",
+      },
+      {
+        title: "Pick the target format and quality",
+        body: "JPEG, PNG or WebP. Lossy formats show a quality slider that applies to every file in the batch.",
+      },
+      {
+        title: "Run the batch",
+        body: "Files convert in parallel and each result is listed with its own status — a single failure never blocks the rest.",
+      },
+      {
+        title: "Download one zip",
+        body: "All converted files come back in a single imgsync-batch archive, named after the original stems.",
+      },
+    ],
+    faqs: [
+      {
+        question: "How many files can I convert at once?",
+        answer:
+          "Up to 30 per batch. Need more? Run a second batch — there is no daily limit and nothing is stored.",
+      },
+      {
+        question: "What happens if one file fails?",
+        answer:
+          "It is reported in the failed list with its reason, and every other file still converts normally. The zip contains the successful ones.",
+      },
+      {
+        question: "Are the original files modified?",
+        answer:
+          "No. Sources are read-only; every result is a new file with the target format's extension, bundled into one zip download.",
+      },
+    ],
+  },
 };
 
 export const getGuide = (slug: string): ToolGuide | undefined => guides[slug];

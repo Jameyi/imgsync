@@ -8,7 +8,11 @@ export type ToolSlug =
   | "compress"
   | "erase-object"
   | "format-convert"
-  | "favicon-kit";
+  | "favicon-kit"
+  | "image-composite"
+  | "fix-orientation"
+  | "smooth-edges"
+  | "batch-convert";
 
 export type ToolSpec = {
   slug: ToolSlug;
@@ -110,6 +114,42 @@ export const TOOLS: readonly ToolSpec[] = [
       "Upload one logo and get a complete favicon kit: multi-size .ico, 16/32/180/512 PNGs, ready-to-paste HTML links and a webmanifest snippet. Free and processed locally in your browser.",
     implemented: true,
     category: "Developer tools",
+  },
+  {
+    slug: "image-composite",
+    name: "Image composite",
+    title: "Overlay Image on Background Online — Free Photo Compositor",
+    description:
+      "Place a product photo onto a backdrop template with fit modes, nine alignment presets and scale control. Free and processed locally in your browser.",
+    implemented: true,
+    category: "PSD & layers",
+  },
+  {
+    slug: "fix-orientation",
+    name: "Fix EXIF orientation",
+    title: "Fix EXIF Orientation Online — Rotate Sideways Photos Upright",
+    description:
+      "Reads the EXIF orientation tag of phone photos and rotates the pixels upright, exporting a corrected JPEG. Free and processed locally in your browser.",
+    implemented: true,
+    category: "Compression & size",
+  },
+  {
+    slug: "smooth-edges",
+    name: "Smooth transparent edges",
+    title: "Smooth Jagged Transparent Edges Online — Free PNG Anti-Alias Tool",
+    description:
+      "Turn stair-stepped cutout edges into smooth alpha gradients with an alpha-only box filter — RGB pixels stay untouched. Free and processed locally in your browser.",
+    implemented: true,
+    category: "Background & cutouts",
+  },
+  {
+    slug: "batch-convert",
+    name: "Batch convert",
+    title: "Batch Convert Images Online — Free Bulk JPEG/PNG/WebP Converter",
+    description:
+      "Drop up to 30 images and convert them all to JPEG, PNG or WebP in one pass with a quality slider, then download a single zip. Free and processed locally in your browser.",
+    implemented: true,
+    category: "Compression & size",
   },
 ];
 

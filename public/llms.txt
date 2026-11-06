@@ -16,6 +16,10 @@ ImgSync is a web application, not a library to install. Users open it in a brows
 - [Erase Object and Fill](/tools/erase-object): brush over unwanted objects and fill the hole from the surrounding scene; best for small cleanups like wires, litter and blemishes. Produces PNG.
 - [Convert Image Format](/tools/format-convert): convert between JPEG, PNG and WebP with a live size comparison; auto-straightens phone photos via EXIF orientation.
 - [Favicon Kit](/tools/favicon-kit): generate a complete favicon set from one logo — multi-size .ico, 16/32/180/512 PNGs, HTML link tags and a webmanifest snippet.
+- [Image Composite](/tools/image-composite): overlay a product photo onto a backdrop template with fit modes, nine alignment presets and scale control. Produces PNG.
+- [Fix EXIF Orientation](/tools/fix-orientation): read the EXIF orientation tag of JPEG phone photos and export an upright corrected JPEG.
+- [Smooth Transparent Edges](/tools/smooth-edges): soften stair-stepped cutout edges by averaging only the alpha channel; RGB stays untouched. Produces PNG.
+- [Batch Convert](/tools/batch-convert): convert up to 30 images to JPEG, PNG or WebP in one pass with a quality slider and download a single zip.
 
 ## Guides
 
