@@ -22,6 +22,7 @@ import ImageCompositeWorkbench from "@/components/ImageCompositeWorkbench";
 import FixOrientationWorkbench from "@/components/FixOrientationWorkbench";
 import SmoothEdgesWorkbench from "@/components/SmoothEdgesWorkbench";
 import BatchConvertWorkbench from "@/components/BatchConvertWorkbench";
+import RoundedCornersWorkbench from "@/components/RoundedCornersWorkbench";
 
 export function generateStaticParams() {
   return TOOLS.filter((tool) => tool.implemented).map((tool) => ({
@@ -110,6 +111,8 @@ export default async function ToolPage({ params }: PageProps) {
               <SmoothEdgesWorkbench tool={tool} />
             ) : tool.slug === "batch-convert" ? (
               <BatchConvertWorkbench tool={tool} />
+            ) : tool.slug === "rounded-corners" ? (
+              <RoundedCornersWorkbench tool={tool} />
             ) : (
               <p>Engine wiring up.</p>
             )}

@@ -421,6 +421,43 @@ const guides: { [slug: string]: ToolGuide } = {
       },
     ],
   },
+  "rounded-corners": {
+    steps: [
+      {
+        title: "Drop an image",
+        body: "Any PNG or JPEG works — nothing is uploaded. Transparency is preserved end to end.",
+      },
+      {
+        title: "Set the corner radius and padding",
+        body: "Drag the radius slider to round the corners and the padding slider to add canvas space around the image — room the shadow can breathe in.",
+      },
+      {
+        title: "Add a border and a shadow",
+        body: "Give the frame a colored border (hex) and pick a shadow preset; the shadow is the image silhouette blurred behind it, offset downward.",
+      },
+      {
+        title: "Download the framed PNG",
+        body: "The export is a PNG at the padded canvas size — transparent, white, or your chosen background.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Why does my shadow need padding?",
+        answer:
+          "The shadow is drawn on the canvas around the image. Without padding there is no canvas for it to fall on, so turning on a shadow automatically adds extra canvas room.",
+      },
+      {
+        question: "Does the border cover rounded corners?",
+        answer:
+          "No. Corner pixels clipped by the radius stay transparent — the border only paints pixels that are still part of the image, so the rounded shape stays clean.",
+      },
+      {
+        question: "Will my colors shift?",
+        answer:
+          "No. The frame composites in straight alpha; your image pixels are only covered where the border or shadow layer sits on top of them.",
+      },
+    ],
+  },
 };
 
 export const getGuide = (slug: string): ToolGuide | undefined => guides[slug];

@@ -12,7 +12,8 @@ export type ToolSlug =
   | "image-composite"
   | "fix-orientation"
   | "smooth-edges"
-  | "batch-convert";
+  | "batch-convert"
+  | "rounded-corners";
 
 export type ToolSpec = {
   slug: ToolSlug;
@@ -150,6 +151,15 @@ export const TOOLS: readonly ToolSpec[] = [
       "Drop up to 30 images and convert them all to JPEG, PNG or WebP in one pass with a quality slider, then download a single zip. Free and processed locally in your browser.",
     implemented: true,
     category: "Compression & size",
+  },
+  {
+    slug: "rounded-corners",
+    name: "Rounded corners and frame",
+    title: "Round Image Corners Online — Add Borders and Shadows Free",
+    description:
+      "Round an image's corners, add a border and drop a soft shadow on one canvas — sizes in pixels, colors as hex. Free and processed locally in your browser.",
+    implemented: true,
+    category: "Image editing",
   },
 ];
 

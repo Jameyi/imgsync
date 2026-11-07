@@ -6,6 +6,41 @@ export type SmoothEdgesOptions = {
 };
 
 /**
+ * Shared alpha-channel box filter: averages a standalone alpha map with a
+ * 3×3 kernel per pass. Also used by the frame module for shadow silhouettes.
+ */
+export const blurAlphaValues = (
+  values: Uint8Array,
+  w: number,
+  h: number,
+  passes = 1,
+): Uint8Array => {
+  let src = Uint8Array.from(values);
+  for (let p = 0; p < passes; p++) {
+    const dst = new Uint8Array(src);
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        let sum = 0;
+        let count = 0;
+        for (let dy = -1; dy <= 1; dy++) {
+          const ny = y + dy;
+          if (ny < 0 || ny >= h) continue;
+          for (let dx = -1; dx <= 1; dx++) {
+            const nx = x + dx;
+            if (nx < 0 || nx >= w) continue;
+            sum += src[ny * w + nx];
+            count++;
+          }
+        }
+        dst[y * w + x] = Math.round(sum / count);
+      }
+    }
+    src = dst;
+  }
+  return src;
+};
+
+/**
  * Softens jagged transparency edges by averaging the alpha channel with a
  * 3×3 box filter; RGB bytes are carried over untouched. Pixels far from any
  * boundary sit in constant-alpha regions, so the average reproduces their
@@ -23,28 +58,10 @@ export const smoothAlphaEdges = (
     height: h,
     data: new Uint8ClampedArray(input.data),
   };
-  let src = out.data;
-  for (let p = 0; p < passes; p++) {
-    const dst = new Uint8ClampedArray(src); // RGB carried over; alpha recomputed
-    for (let y = 0; y < h; y++) {
-      for (let x = 0; x < w; x++) {
-        let sum = 0;
-        let count = 0;
-        for (let dy = -1; dy <= 1; dy++) {
-          const ny = y + dy;
-          if (ny < 0 || ny >= h) continue;
-          for (let dx = -1; dx <= 1; dx++) {
-            const nx = x + dx;
-            if (nx < 0 || nx >= w) continue;
-            sum += src[(ny * w + nx) * 4 + 3];
-            count++;
-          }
-        }
-        dst[(y * w + x) * 4 + 3] = Math.round(sum / count);
-      }
-    }
-    src = dst;
-    out.data = dst;
-  }
+  if (passes === 0) return out;
+  const alphas = new Uint8Array(w * h);
+  for (let i = 0; i < w * h; i++) alphas[i] = input.data[i * 4 + 3];
+  const smoothed = blurAlphaValues(alphas, w, h, passes);
+  for (let i = 0; i < w * h; i++) out.data[i * 4 + 3] = smoothed[i];
   return out;
 };
