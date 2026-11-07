@@ -13,7 +13,8 @@ export type ToolSlug =
   | "fix-orientation"
   | "smooth-edges"
   | "batch-convert"
-  | "rounded-corners";
+  | "rounded-corners"
+  | "text-watermark";
 
 export type ToolSpec = {
   slug: ToolSlug;
@@ -158,6 +159,15 @@ export const TOOLS: readonly ToolSpec[] = [
     title: "Round Image Corners Online — Add Borders and Shadows Free",
     description:
       "Round an image's corners, add a border and drop a soft shadow on one canvas — sizes in pixels, colors as hex. Free and processed locally in your browser.",
+    implemented: true,
+    category: "Image editing",
+  },
+  {
+    slug: "text-watermark",
+    name: "Text watermark",
+    title: "Add Text Watermark to Photos Online — Free Watermark Maker",
+    description:
+      "Stamp a text watermark over a photo — centered or tiled, with font size, color and opacity control. Free and processed locally in your browser.",
     implemented: true,
     category: "Image editing",
   },

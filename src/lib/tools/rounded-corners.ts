@@ -1,7 +1,9 @@
 import type { PixelBuffer } from "../image-core/types.ts";
 import { frameImage, type FrameOptions, type Rgb } from "../image-core/frame.ts";
+import { hexToRgb } from "../image-core/color.ts";
 
 export type { FrameOptions, Rgb };
+export { hexToRgb };
 
 export type ShadowPreset = "none" | "soft" | "strong";
 
@@ -14,25 +16,6 @@ export const SHADOW_PRESETS: ReadonlyArray<{
   { value: "soft", label: "Soft", blurPasses: 1 },
   { value: "strong", label: "Strong", blurPasses: 3 },
 ];
-
-/** Resolves a hex color (#rgb, #rrggbb, with or without #) to the seam's RGB object. */
-export const hexToRgb = (hex: string): Rgb | null => {
-  const match = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(hex.trim());
-  if (!match) return null;
-  const digits = match[1];
-  if (digits.length === 3) {
-    return {
-      r: parseInt(digits[0] + digits[0], 16),
-      g: parseInt(digits[1] + digits[1], 16),
-      b: parseInt(digits[2] + digits[2], 16),
-    };
-  }
-  return {
-    r: parseInt(digits.slice(0, 2), 16),
-    g: parseInt(digits.slice(2, 4), 16),
-    b: parseInt(digits.slice(4, 6), 16),
-  };
-};
 
 /** Appends the -framed suffix and keeps the .png extension. */
 export const buildFramedFileName = (sourceName: string): string => {

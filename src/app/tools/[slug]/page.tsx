@@ -23,6 +23,7 @@ import FixOrientationWorkbench from "@/components/FixOrientationWorkbench";
 import SmoothEdgesWorkbench from "@/components/SmoothEdgesWorkbench";
 import BatchConvertWorkbench from "@/components/BatchConvertWorkbench";
 import RoundedCornersWorkbench from "@/components/RoundedCornersWorkbench";
+import TextWatermarkWorkbench from "@/components/TextWatermarkWorkbench";
 
 export function generateStaticParams() {
   return TOOLS.filter((tool) => tool.implemented).map((tool) => ({
@@ -113,6 +114,8 @@ export default async function ToolPage({ params }: PageProps) {
               <BatchConvertWorkbench tool={tool} />
             ) : tool.slug === "rounded-corners" ? (
               <RoundedCornersWorkbench tool={tool} />
+            ) : tool.slug === "text-watermark" ? (
+              <TextWatermarkWorkbench tool={tool} />
             ) : (
               <p>Engine wiring up.</p>
             )}

@@ -458,6 +458,43 @@ const guides: { [slug: string]: ToolGuide } = {
       },
     ],
   },
+  "text-watermark": {
+    steps: [
+      {
+        title: "Drop an image",
+        body: "Any PNG or JPEG works — nothing is uploaded, and the result keeps the original size.",
+      },
+      {
+        title: "Type the watermark text",
+        body: "A name, handle or copyright line. Set the font size and a hex color — white with reduced opacity is the classic look.",
+      },
+      {
+        title: "Choose centered or tiled",
+        body: "Centered stamps the text once at a nine-grid position; Tiled repeats it across the whole image at a fixed spacing with a slight tilt.",
+      },
+      {
+        title: "Dial the opacity and download",
+        body: "Lower opacity keeps the photo readable while the mark stays visible. Export as PNG.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Does the watermark survive resizing later?",
+        answer:
+          "It is stamped into the pixels, so treat the exported file as the protected copy and keep an unwatermarked original elsewhere.",
+      },
+      {
+        question: "Which opacity should I use?",
+        answer:
+          "40–60% keeps the photo readable while staying visible on busy scenes. Above 70% the mark starts to dominate; below 30% it can disappear on light areas.",
+      },
+      {
+        question: "Can I watermark many photos at once?",
+        answer:
+          "This tool processes one image per pass. For batches, run each photo through here, or watch for the batch pipeline bringing watermarking to multiple files.",
+      },
+    ],
+  },
 };
 
 export const getGuide = (slug: string): ToolGuide | undefined => guides[slug];
