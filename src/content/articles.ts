@@ -358,4 +358,248 @@ export const articles: Article[] = [
       },
     ],
   },
+  {
+    slug: "why-is-my-photo-sideways-exif-orientation",
+    title: "Why Is My Photo Sideways? EXIF Orientation Explained and Fixed",
+    summary:
+      "The camera saved the pixels sideways and left a note saying which way is up — and some software never reads the note. How EXIF orientation works, where it breaks, and how to bake the rotation in for good.",
+    date: "2026-11-07",
+    category: "IMAGE EDITING",
+    body: [
+      {
+        heading: "The photo isn't rotated — its tag is",
+        text: "Most sideways-photo mysteries come from one design choice: camera sensors read pixels in one fixed physical direction, no matter how you hold the device. When you turn a phone to portrait, the camera still saves a landscape pixel grid and adds a small metadata note — the EXIF orientation flag — that says \"rotate 90° clockwise to display.\" Photo viewers and phone galleries read that flag and show the photo upright. Software that ignores it shows the raw grid: sideways.",
+      },
+      {
+        heading: "The eight orientation values",
+        text: "EXIF orientation has eight possible values:",
+        items: [
+          "1 — normal, no rotation (most landscape shots)",
+          "3 — rotate 180° (camera held upside down)",
+          "6 — rotate 90° clockwise (phone held with the top to the right)",
+          "8 — rotate 90° counter-clockwise (top to the left)",
+          "2, 4, 5, 7 — the same four orientations plus a horizontal mirror (common with front-camera selfies)",
+        ],
+      },
+      {
+        heading: "Where the flag breaks",
+        text: "The display works only while every step of the chain reads the note. It breaks in familiar places: export tools that strip EXIF to save bytes, older image editors that resize pixels but not flags, some CDN and optimization pipelines, and marketplaces whose uploders ignore orientation entirely — a perfectly upright preview on your desktop becomes a sideways listing image after upload. Format conversion has the same trap: JPEG to WebP often drops the metadata, so a photo that looked fine as a JPEG arrives rotated as a WebP.",
+      },
+      {
+        heading: "The reliable fix: bake the rotation into pixels",
+        text: "Rather than hoping every viewer reads the flag, make the pixels upright themselves: read the orientation value, rotate the pixel grid by the matching angle (and mirror for the flipped variants), then save with the flag reset to 1. From that moment every viewer, uploader and converter agrees on the picture, because there is nothing left to interpret.",
+      },
+      {
+        heading: "Do it locally in your browser",
+        text: "The Fix Orientation tool does exactly that: it reads the EXIF flag, rotates the pixels to match, and exports an upright file named with a -fixed suffix — all inside your browser, with nothing uploaded. Photos without an orientation flag pass through unchanged, so a batch is safe to run without checking each file first.",
+      },
+      {
+        heading: "Prevention checklist",
+        text: "Three habits prevent most recurrences: don't trust the gallery preview alone — check the file after any export or conversion; bake orientation before sending images through any pipeline that strips metadata; and when a photo looks right in one app and wrong in another, suspect the flag before suspecting your eyes.",
+      },
+      {
+        heading: "For marketplace sellers",
+        text: "Sideways main images are an instant rejection on Amazon and look careless everywhere else, and marketplace uploaders are exactly the kind of software that ignores orientation flags. Bake the rotation before listing — the Platform Preflight guide covers the rest of the image rules in the same pass.",
+      },
+    ],
+    relatedTools: ["fix-orientation", "platform-preflight"],
+    faqs: [
+      {
+        question: "What is EXIF orientation?",
+        answer:
+          "A metadata flag cameras write to record how the raw pixel grid should be rotated for display. Viewers that read it show the photo upright; software that ignores it shows the pixels as saved — usually sideways for portrait shots.",
+      },
+      {
+        question: "Why does my photo look right on my phone but sideways when I upload it?",
+        answer:
+          "Your phone's gallery reads the EXIF orientation flag; the uploader doesn't. The pixels were always sideways — the phone was correcting the display. Fix it by baking the rotation into the pixels, then the file looks right everywhere.",
+      },
+      {
+        question: "Does converting a JPEG to WebP fix the rotation?",
+        answer:
+          "No — and it often makes it worse. Conversion typically strips EXIF metadata, removing the only note that said which way was up. Fix the orientation first, then convert.",
+      },
+    ],
+  },
+  {
+    slug: "convert-multiple-images-at-once",
+    title: "How to Convert Multiple Images at Once (Without Uploading Them)",
+    summary:
+      "Converting a folder of product photos one file at a time is the slow way. What batch conversion should look like — format, quality, naming and one zip — and how to do it locally in a browser.",
+    date: "2026-11-07",
+    category: "WORKFLOWS",
+    body: [
+      {
+        heading: "Why one-at-a-time stops working",
+        text: "A single image takes seconds to convert; twenty take an hour of clicking, renaming and re-downloading. The busywork scales with the catalog: marketplace shoots, seasonal refreshes and variant images all arrive in batches, and every manual pass adds two risks — a file converted with the wrong quality setting, and a file that never got converted at all.",
+      },
+      {
+        heading: "What a batch converter needs to get right",
+        text: "Four things separate a real batch tool from a looped single-file form:",
+        items: [
+          "One settings pass — format and quality apply to every file in the run",
+          "Parallel processing — files convert concurrently, not in a slow queue",
+          "Failure isolation — one corrupt file reports an error without sinking the batch",
+          "Collision-safe naming — two sources named cover.jpg can't overwrite each other in the output",
+        ],
+      },
+      {
+        heading: "Choosing format and quality once",
+        text: "For product photos, WebP at moderate quality is usually the sweet spot: visibly identical to JPEG at the same quality setting and meaningfully smaller, which matters when a marketplace or storefront penalizes slow pages. PNG stays the choice when transparency must survive the conversion. Set the quality slider once — batch conversion is also how you guarantee every image in a catalog was compressed with the same setting, which one-at-a-time conversion quietly destroys.",
+      },
+      {
+        heading: "Doing it locally in the browser",
+        text: "ImgSync's Batch Convert drops up to 30 images, converts them in parallel through the browser's encoders, and hands back one zip. Nothing is uploaded — the files never leave your machine, which matters for unreleased product shots. Name collisions get an automatic suffix (a.png and a.jpg both becoming WebP produce a.webp and a-1.webp), and a failed file is reported in the failed list while the rest of the batch completes.",
+      },
+      {
+        heading: "Where the zip lands in a workflow",
+        text: "Batch conversion composes well with the other steps: fix orientation first so nothing arrives sideways, then batch-convert, then run marketplace preflight on the zip's contents. Keeping each pass single-purpose means a mistake in one step never contaminates the others — you re-run just that step instead of the whole pipeline.",
+      },
+      {
+        heading: "The limits worth knowing",
+        text: "Browsers cap memory, which is why the batch limit sits at 30 files per run rather than pretending to be an FTP job. For thousands of images, split the drop into a few runs — there is no daily quota and no upload wait, so the per-run limit costs seconds, not hours.",
+      },
+    ],
+    relatedTools: ["batch-convert", "fix-orientation", "platform-preflight"],
+    faqs: [
+      {
+        question: "How many images can I convert at once?",
+        answer:
+          "Up to 30 per batch run. Larger sets split naturally into multiple runs — there's no quota, and each run takes seconds because the files never upload.",
+      },
+      {
+        question: "What happens if one file in the batch is corrupt?",
+        answer:
+          "It's reported in the failed list with the reason, and every other file still converts. The zip contains the successful conversions only.",
+      },
+      {
+        question: "Are the converted files renamed?",
+        answer:
+          "Each output keeps its source name with the new extension; when two sources would produce the same name, the later one gets a numeric suffix so nothing overwrites anything.",
+      },
+    ],
+  },
+  {
+    slug: "favicon-sizes-complete-set",
+    title: "Favicon Sizes in 2026: The Complete Set and the HTML That Wires It",
+    summary:
+      "One favicon file stopped being enough years ago. The exact sizes browsers, iOS, Android and Windows actually request in 2026, the two files you can skip, and the HTML that ties it together.",
+    date: "2026-11-07",
+    category: "WEB BASICS",
+    body: [
+      {
+        heading: "Why one favicon is no longer enough",
+        text: "The 16×16 favicon.ico survived because it costs nothing to keep, but every platform that displays your site icon now asks for its own size: browser tabs, bookmark lists, iOS home screens, Android install prompts, Windows tiles and social crawlers each request a different pixel dimension. Serve the wrong size and the platform upscales it — a blurry icon in the exact places users decide whether to trust your brand.",
+      },
+      {
+        heading: "The complete 2026 set",
+        text: "These are the sizes worth generating for a production site:",
+        items: [
+          "16×16 — classic browser tab and bookmark bars",
+          "32×32 — retina-tab and standard shortcut icons",
+          "48×48 — Windows site tiles and some desktop contexts",
+          "180×180 — Apple touch icon (iOS home screen, always PNG, no transparency)",
+          "192×192 — Android/Chrome home-screen and install-prompt icon",
+          "512×512 — PWA splash and high-density launchers",
+        ],
+      },
+      {
+        heading: "The two files you can safely skip",
+        text: "The legacy 16×16-only favicon.ico still earns its place for old crawlers, but most dedicated files are dead weight: Safari's pinned-tab mask-icon is requested rarely and falls back to the touch icon, and Windows tile configs (browserconfig.xml) matter only for pinned Edge tiles on enterprise desktops. Ship the six sizes above and you cover effectively every request a 2026 browser makes.",
+      },
+      {
+        heading: "The HTML that ties it together",
+        text: "Sizes only matter if the pages reference them. The minimum wiring:",
+        items: [
+          "<link rel=\"icon\" type=\"image/png\" sizes=\"16x16 32x32 48x48\" href=\"/favicon-32.png\"> — modern browsers pick the best match",
+          "<link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"/apple-touch-icon.png\"> — iOS ignores the ICO entirely",
+          "<link rel=\"icon\" type=\"image/png\" sizes=\"192x192\" href=\"/android-chrome-192.png\"> — Android install prompts",
+          "A web app manifest naming the 192 and 512 icons — required for PWA installability",
+        ],
+      },
+      {
+        heading: "Generate the whole set at once",
+        text: "ImgSync's Favicon Kit takes one square source image and produces the full set in a single pass: 16/32/48 packed into a real .ico, plus 16/32/180/512 PNGs and copy-paste HTML and web manifest snippets. One source file means one design decision instead of six, and the icons can't drift apart visually. Everything renders locally in your browser.",
+      },
+      {
+        heading: "Source-image advice",
+        text: "Start from a square PNG or SVG-backed design at 512×512 or larger with the mark centered and generous padding — icons are displayed at sizes where fine detail vanishes, so a logo reduced to a bold shape survives every size while a detailed illustration turns to noise. Check the 16×16 render before shipping: if it's unreadable there, no amount of HTML fixes it.",
+      },
+    ],
+    relatedTools: ["favicon-kit"],
+    faqs: [
+      {
+        question: "What favicon sizes do I actually need in 2026?",
+        answer:
+          "16, 32 and 48 packed into an .ico, plus PNGs at 180 (Apple touch), 192 and 512 (Android/PWA). That covers browser tabs, iOS home screens, Android install prompts and PWA manifests.",
+      },
+      {
+        question: "Is favicon.ico still needed?",
+        answer:
+          "Yes, keep one — old crawlers and some tools still request it at the site root. It costs nothing alongside the PNG set.",
+      },
+      {
+        question: "Why does my icon look blurry on iPhone?",
+        answer:
+          "iOS requests the 180×180 apple-touch-icon. If it's missing, the platform upscales a small favicon instead. Provide the 180×180 PNG — Apple also expects it opaque, so flatten any transparency.",
+      },
+    ],
+  },
+  {
+    slug: "place-product-photo-on-backdrop",
+    title: "How to Place a Product Photo on a Backdrop Template",
+    summary:
+      "Cutouts look unfinished on a bare checkerboard. How to composite a transparent product shot onto a branded backdrop — sized, positioned and edge-clean — without a desktop editor.",
+    date: "2026-11-07",
+    category: "IMAGE EDITING",
+    body: [
+      {
+        heading: "Why a cutout alone isn't the finished image",
+        text: "A transparent-background product shot is an intermediate asset. Social posts, banners, collection headers and lookbooks all want the product sitting on a designed surface — a brand color, a lifestyle scene, a seasonal gradient. Pasting it into a template in a desktop editor works but turns every reuse into manual work: resize, drag, nudge, re-export.",
+      },
+      {
+        heading: "The three decisions before compositing",
+        text: "Every good product-on-backdrop result comes down to the same three choices:",
+        items: [
+          "Fit — should the product cover the backdrop (cover), sit fully inside it with letterboxing (contain), or stretch? Cover crops, contain preserves the whole product, stretch distorts — avoid it for products",
+          "Position — where on the canvas the product sits; a nine-grid preset (top-left … bottom-right) covers most layouts without pixel-pushing",
+          "Scale — the product should occupy roughly two-thirds of the canvas so backdrop and subject both read",
+        ],
+      },
+      {
+        heading: "Backdrop comes first, product on top",
+        text: "Order matters because the product's edges are already alpha-clean. Load the backdrop as the canvas, then place the transparent cutout over it — the compositing blends the product's soft edge pixels with whatever sits behind, which is exactly what makes a cutout look native on the surface rather than pasted on.",
+      },
+      {
+        heading: "Do it locally in the browser",
+        text: "ImgSync's Image Composite takes the backdrop and the cutout, applies your fit, position and scale choices, and blends the result in the browser — nothing uploaded. Combined with the white-background remover (which produces the cutout) the whole flow runs locally: white background to transparency, then composite onto the branded surface, then export the finished image.",
+      },
+      {
+        heading: "Edge quality decides believability",
+        text: "Two artifacts betray a composite: the white halo left over from an imperfect cutout, and jagged stair-stepping on the product outline. Fix both before compositing — defringe re-colors edge pixels from the product's own colors, and alpha smoothing softens the staircase. Both run in the browser and take seconds; they turn a visibly pasted product into one that looks photographed on the backdrop.",
+      },
+      {
+        heading: "Batch the rest of the catalog",
+        text: "One hero image composites by hand; a catalog doesn't. Export the finished composite as a template decision — same backdrop, same position, same scale — and keep the cutouts organized, so every future product reuses the identical framing and the set looks shot together. Convert the finished exports to the target format in one batch run and the whole catalog ships in minutes.",
+      },
+    ],
+    relatedTools: ["image-composite", "remove-white-background", "batch-convert"],
+    faqs: [
+      {
+        question: "Should the product fit with cover or contain?",
+        answer:
+          "Contain for product photography — it keeps the entire product visible and letterboxes instead of cropping. Cover suits mood shots where partial cropping of the subject is acceptable; never stretch, it distorts the product.",
+      },
+      {
+        question: "Why does my composite have a white outline around the product?",
+        answer:
+          "That's a halo left by the cutout — edge pixels keep their original near-white color. Run a defringe pass on the cutout first; it re-colors those pixels from the product's own colors, and the composite looks native.",
+      },
+      {
+        question: "How big should the product be on the canvas?",
+        answer:
+          "Around two-thirds of the canvas dimension is a reliable default — enough presence for the product to read as the subject while leaving the backdrop visible enough to do its branding job.",
+      },
+    ],
+  },
 ];
