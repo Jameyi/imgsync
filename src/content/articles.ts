@@ -284,4 +284,78 @@ export const articles: Article[] = [
       },
     ],
   },
+  {
+    slug: "remove-bg-shutting-down-free-alternatives",
+    title: "remove.bg Is Shutting Down December 1: What Happens and the Free Alternatives",
+    summary:
+      "remove.bg's standalone site closes December 1, 2026 at 9:00 CET — credits expire that morning. What happens to your account and API, the data to rescue first, and free browser-based alternatives for product photos.",
+    date: "2026-11-06",
+    category: "INDUSTRY NEWS",
+    body: [
+      {
+        heading: "What actually happens on December 1",
+        text: "remove.bg's own FAQ states that its standalone website will no longer be available from December 1, 2026 at 9:00 a.m. CET. Background removal moves into Canva, which acquired remove.bg in 2021, and the self-service API moves to Leonardo.Ai — also a Canva company. The Photoshop plugin and the other plugins and integrations are discontinued the same day. Enterprise API contracts are the one exception: they continue as normal. This is not a migration — accounts, history and credit balances do not carry over to either destination.",
+      },
+      {
+        heading: "Rescue your data before the cutoff",
+        text: "Three things die at 9:00 a.m. CET on December 1, and one of them has no recovery path:",
+        items: [
+          "Unused pay-as-you-go credits expire that morning and are non-refundable — spend them on your backlog first",
+          "Annual subscriptions end with an automatic pro-rata refund to the original payment method; any final monthly renewal on or after November 1 is free",
+          "Invoices and credit usage reports must be downloaded from the Account page before December 1 — remove.bg states you won't be able to download them afterward",
+          "Export any processed images you still need; account history is not migrating anywhere",
+        ],
+      },
+      {
+        heading: "Where background removal goes — and where it doesn't",
+        text: "The short version \"remove.bg moves to Canva\" is wrong for two of the three groups affected. If you used the website for one-off cutouts, remove.bg points you to Canva's Background Remover, which uses the same underlying technology. If you called the API, your destination is Leonardo.Ai, not Canva — the self-service API stops accepting requests on December 1 and a Canva subscription does not cover it. Leonardo's migration guide documents a different endpoint, Bearer authentication instead of the X-Api-Key header, JSON-only requests, and prepaid credit billing. If you held credits, neither destination inherits them.",
+      },
+      {
+        heading: "Free alternatives that run in your browser",
+        text: "If your images are product photos on white or near-white studio backgrounds — the typical marketplace case — you don't need an AI cutout service at all. ImgSync's Remove White Background tool converts white and near-white backgrounds to transparency locally in your browser: no account, no upload, full output resolution, and interior whites (like a white shirt inside a jacket) stay intact. Follow with Defringe Edges to remove any leftover halo, so the cutout sits cleanly on dark or colored backdrops. Everything processes on your device; images never leave it.",
+      },
+      {
+        heading: "Handling the backlog in bulk",
+        text: "The credit-expiry advice cuts both ways: whatever backlog you would have spent remove.bg credits on still needs processing. For white-background catalogs, batch the work — convert the exports to your marketplace's required format with Batch Convert (up to 30 images per pass, one zip download). For photos with complex backgrounds that genuinely need AI segmentation, in-browser AI cutout tools exist that run the model locally, as do desktop editors; judge them on output resolution, watermark policy and whether your images are uploaded.",
+      },
+      {
+        heading: "A ten-minute migration checklist",
+        text: "Run this before December 1 and the shutdown costs you nothing:",
+        items: [
+          "Log in and record your plan type and credit balance",
+          "Spend usable pay-as-you-go credits on the images you actually need",
+          "Download invoices and the credit usage report",
+          "Export processed images you want to keep",
+          "If you integrate the API: audit every key and every system using it, then either migrate to Leonardo.Ai or replace the call for white-background images with a local pipeline",
+        ],
+      },
+      {
+        heading: "What sellers should take from this",
+        text: "Marketplace main images need a pure white background anyway — Amazon's 85% rule and white-background requirement apply regardless of which cutout service you use. A local pipeline that converts near-white backgrounds to transparency, defringes the edges and composites onto a true-white or transparent canvas covers the everyday case end to end, with no subscription and no shutdown risk. The Platform Preflight guide walks through the full compliance checklist.",
+      },
+    ],
+    relatedTools: ["remove-white-background", "batch-convert", "defringe-edges"],
+    faqs: [
+      {
+        question: "Is remove.bg really shutting down?",
+        answer:
+          "Yes. remove.bg's own FAQ states the standalone website will no longer be available from December 1, 2026 at 9:00 a.m. CET, with background removal moving into Canva and the self-service API into Leonardo.Ai. Enterprise API contracts are not affected.",
+      },
+      {
+        question: "What happens to my remove.bg credits?",
+        answer:
+          "Unused pay-as-you-go credits expire on December 1, 2026 and are non-refundable — they do not transfer to Canva or Leonardo.Ai. Annual subscribers receive a pro-rata refund automatically; any final monthly renewal on or after November 1 is free.",
+      },
+      {
+        question: "What replaces the remove.bg API?",
+        answer:
+          "Leonardo.Ai, also owned by Canva. The self-service API stops accepting requests on December 1 and the credentials do not carry over — Leonardo's migration guide lists a new endpoint, Bearer authentication and JSON-only requests. Enterprise API contracts continue as normal.",
+      },
+      {
+        question: "Is there a free alternative that doesn't upload my photos?",
+        answer:
+          "For white-background product photos, ImgSync's Remove White Background runs entirely in your browser with no account and full output resolution — nothing is uploaded. For complex backgrounds that need AI segmentation, look for tools that run the cutout model locally in the browser rather than uploading your files.",
+      },
+    ],
+  },
 ];

@@ -20,9 +20,11 @@ ImgSync is a web application, not a library to install. Users open it in a brows
 - [Fix EXIF Orientation](/tools/fix-orientation): read the EXIF orientation tag of JPEG phone photos and export an upright corrected JPEG.
 - [Smooth Transparent Edges](/tools/smooth-edges): soften stair-stepped cutout edges by averaging only the alpha channel; RGB stays untouched. Produces PNG.
 - [Batch Convert](/tools/batch-convert): convert up to 30 images to JPEG, PNG or WebP in one pass with a quality slider and download a single zip.
+- [Rounded Corners and Frame](/tools/rounded-corners): round an image's corners, add a border and drop a soft shadow on one canvas — pixel-precise, hex colors, transparent or white background.
 
 ## Guides
 
+- [remove.bg Is Shutting Down December 1](/articles/remove-bg-shutting-down-free-alternatives): what happens to credits and the API, the data to rescue first, and free browser-based alternatives.
 - [Amazon Main Image Requirements](/articles/amazon-main-image-requirements): pure white background, 85% subject ratio, 1600px minimum, 10MB cap — the complete checklist.
 - [Compress Product Images to Marketplace Limits](/articles/compress-product-images-to-marketplace-limits): how binary-search compression hits exact KB targets (Amazon 10MB, eBay 7MB, galleries under 1MB).
 - [Pure White Background RGB 255,255,255](/articles/pure-white-background-rgb-255-255-255): why camera backgrounds measure 250-253, and how to reach true white without losing edges.
