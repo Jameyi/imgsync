@@ -23,21 +23,36 @@ export type FrameOptions = {
   background?: Rgb | null;
 };
 
-const isClipped = (x: number, y: number, iw: number, ih: number, r: number) => {
-  if (r <= 0) return false;
-  const inCornerX = x < r || x >= iw - r;
-  const inCornerY = y < r || y >= ih - r;
-  if (!inCornerX || !inCornerY) return false;
-  // Pixel-center distance to the nearest corner circle center. Both circle
-  // centers use continuous coordinates (left/top at r, right/bottom at
-  // size - r) so the left and right tests agree even when r spans half the
-  // image width.
-  const cx = x < r ? r : iw - r;
-  const cy = y < r ? r : ih - r;
-  const dx = x + 0.5 - cx;
-  const dy = y + 0.5 - cy;
-  return dx * dx + dy * dy > r * r;
+/**
+ * Continuous-coordinate rounded-rect membership test for a pixel center:
+ * true when (px, py) falls inside the rect (rectX, rectY, rectW, rectH)
+ * with corner radius r. Shared by the frame and device-frame modules.
+ */
+export const insideRoundedRect = (
+  px: number,
+  py: number,
+  rectX: number,
+  rectY: number,
+  rectW: number,
+  rectH: number,
+  r: number,
+): boolean => {
+  if (r <= 0) return true;
+  const inCornerX = px < rectX + r || px >= rectX + rectW - r;
+  const inCornerY = py < rectY + r || py >= rectY + rectH - r;
+  if (!inCornerX || !inCornerY) return true;
+  // Both circle centers use continuous coordinates (left/top at rect + r,
+  // right/bottom at rect + size - r) so the tests agree even when r spans
+  // half the rect width.
+  const cx = px < rectX + r ? rectX + r : rectX + rectW - r;
+  const cy = py < rectY + r ? rectY + r : rectY + rectH - r;
+  const dx = px + 0.5 - cx;
+  const dy = py + 0.5 - cy;
+  return dx * dx + dy * dy <= r * r;
 };
+
+const isClipped = (x: number, y: number, iw: number, ih: number, r: number) =>
+  !insideRoundedRect(x, y, 0, 0, iw, ih, r);
 
 /** Source-over composite of one RGB layer with per-pixel alpha onto out. */
 const compositeLayer = (

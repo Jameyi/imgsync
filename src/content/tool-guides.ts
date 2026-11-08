@@ -495,6 +495,43 @@ const guides: { [slug: string]: ToolGuide } = {
       },
     ],
   },
+  "device-mockup": {
+    steps: [
+      {
+        title: "Drop a screenshot",
+        body: "Any app or website screenshot works — the shell is drawn from geometry, so the screen keeps full resolution.",
+      },
+      {
+        title: "Pick a device preset",
+        body: "Phone uses a thin bezel with a large screen radius; Tablet uses a thicker shell. Fine-tune the bezel, screen radius and padding to taste.",
+      },
+      {
+        title: "Choose shell and background colors",
+        body: "The shell takes any hex color; the canvas behind the device stays transparent or takes a solid color for immediate use on any page.",
+      },
+      {
+        title: "Download the mockup PNG",
+        body: "The export is a PNG at the padded canvas size — drop it straight into docs, slides or landing pages.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Why is there no laptop frame?",
+        answer:
+          "Laptops need a base shape that isn't a rounded rectangle, which would require drawn polygon geometry rather than pure pixel math. Phone and tablet shells cover the common cases; laptop frames are on the roadmap.",
+      },
+      {
+        question: "What happens to my screenshot's transparent areas?",
+        answer:
+          "The screen is composited over the shell, so transparent screen pixels show the bezel color beneath — the same way a real device renders.",
+      },
+      {
+        question: "Why does the mockup look better with padding?",
+        answer:
+          "The shell's rounded corners and any drop shadows need room to breathe. A little canvas padding keeps the device silhouette from touching the image edge.",
+      },
+    ],
+  },
 };
 
 export const getGuide = (slug: string): ToolGuide | undefined => guides[slug];

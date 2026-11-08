@@ -24,6 +24,7 @@ import SmoothEdgesWorkbench from "@/components/SmoothEdgesWorkbench";
 import BatchConvertWorkbench from "@/components/BatchConvertWorkbench";
 import RoundedCornersWorkbench from "@/components/RoundedCornersWorkbench";
 import TextWatermarkWorkbench from "@/components/TextWatermarkWorkbench";
+import DeviceMockupWorkbench from "@/components/DeviceMockupWorkbench";
 
 export function generateStaticParams() {
   return TOOLS.filter((tool) => tool.implemented).map((tool) => ({
@@ -116,6 +117,8 @@ export default async function ToolPage({ params }: PageProps) {
               <RoundedCornersWorkbench tool={tool} />
             ) : tool.slug === "text-watermark" ? (
               <TextWatermarkWorkbench tool={tool} />
+            ) : tool.slug === "device-mockup" ? (
+              <DeviceMockupWorkbench tool={tool} />
             ) : (
               <p>Engine wiring up.</p>
             )}

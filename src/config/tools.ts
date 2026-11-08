@@ -14,7 +14,8 @@ export type ToolSlug =
   | "smooth-edges"
   | "batch-convert"
   | "rounded-corners"
-  | "text-watermark";
+  | "text-watermark"
+  | "device-mockup";
 
 export type ToolSpec = {
   slug: ToolSlug;
@@ -168,6 +169,15 @@ export const TOOLS: readonly ToolSpec[] = [
     title: "Add Text Watermark to Photos Online — Free Watermark Maker",
     description:
       "Stamp a text watermark over a photo — centered or tiled, with font size, color and opacity control. Free and processed locally in your browser.",
+    implemented: true,
+    category: "Image editing",
+  },
+  {
+    slug: "device-mockup",
+    name: "Device mockup",
+    title: "Screenshot Device Mockup Online — Free Phone & Tablet Frames",
+    description:
+      "Wrap a screenshot in a phone or tablet shell — bezel, screen radius and background as plain pixels. Free and processed locally in your browser.",
     implemented: true,
     category: "Image editing",
   },

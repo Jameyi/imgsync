@@ -22,6 +22,7 @@ ImgSync is a web application, not a library to install. Users open it in a brows
 - [Batch Convert](/tools/batch-convert): convert up to 30 images to JPEG, PNG or WebP in one pass with a quality slider and download a single zip.
 - [Rounded Corners and Frame](/tools/rounded-corners): round an image's corners, add a border and drop a soft shadow on one canvas — pixel-precise, hex colors, transparent or white background.
 - [Text Watermark](/tools/text-watermark): stamp a text watermark centered or tiled across a photo, with font size, hex color and opacity control. Produces PNG.
+- [Device Mockup](/tools/device-mockup): wrap a screenshot in a phone or tablet shell drawn from pure geometry — bezel, screen radius, shell color and background. Produces PNG.
 
 ## Guides
 
