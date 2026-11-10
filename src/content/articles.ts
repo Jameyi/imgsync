@@ -602,4 +602,225 @@ export const articles: Article[] = [
       },
     ],
   },
+  {
+    slug: "watermark-photos-without-an-editor",
+    title: "How to Watermark Photos Without an Editor",
+    summary:
+      "A text watermark is the cheapest protection a photo can carry. Where to place it, how strong to make it, why tiled beats corner stamps, and how to apply one without uploading your images.",
+    date: "2026-11-08",
+    category: "IMAGE EDITING",
+    body: [
+      {
+        heading: "Why a text watermark still works",
+        text: "Image theft online is mostly opportunistic: someone finds a photo, right-clicks, and reuses it. A visible watermark breaks that flow — the mark has to be cropped or edited out, and lazy thieves move on to unmarked images instead. It will not stop a determined actor, but it reliably stops the majority, and it makes your authorship provable wherever the image travels.",
+      },
+      {
+        heading: "Placement: corners are easy to crop off",
+        text: "A mark sitting neatly in a corner can be removed by cropping a strip off the image, which is why serious watermarking either hugs the subject or repeats across the frame. A tiled pattern — the same text repeated on a fixed grid with a slight tilt — covers the whole image, so no crop removes it without destroying the photo. A single centered stamp protects the middle but leaves compositions where the subject sits off-center.",
+      },
+      {
+        heading: "Strength: readable but not dominant",
+        text: "The watermark's job is identification, not decoration. Opacity around 40–60% keeps the photo fully readable while the mark stays visible on busy scenes; above 70% the stamp starts to fight the image, and below 30% it disappears over light areas. White text with reduced opacity is the classic combination — it stays legible on both dark and bright photos.",
+      },
+      {
+        heading: "What to type",
+        text: "The most robust watermark text is the thing you can prove: a name, a handle, or a domain. © year + name is the conventional format (\"© 2026 Jane Doe\"). Domains work double duty as advertising — anyone who sees the stolen image learns where the originals live. Keep it short; a watermark that wraps to three lines looks like spam and gets cropped without guilt.",
+      },
+      {
+        heading: "Apply it locally in your browser",
+        text: "ImgSync's Text Watermark tool stamps text over an image in one pass — centered at a nine-grid position or tiled across the whole frame with adjustable spacing, font size, hex color and opacity. It runs entirely in your browser: nothing is uploaded, and the export keeps the original size as a PNG. Keep an unwatermarked original elsewhere — the watermark is baked into the pixels, so the exported file is the protected copy.",
+      },
+      {
+        heading: "Batch protection for a catalog",
+        text: "Protecting a portfolio means running every image through the same stamp settings, which is exactly what makes batch conversion matter: fix orientation, watermark, and convert in consistent passes so every image in the set carries identical branding. One-off settings per image quietly produce a set where no two watermarks match — which looks worse than no watermark at all.",
+      },
+    ],
+    relatedTools: ["text-watermark", "batch-convert", "fix-orientation"],
+    faqs: [
+      {
+        question: "Where should I place a watermark?",
+        answer:
+          "Somewhere it can't be cropped away — tiled across the whole image, or over the subject itself. Corner stamps are the easiest for a thief to remove with one crop.",
+      },
+      {
+        question: "What opacity should a watermark be?",
+        answer:
+          "40–60% is the working range: readable on busy scenes without dominating the photo. Test the extreme sizes your images appear at — the mark must survive a 200-pixel thumbnail to do its job.",
+      },
+      {
+        question: "Does a watermark prevent image theft?",
+        answer:
+          "It stops the opportunistic majority — removing a well-placed or tiled mark requires deliberate editing most reusers won't bother with. It cannot stop a determined actor, so treat it as deterrence plus proof of authorship, not as encryption.",
+      },
+    ],
+  },
+  {
+    slug: "app-screenshot-mockups-without-photoshop",
+    title: "App Screenshot Mockups Without Photoshop",
+    summary:
+      "A raw screenshot looks like an internal build; the same pixels in a device shell look like a product. When mockups matter, what the shell adds, and how to generate one in a browser.",
+    date: "2026-11-08",
+    category: "WEB BASICS",
+    body: [
+      {
+        heading: "The same pixels, a different read",
+        text: "A bare screenshot says \"I captured my screen.\" The identical screenshot inside a device shell says \"this is an app you can install.\" That framing gap matters everywhere first impressions happen — landing pages, App Store listings, documentation, investor decks and social posts. The shell adds a physical reference the eye processes instantly: bezel thickness, rounded screen corners, the silhouette of a phone or tablet.",
+      },
+      {
+        heading: "What the shell actually adds",
+        text: "A good device mockup is built from three elements, all of which can be drawn rather than photographed:",
+        items: [
+          "Bezel — the shell ring around the screen; thickness reads as device class (phones thin, tablets thick)",
+          "Screen radius — the rounded corners where the display meets the shell; the single detail that most signals a modern device",
+          "Background room — canvas padding that lets the silhouette breathe instead of touching the image edge",
+        ],
+      },
+      {
+        heading: "Geometry beats photo assets",
+        text: "Stock device photos come with a hidden cost: the screen is a fixed shape, so your screenshot gets squeezed, rotated or perspective-warped into a frame that wasn't made for it — and the pixels turn soft. A geometrically drawn shell keeps the screenshot at full native resolution inside a frame whose bezel, radius and padding are exact pixel values. The screen stays crisp because nothing touched it.",
+      },
+      {
+        heading: "Generate one in your browser",
+        text: "ImgSync's Device Mockup wraps a screenshot in a phone or tablet shell drawn from pure geometry — no asset files, no upload. Pick a preset, then fine-tune bezel width, screen radius and canvas padding; shell color takes any hex value and the canvas behind the device stays transparent or takes a solid color. The export is a PNG that drops straight into a landing page, slide or App Store listing.",
+      },
+      {
+        heading: "Consistency across a screenshot set",
+        text: "App store listings and docs show screenshots in groups, and a set only looks designed when every shell matches — same bezel, same radius, same background. Fix the three parameters once, then run every screenshot through with identical settings the way you'd reuse a Figma frame. Mixed shell styles in one grid read as rushed even when each image alone looks fine.",
+      },
+      {
+        heading: "Where the lines still are",
+        text: "Rounded-rect shells cover phones and tablets; laptops need a base shape that isn't a rounded rectangle, so they're a different geometry problem — current browser tools draw phone and tablet shells, and hand-built laptop frames remain a design-tool job. Transparent screen pixels composite over the shell the way a real device renders, so partially transparent screenshots behave predictably.",
+      },
+    ],
+    relatedTools: ["device-mockup", "resize-to-preset"],
+    faqs: [
+      {
+        question: "What size should a screenshot be for a mockup?",
+        answer:
+          "The screen keeps your screenshot's native resolution — nothing is scaled — so any size works. For app store listings, export at the store's required resolution after mockup generation rather than resizing the source.",
+      },
+      {
+        question: "Why does a geometric shell look better than a device photo?",
+        answer:
+          "A photo frame warps your screenshot to fit its fixed screen shape, softening the pixels. A drawn shell keeps the screenshot pixel-perfect at full resolution while the bezel and radius are exact, adjustable values.",
+      },
+      {
+        question: "Can I use the mockup on a colored background?",
+        answer:
+          "Yes — the canvas behind the device exports transparent so you can place it on any color, or export it with a solid white background for contexts that don't handle transparency.",
+      },
+    ],
+  },
+  {
+    slug: "fix-jagged-edges-on-transparent-pngs",
+    title: "Fix Jagged Edges on Transparent PNGs",
+    summary:
+      "Stair-stepped outlines betray a cutout at any zoom level. Why alpha edges become jagged, the difference between smoothing and defringing, and how to soften the staircase without touching the image colors.",
+    date: "2026-11-08",
+    category: "IMAGE EDITING",
+    body: [
+      {
+        heading: "Why transparent edges go jagged",
+        text: "A cutout's edge is a row of pixels whose alpha (opacity) jumps from 255 to 0 in a single step. The original photo may have had a soft two-pixel transition, but aggressive cutouts — flood fills, threshold operations, low-quality background removers — snap every edge pixel to fully opaque or fully transparent. At 100% zoom the result looks fine; zoom in or place the image on a contrasting background and the staircase appears, one hard step per pixel.",
+      },
+      {
+        heading: "Smoothing and defringing fix different defects",
+        text: "Two independent things go wrong on cutout edges, and they need different fixes:",
+        items: [
+          "Jaggedness — the alpha staircase: opacity steps hard instead of fading. Fixed by averaging the alpha channel so the boundary becomes a gradient",
+          "Fringing — wrong-colored pixels on the edge: the outline keeps its original background color (usually a white or gray halo). Fixed by recoloring edge pixels from the image's own colors",
+        ],
+      },
+      {
+        heading: "How alpha smoothing works — and why colors survive it",
+        text: "Smoothing applies a small box filter to the alpha channel only: each edge pixel's opacity becomes the average of its 3×3 neighborhood, repeated a few times. Two properties make this safe. First, pixels deep inside the image (or deep inside the background) sit in constant-alpha regions, and an average of equal values is that same value — interior and far-outside pixels are untouched byte-for-byte. Second, the RGB channels are carried over without modification, so even edge pixels keep their original colors; only their opacity softens. The staircase becomes a one-to-three-pixel gradient that the eye reads as a natural edge.",
+      },
+      {
+        heading: "Choose the strength to match the staircase",
+        text: "Smoothing strength is a pass count, and the right setting depends on how hard the original edges step: Light for small icons and thin shapes with mild staircasing, Standard for typical product cutouts, Strong only for large images with pronounced steps. Overshooting widens the soft band into visible blur around thin features — check thin legs, straps and text-in-image after smoothing.",
+      },
+      {
+        heading: "Fix it locally in your browser",
+        text: "ImgSync's Smooth Edges applies the alpha-only box filter in Light, Standard or Strong strengths and exports a PNG — RGB bytes stay byte-identical, only the edge opacities change, and everything runs locally. Run it after the cutout and before compositing onto a backdrop: a smoothed edge blends with the surface behind it instead of showing steps against it.",
+      },
+      {
+        heading: "The order that avoids rework",
+        text: "Smoothing belongs late in the cutout pipeline: remove the background, defringe any halo (re-color the edge pixels), then smooth the alpha. Smoothing before defringing spreads the wrong-colored halo pixels over a wider band, and smoothing after compositing does nothing — the staircase is already baked against the backdrop. Fix color first, then opacity, then place.",
+      },
+    ],
+    relatedTools: ["smooth-edges", "defringe-edges", "remove-white-background"],
+    faqs: [
+      {
+        question: "Why do my cutout edges look jagged?",
+        answer:
+          "The edge alpha jumps from fully opaque to fully transparent in one step instead of fading. Zoom in or place the image on a dark background and the one-pixel staircase becomes visible.",
+      },
+      {
+        question: "Will smoothing change my image's colors?",
+        answer:
+          "No. Alpha smoothing averages only the opacity channel; the RGB bytes are carried over untouched, and pixels away from the boundary keep their exact original values.",
+      },
+      {
+        question: "Smoothing or defringing — which do I need?",
+        answer:
+          "They fix different defects: defringing recolors halo pixels (a color problem), smoothing softens the alpha staircase (an opacity problem). Cutouts often need defringe first, then smoothing.",
+      },
+    ],
+  },
+  {
+    slug: "white-background-to-transparency-guide",
+    title: "White Background to Transparency: The Complete Guide",
+    summary:
+      "Turning a white-background photo into a transparent PNG is the most requested image edit there is. When a flood-fill approach beats AI cutouts, how to keep interior whites, and how to finish the edge.",
+    date: "2026-11-08",
+    category: "IMAGE EDITING",
+    body: [
+      {
+        heading: "Why white backgrounds are the special case",
+        text: "Marketplaces, documentation and print catalogs ask for a white background; social posts, banners and composites want transparency. The conversion between the two is the single most common image edit in e-commerce. And white backgrounds have a property AI cutouts spend enormous effort to rediscover: the background is literally one color. When your photo already sits on white or near-white, you don't need a segmentation model — you need a smart color replacement.",
+      },
+      {
+        heading: "Flood fill versus AI cutout",
+        text: "The two approaches solve different problems:",
+        items: [
+          "Flood fill (color-key removal) — replaces connected near-white pixels with transparency. Fast, deterministic, full resolution, and it preserves interior whites (a white shirt inside an open jacket stays opaque). It struggles when the subject itself touches white — white products on white backgrounds need manual treatment",
+          "AI segmentation — identifies the subject by what it is, handling busy backgrounds and white-on-white cases. It costs compute, often uploads your image to a server, and can return reduced resolution or watermarked previews on free tiers",
+        ],
+      },
+      {
+        heading: "Tolerance is the whole game",
+        text: "Camera whites are never RGB 255,255,255 — lighting leaves a faint gray or warm cast, typically 250–253 per channel. The conversion's tolerance setting decides which near-white pixels count as background: too low leaves a gray fringe around the subject; too high eats into pale product areas and soft highlights. Start low and raise it until the halo disappears but the product's whites survive. The Pure White Background guide covers why camera whites measure what they do.",
+      },
+      {
+        heading: "Keep interior whites intact",
+        text: "The classic failure of naive background removal is a white product feature vanishing — a mug's handle opening is background, but the mug's body is not. A connected-component flood fill (which the browser-based tools use) only removes white regions that connect to the image border, so enclosed whites stay opaque automatically. If your current tool eats interior whites, it's matching colors globally instead of by connectivity.",
+      },
+      {
+        heading: "Do it locally in your browser",
+        text: "ImgSync's Remove White Background converts white and near-white backgrounds to transparency in your browser with a tolerance control, connected-region logic that preserves interior whites, and full output resolution — no account, nothing uploaded. For photos with genuinely complex backgrounds that aren't white, look for a local AI segmentation tool instead; this tool's strength is the white-background case, where it's faster and more precise than any model.",
+      },
+      {
+        heading: "Finishing the edge",
+        text: "Conversion alone leaves two edge artifacts: a halo of leftover near-white pixels along the outline, and a hard alpha staircase. Defringe recolors the halo pixels from the product's own colors, and alpha smoothing softens the staircase into a natural gradient. Run both after conversion — the transparency-to-transparency pipeline removes the background, fixes the edge colors, softens the edge, and only then hands the cutout to whatever comes next: a composite, a marketplace white canvas, or a watermark.",
+      },
+    ],
+    relatedTools: ["remove-white-background", "defringe-edges", "smooth-edges"],
+    faqs: [
+      {
+        question: "When should I use flood fill instead of an AI cutout?",
+        answer:
+          "Whenever the photo already sits on white or near-white — which is the standard case for marketplace product photography. Flood fill is deterministic, full resolution, keeps interior whites, and runs locally; AI segmentation earns its cost on busy or colored backgrounds.",
+      },
+      {
+        question: "Why does my converted image still have a gray outline?",
+        answer:
+          "Camera whites measure 250–253, not 255. If the tolerance is set too low, those near-white pixels escape the conversion and remain as a fringe. Raise the tolerance until the fringe disappears — but stop before pale product areas start turning transparent.",
+      },
+      {
+        question: "How do I keep white parts of my product from disappearing?",
+        answer:
+          "Use a tool with connected-region logic: only white regions touching the image border are removed, so enclosed whites (shirt interiors, mug openings, highlights) stay opaque. Global color matching without connectivity check is what eats them.",
+      },
+    ],
+  },
 ];

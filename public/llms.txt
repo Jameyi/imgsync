@@ -31,6 +31,10 @@ ImgSync is a web application, not a library to install. Users open it in a brows
 - [Convert Multiple Images at Once](/articles/convert-multiple-images-at-once): what batch conversion should get right — one settings pass, parallel runs, failure isolation, one zip.
 - [Favicon Sizes in 2026](/articles/favicon-sizes-complete-set): the complete icon set, the two files you can skip, and the HTML that wires it together.
 - [Place a Product Photo on a Backdrop](/articles/place-product-photo-on-backdrop): fit, position and scale decisions for compositing cutouts onto branded surfaces.
+- [Watermark Photos Without an Editor](/articles/watermark-photos-without-an-editor): placement, strength and text choices for text watermarks — tiled beats corner stamps.
+- [App Screenshot Mockups Without Photoshop](/articles/app-screenshot-mockups-without-photoshop): why geometric device shells keep screenshots pixel-perfect, and the HTML-free workflow.
+- [Fix Jagged Edges on Transparent PNGs](/articles/fix-jagged-edges-on-transparent-pngs): the alpha staircase explained, and why alpha-only smoothing leaves colors byte-identical.
+- [White Background to Transparency](/articles/white-background-to-transparency-guide): flood fill versus AI cutouts, tolerance, interior whites, and the edge-finishing order.
 - [Amazon Main Image Requirements](/articles/amazon-main-image-requirements): pure white background, 85% subject ratio, 1600px minimum, 10MB cap — the complete checklist.
 - [Compress Product Images to Marketplace Limits](/articles/compress-product-images-to-marketplace-limits): how binary-search compression hits exact KB targets (Amazon 10MB, eBay 7MB, galleries under 1MB).
 - [Pure White Background RGB 255,255,255](/articles/pure-white-background-rgb-255-255-255): why camera backgrounds measure 250-253, and how to reach true white without losing edges.
